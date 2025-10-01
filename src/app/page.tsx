@@ -1,94 +1,70 @@
+'use client';
+
 import Image from "next/image";
 import styles from "./page.module.css";
+import { Canvas, useLoader } from "@react-three/fiber";
+import { GizmoHelper, GizmoViewport, OrbitControls } from "@react-three/drei";
+import { SVGLoader } from "three/examples/jsm/Addons.js";
+import * as THREE from 'three';
+import dodecagonSvg from "./curves/dodecagon.svg";
+
+function SVGCurve({ url, position, rotation }: { url: string, position?: [number, number, number], rotation?: [number, number, number] }) {
+  const data = useLoader(SVGLoader, url);
+  const shapes = data.paths.flatMap((path) => SVGLoader.createShapes(path));
+  
+  return (
+    <group scale={0.005} position={position} rotation={rotation}>
+      {shapes.map((shape, index) => {
+        const points: THREE.Vector3[] = [];
+        shape.curves.forEach((curve) => {
+          const curvePoints = curve.getPoints(64);
+          curvePoints.forEach((point) => {
+            points.push(new THREE.Vector3(point.x, point.y, 0));
+          });
+        });
+        
+        return (
+          <line key={index}>
+            <bufferGeometry>
+              <bufferAttribute
+                attach="attributes-position"
+                count={points.length}
+                array={new Float32Array(points.flatMap(p => [p.x, p.y, p.z]))}
+                itemSize={3}
+              />
+            </bufferGeometry>
+            <lineBasicMaterial color="black" />
+          </line>
+        );
+      })}
+    </group>
+  );
+}
+
+function DodecagonSlice({height = 0}: {height?: number}) {
+  return (
+    <SVGCurve url={dodecagonSvg.src} rotation={[-Math.PI / 2, 0, 0]} position={[0, height, 0]} />
+  );
+}
 
 export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
+        <Canvas className={styles.canvas}>
+          <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
+            <GizmoViewport axisColors={['red', 'green', 'blue']} labelColor='black'/>
+          </GizmoHelper>
+          <gridHelper args={[10, 10]}/>
+          <axesHelper args={[5]}/>
+          <OrbitControls maxPolarAngle={Math.PI / 2} enablePan={false} />
+          <DodecagonSlice height={0} />
+          <DodecagonSlice height={1} />
+          <DodecagonSlice height={2} />
+          <DodecagonSlice height={3} />
+        </Canvas>
       </main>
       <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
       </footer>
     </div>
   );

@@ -8,7 +8,8 @@ import { SVGLoader, GLTFLoader } from 'three/examples/jsm/Addons.js';
 import * as THREE from 'three';
 import dodecagonSvg from './curves/dodecagon.svg';
 import monthGridSvg from './curves/month_grid.svg';
-import { useState } from 'react';
+import { JSX, useState } from 'react';
+import { MeshStandardMaterial } from 'three';
 // import dodecagonMesh from './meshes/dodecagon.glb';
 
 function SVGCurve({
@@ -55,7 +56,7 @@ function SVGCurve({
                     </line>
                 );
             })}
-            <axesHelper args={[40]} />
+            {/* <axesHelper args={[40]} /> */}
         </group>
     );
 }
@@ -65,17 +66,28 @@ function GLBMesh({
     position,
     rotation,
     scale,
+    material,
 }: {
     url: string;
     position?: [number, number, number];
     rotation?: [number, number, number];
     scale?: number | [number, number, number];
+    material?: THREE.Material;
 }) {
     const gltf = useLoader(GLTFLoader, url);
+    const scene = gltf.scene.clone();
+
+    if (material) {
+        scene.traverse((child: THREE.Object3D) => {
+            if ((child as THREE.Mesh).isMesh) {
+                (child as THREE.Mesh).material = material;
+            }
+        });
+    }
 
     return (
         <primitive
-            object={gltf.scene.clone()}
+            object={scene}
             position={position}
             rotation={rotation}
             scale={scale}
@@ -84,7 +96,41 @@ function GLBMesh({
 }
 
 function DodecagonSlice({ height = 0 }: { height?: number }) {
-  const offset = 0.12;
+    const offset = 0.12;
+    const material = new MeshStandardMaterial({
+        color: '#777777',
+        roughness: 0.5,
+        metalness: 0.3,
+    });
+
+    const dayOffset = [0.105, 0.105];
+    const dayElements: JSX.Element[] = [];
+    for (let week = 0; week < 5; week++) {
+      const lastWeekDays = week > 3 ? 3: 7;
+        for (let day = 0; day < lastWeekDays; day++) {
+            const dayOfYear = week * 7 + day;
+            const padding= [day * 0.036, week * 0.036];
+
+            const element = (
+                <group
+                    key={`day-${dayOfYear}`}
+                    onClick={() => {
+                        console.log(`Clicked on day ${dayOfYear}`);
+                    }}
+                    position={[0, dayOffset[1], -dayOffset[0]]}
+                >
+                    <GLBMesh
+                        url={'./media/meshes/day_square.glb'}
+                        position={[0, week * 0.1 + padding[1], -day * 0.1 - padding[0]]}
+                        rotation={[0, Math.PI / 2, 0]}
+                        scale={0.47}
+                    />
+                </group>
+            );
+            dayElements.push(element);
+        }
+    }
+
     return (
         <>
             <GLBMesh
@@ -92,25 +138,29 @@ function DodecagonSlice({ height = 0 }: { height?: number }) {
                 url={'./media/meshes/dodecagon.glb'}
                 position={[0, height, 0]}
                 scale={0.5}
+                material={material}
             />
             {Array.from({ length: 12 }).map((_, i) => {
                 const angle = (i * 2 * Math.PI) / 12;
                 const distance = 2.43;
-                
+
                 return (
-                    <group 
+                    <group
                         key={i}
                         position={[0, height + offset, 0]}
                         rotation={[0, angle, 0]}
                     >
                         <group position={[distance, 0, 0]}>
-                            <SVGCurve
-                                url={monthGridSvg.src}
-                                rotation={[0, Math.PI / 2, 0]}
-                                position={[0, 0, 0.51]}
-                                scale={1.8}
-                                lineColor={'#888888'}
-                            />
+                            <group position={[0, 0, 0.51]}>
+                                <SVGCurve
+                                    url={monthGridSvg.src}
+                                    rotation={[0, Math.PI / 2, 0]}
+                                    position={[0, 0, 0]}
+                                    scale={1.8}
+                                    lineColor={'#888888'}
+                                />
+                                {dayElements}
+                            </group>
                         </group>
                         {/* <axesHelper args={[40]} /> */}
                     </group>
@@ -121,7 +171,7 @@ function DodecagonSlice({ height = 0 }: { height?: number }) {
 }
 
 function YearGroup({ year = 0 }: { year?: number }) {
-  const offset = 0.1 * year;
+    const offset = 0.1 * year;
     return (
         <>
             <DodecagonSlice height={year + offset} />
@@ -131,11 +181,11 @@ function YearGroup({ year = 0 }: { year?: number }) {
 
 function DecadeGroup({ decade = 0 }: { decade?: number }) {
     return (
-      <>
-        {Array.from({ length: 12 }).map((_, i) => (
-          <YearGroup key={i} year={i} />
-        ))}
-      </>
+        <>
+            {Array.from({ length: 10 }).map((_, i) => (
+                <YearGroup key={i} year={i} />
+            ))}
+        </>
     );
 }
 
@@ -160,8 +210,13 @@ export default function Home() {
                     <ambientLight color="white" intensity={0.5} />
                     <directionalLight
                         color="white"
-                        intensity={0.5}
-                        position={[0, 10, 5]}
+                        intensity={0.7}
+                        position={[0, 10, 0]}
+                    />
+                    <directionalLight
+                        color="white"
+                        intensity={0.7}
+                        position={[0, -10, 0]}
                     />
                     <OrbitControls
                         maxPolarAngle={Math.PI / 2}

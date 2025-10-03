@@ -3,16 +3,25 @@
 import Image from 'next/image';
 import styles from './page.module.css';
 import { Canvas, useLoader } from '@react-three/fiber';
-import { GizmoHelper, GizmoViewport, OrbitControls } from '@react-three/drei';
+import {
+    Environment,
+    GizmoHelper,
+    GizmoViewport,
+    OrbitControls,
+    useGLTF,
+} from '@react-three/drei';
 import { SVGLoader, GLTFLoader } from 'three/examples/jsm/Addons.js';
 import * as THREE from 'three';
 import dodecagonSvg from './curves/dodecagon.svg';
 import monthGridSvg from './curves/month_grid.svg';
-import { JSX, useState } from 'react';
-import { MeshStandardMaterial } from 'three';
+import { JSX, useState, useMemo, useContext } from 'react';
+import { MeshStandardMaterial, Material } from 'three';
+import { CanvasProvider, useCanvasContext } from '@/context/canvas-context';
+import { DaySquare, DaySquareMesh } from './meshes/day-square';
+import { YearDodecagonSlice } from './meshes/year-dodecagon';
 // import dodecagonMesh from './meshes/dodecagon.glb';
 
-function SVGCurve({
+export function SVGCurve({
     url,
     position,
     rotation,
@@ -66,28 +75,43 @@ function GLBMesh({
     position,
     rotation,
     scale,
-    material,
+    materialOverrides,
 }: {
     url: string;
     position?: [number, number, number];
     rotation?: [number, number, number];
     scale?: number | [number, number, number];
-    material?: THREE.Material;
+    materialOverrides?: { [materialName: string]: Material };
 }) {
-    const gltf = useLoader(GLTFLoader, url);
-    const scene = gltf.scene.clone();
+    const { scene } = useGLTF(url);
+    const clonedScene = useMemo(() => scene.clone(), [scene]);
 
-    if (material) {
-        scene.traverse((child: THREE.Object3D) => {
-            if ((child as THREE.Mesh).isMesh) {
-                (child as THREE.Mesh).material = material;
-            }
-        });
-    }
+    useMemo(() => {
+        if (materialOverrides) {
+            clonedScene.traverse((child: THREE.Object3D) => {
+                if ((child as THREE.Mesh).isMesh) {
+                    const mesh = child as THREE.Mesh;
+
+                    if (Array.isArray(mesh.material)) {
+                        // Handle multi-material meshes
+                        mesh.material = mesh.material.map((mat) => {
+                            return materialOverrides[mat.name] || mat;
+                        });
+                    } else {
+                        // Handle single material meshes
+                        const materialName = mesh.material.name;
+                        if (materialName && materialOverrides[materialName]) {
+                            mesh.material = materialOverrides[materialName];
+                        }
+                    }
+                }
+            });
+        }
+    }, [clonedScene, materialOverrides]);
 
     return (
         <primitive
-            object={scene}
+            object={clonedScene}
             position={position}
             rotation={rotation}
             scale={scale}
@@ -95,86 +119,11 @@ function GLBMesh({
     );
 }
 
-function DodecagonSlice({ height = 0 }: { height?: number }) {
-    const offset = 0.12;
-    const material = new MeshStandardMaterial({
-        color: '#777777',
-        roughness: 0.5,
-        metalness: 0.3,
-    });
-
-    const dayOffset = [0.105, 0.105];
-    const dayElements: JSX.Element[] = [];
-    for (let week = 0; week < 5; week++) {
-      const lastWeekDays = week > 3 ? 3: 7;
-        for (let day = 0; day < lastWeekDays; day++) {
-            const dayOfYear = week * 7 + day;
-            const padding= [day * 0.036, week * 0.036];
-
-            const element = (
-                <group
-                    key={`day-${dayOfYear}`}
-                    onClick={() => {
-                        console.log(`Clicked on day ${dayOfYear}`);
-                    }}
-                    position={[0, dayOffset[1], -dayOffset[0]]}
-                >
-                    <GLBMesh
-                        url={'./media/meshes/day_square.glb'}
-                        position={[0, week * 0.1 + padding[1], -day * 0.1 - padding[0]]}
-                        rotation={[0, Math.PI / 2, 0]}
-                        scale={0.47}
-                    />
-                </group>
-            );
-            dayElements.push(element);
-        }
-    }
-
-    return (
-        <>
-            <GLBMesh
-                key={`dodecagon-${height}`}
-                url={'./media/meshes/dodecagon.glb'}
-                position={[0, height, 0]}
-                scale={0.5}
-                material={material}
-            />
-            {Array.from({ length: 12 }).map((_, i) => {
-                const angle = (i * 2 * Math.PI) / 12;
-                const distance = 2.43;
-
-                return (
-                    <group
-                        key={i}
-                        position={[0, height + offset, 0]}
-                        rotation={[0, angle, 0]}
-                    >
-                        <group position={[distance, 0, 0]}>
-                            <group position={[0, 0, 0.51]}>
-                                <SVGCurve
-                                    url={monthGridSvg.src}
-                                    rotation={[0, Math.PI / 2, 0]}
-                                    position={[0, 0, 0]}
-                                    scale={1.8}
-                                    lineColor={'#888888'}
-                                />
-                                {dayElements}
-                            </group>
-                        </group>
-                        {/* <axesHelper args={[40]} /> */}
-                    </group>
-                );
-            })}
-        </>
-    );
-}
-
 function YearGroup({ year = 0 }: { year?: number }) {
     const offset = 0.1 * year;
     return (
         <>
-            <DodecagonSlice height={year + offset} />
+            <YearDodecagonSlice height={year + offset} />
         </>
     );
 }
@@ -191,42 +140,46 @@ function DecadeGroup({ decade = 0 }: { decade?: number }) {
 
 export default function Home() {
     const [isOrtho, setIsOrtho] = useState(false);
+    const [targetHeight, setTargetHeight] = useState(7);
+
     return (
         <div className={styles.page}>
             <main className={styles.main}>
-                <Canvas
-                    className={styles.canvas}
-                    camera={{ fov: 45, position: [0, 6, 10] }}
-                    orthographic={isOrtho}
-                >
-                    <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
-                        <GizmoViewport
-                            axisColors={['red', 'green', 'blue']}
-                            labelColor="black"
+                <CanvasProvider>
+                    <Canvas
+                        className={styles.canvas}
+                        camera={{ fov: 45, position: [0, 6, 10] }}
+                        orthographic={isOrtho}
+                    >
+                        <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
+                            <GizmoViewport
+                                axisColors={['red', 'green', 'blue']}
+                                labelColor="black"
+                            />
+                        </GizmoHelper>
+                        <gridHelper args={[10, 10]} />
+                        <axesHelper args={[5]} />
+                        <ambientLight color="white" intensity={0.5} />
+                        <directionalLight
+                            color="white"
+                            intensity={0.7}
+                            position={[0, 10, 0]}
                         />
-                    </GizmoHelper>
-                    <gridHelper args={[10, 10]} />
-                    <axesHelper args={[5]} />
-                    <ambientLight color="white" intensity={0.5} />
-                    <directionalLight
-                        color="white"
-                        intensity={0.7}
-                        position={[0, 10, 0]}
-                    />
-                    <directionalLight
-                        color="white"
-                        intensity={0.7}
-                        position={[0, -10, 0]}
-                    />
-                    <OrbitControls
-                        maxPolarAngle={Math.PI / 2}
-                        enablePan={false}
-                        target={[0, 7, 0]}
-                        maxDistance={22}
-                        minDistance={5}
-                    />
-                    <DecadeGroup decade={0} />
-                </Canvas>
+                        <directionalLight
+                            color="white"
+                            intensity={0.7}
+                            position={[0, -10, 0]}
+                        />
+                        <OrbitControls
+                            maxPolarAngle={Math.PI / 2}
+                            enablePan={false}
+                            target={[0, targetHeight, 0]}
+                            maxDistance={22}
+                            minDistance={6}
+                        />
+                        <DecadeGroup decade={0} />
+                    </Canvas>
+                </CanvasProvider>
             </main>
             <footer className={styles.footer}></footer>
         </div>

@@ -17,8 +17,8 @@ import monthGridSvg from './curves/month_grid.svg';
 import { JSX, useState, useMemo, useContext } from 'react';
 import { MeshStandardMaterial, Material } from 'three';
 import { CanvasProvider, useCanvasContext } from '@/context/canvas-context';
-import { DaySquare, DaySquareMesh } from './meshes/day-square';
-import { YearDodecagonSlice } from './meshes/year-dodecagon';
+import { DaySquare, DaySquareMesh } from './components/meshes/day-square';
+import { YearDodecagonSlice, LowerDecadePlinth, UpperDecadePlinth } from './components/meshes/year-dodecagon';
 // import dodecagonMesh from './meshes/dodecagon.glb';
 
 export function SVGCurve({
@@ -131,9 +131,11 @@ function YearGroup({ year = 0 }: { year?: number }) {
 function DecadeGroup({ decade = 0 }: { decade?: number }) {
     return (
         <>
+            <LowerDecadePlinth />
             {Array.from({ length: 10 }).map((_, i) => (
                 <YearGroup key={i} year={i} />
             ))}
+            <UpperDecadePlinth />
         </>
     );
 }
@@ -157,7 +159,7 @@ export default function Home() {
                                 labelColor="black"
                             />
                         </GizmoHelper>
-                        <gridHelper args={[10, 10]} />
+                        {/* <gridHelper args={[10, 10]} /> */}
                         <axesHelper args={[5]} />
                         <ambientLight color="white" intensity={0.5} />
                         <directionalLight

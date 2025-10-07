@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import React, { JSX, use, useMemo, useState } from 'react';
+import React, { JSX, useMemo, useState } from 'react';
 import { useGLTF, Text } from '@react-three/drei';
 import { GLTF } from 'three-stdlib';
 import { useCanvasContext } from '@/context/canvas-context';
@@ -79,13 +79,17 @@ export function DaySquareMesh(props: DaySquareMeshProps) {
 
 useGLTF.preload('./media/meshes/day_square.glb');
 
-export function DaySquare({ day, week }: { day: number; week: number }) {
+export function DaySquare({ date }: { date: Date }) {
     const [isSelected, setIsSelected] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const { dayHovered, setDayHovered } = useCanvasContext();
 
     const dayOffset = [0.105, 0.105];
-    const dayOfYear = week * 7 + day;
+    // const dayOfYear = week * 7 + day;
+    const day = date.getDay();
+    const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+    const firstDayWeekday = firstDayOfMonth.getDay();
+    const week = Math.floor((date.getDate() - 1 + firstDayWeekday) / 7);
     const padding = [day * 0.036, week * 0.036];
 
     const meshDepth = useMemo(() => {
@@ -96,7 +100,7 @@ export function DaySquare({ day, week }: { day: number; week: number }) {
 
     return (
         <group
-            key={`day-${dayOfYear}`}
+            key={`day:${day}.week:${week}`}
             onPointerEnter={() => {
                 // if (dayHovered) return;
                 // setDayHovered(true);
@@ -106,7 +110,10 @@ export function DaySquare({ day, week }: { day: number; week: number }) {
                 // setDayHovered(false);
                 setIsHovered(false);
             }}
-            onClick={() => setIsSelected(!isSelected)}
+            onClick={() => {
+                setIsSelected(!isSelected);
+                console.log(date);
+            }}
             position={[0, dayOffset[1], -dayOffset[0]]}
         >
             <DaySquareMesh
@@ -126,7 +133,7 @@ export function DaySquare({ day, week }: { day: number; week: number }) {
                         position={[0, 0, 1]}
                         // rotation={[0, Math.PI / 2, 0]}
                     >
-                        {(day + 1).toString().padStart(2, '0')}
+                        {(date.getDate()).toString().padStart(2, '0')}
                     </Text>
                 )}
             </DaySquareMesh>

@@ -1,24 +1,20 @@
 'use client';
 
-import Image from 'next/image';
 import styles from './page.module.css';
 import { Canvas, useLoader } from '@react-three/fiber';
 import {
-    Environment,
     GizmoHelper,
     GizmoViewport,
     OrbitControls,
     useGLTF,
 } from '@react-three/drei';
-import { SVGLoader, GLTFLoader } from 'three/examples/jsm/Addons.js';
+import { SVGLoader } from 'three/examples/jsm/Addons.js';
 import * as THREE from 'three';
-import dodecagonSvg from './curves/dodecagon.svg';
-import monthGridSvg from './curves/month_grid.svg';
-import { JSX, useState, useMemo, useContext } from 'react';
-import { MeshStandardMaterial, Material } from 'three';
-import { CanvasProvider, useCanvasContext } from '@/context/canvas-context';
-import { DaySquare, DaySquareMesh } from './components/meshes/day-square';
-import { YearDodecagonSlice, LowerDecadePlinth, UpperDecadePlinth } from './components/meshes/year-dodecagon';
+import { useState, useMemo } from 'react';
+import { Material } from 'three';
+import { CanvasProvider } from '@/context/canvas-context';
+import { YearDodecagonSlice, LowerDecadePlinth, UpperDecadePlinth, YearSeparatorMesh } from './components/meshes/year-dodecagon';
+import React from 'react';
 // import dodecagonMesh from './meshes/dodecagon.glb';
 
 export function SVGCurve({
@@ -119,22 +115,24 @@ function GLBMesh({
     );
 }
 
-function YearGroup({ year = 0 }: { year?: number }) {
-    const offset = 0.1 * year;
+function YearGroup({ year = 0, height = 0 }: { year?: number; height?: number }) {
+    const offset = 0.35 * height;
     return (
         <>
-            <YearDodecagonSlice height={year + offset} />
+            <YearDodecagonSlice height={height + offset} year={year} />
         </>
     );
 }
 
-function DecadeGroup({ decade = 0 }: { decade?: number }) {
+function DecadeGroup({ decade = 1980 }: { decade?: number }) {
     return (
         <>
+            <YearSeparatorMesh position={[0, 6, 0]} scale={[0.5, 30, 0.5]} />
             <LowerDecadePlinth />
-            {Array.from({ length: 10 }).map((_, i) => (
-                <YearGroup key={i} year={i} />
-            ))}
+            {Array.from({ length: 10 }).map((_, i) => {
+                const year = decade + i;
+                return <YearGroup key={i} height={i} year={year} />
+})}
             <UpperDecadePlinth />
         </>
     );
@@ -144,14 +142,23 @@ export default function Home() {
     const [isOrtho, setIsOrtho] = useState(false);
     const [targetHeight, setTargetHeight] = useState(7);
 
+    const cameraSpotlight = new THREE.DirectionalLight("white", 0.1);
+    cameraSpotlight.position.set(0, 0, 1);
+    cameraSpotlight.castShadow = false;
+
     return (
         <div className={styles.page}>
             <main className={styles.main}>
                 <CanvasProvider>
                     <Canvas
                         className={styles.canvas}
-                        camera={{ fov: 45, position: [0, 6, 10] }}
+                        camera={{ fov: 45, position: [10, 6, 0] }}
                         orthographic={isOrtho}
+                        onCreated={({ camera, scene }: { camera: THREE.Camera, scene: THREE.Scene }) => {
+                                // camera.add(cameraSpotlight);
+                                scene.add(camera);
+                                
+                        }}
                     >
                         <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
                             <GizmoViewport
@@ -179,7 +186,7 @@ export default function Home() {
                             maxDistance={22}
                             minDistance={6}
                         />
-                        <DecadeGroup decade={0} />
+                        <DecadeGroup decade={1980} />
                     </Canvas>
                 </CanvasProvider>
             </main>

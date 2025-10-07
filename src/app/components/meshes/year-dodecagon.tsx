@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import React, { JSX, use, useMemo, useState } from 'react';
-import { Html, useGLTF, Text } from '@react-three/drei';
+import React, { JSX, useMemo } from 'react';
+import { useGLTF, Text } from '@react-three/drei';
 import { GLTF } from 'three-stdlib';
 import { DaySquare } from './day-square';
 import { SVGCurve } from '../../page';
@@ -12,10 +12,12 @@ useGLTF.preload('./media/meshes/year_separator.glb');
 
 type DodecagonMesh = GLTF & {
     nodes: {
-        decagon: THREE.Mesh;
+        dodecagon_1: THREE.Mesh;
+        dodecagon_2: THREE.Mesh;
     };
     materials: {
         dodecagon: THREE.MeshStandardMaterial;
+        bevel: THREE.MeshStandardMaterial;
     };
 };
 
@@ -30,10 +32,12 @@ type SeparatorMesh = GLTF & {
 
 type PlinthMesh = GLTF & {
     nodes: {
-        plinth: THREE.Mesh;
+        plinth_1: THREE.Mesh;
+        plinth_2: THREE.Mesh;
     };
     materials: {
         plinth: THREE.MeshStandardMaterial;
+        bevel: THREE.MeshStandardMaterial;
     };
 };
 
@@ -53,19 +57,31 @@ function YearDodecagonMesh(props: YearDodecagonMeshProps) {
         metalness: 0.3,
     });
 
+    const bevelMaterial = new THREE.MeshStandardMaterial({
+        color: '#888888',
+        roughness: 0.5,
+        metalness: 0.3,
+    });
+
     return (
         <group {...props} dispose={null}>
             <mesh
-                geometry={nodes.decagon.geometry}
+                geometry={nodes.dodecagon_1.geometry}
                 material={dodecagonMaterial}
-                position={[0, 1, 0]}
-                rotation={[0, 0.262, 0]}
+                position={[0, 0, 0]}
+                rotation={[0, 0, 0]}
+            />
+            <mesh
+                geometry={nodes.dodecagon_2.geometry}
+                material={bevelMaterial}
+                position={[0, 0, 0]}
+                rotation={[0, 0, 0]}
             />
         </group>
     );
 }
 
-function YearSeparatorMesh(props: JSX.IntrinsicElements['group']) {
+export function YearSeparatorMesh(props: JSX.IntrinsicElements['group']) {
     const { nodes, materials } = useGLTF(
         './media/meshes/year_separator.glb'
     ) as unknown as SeparatorMesh;
@@ -83,7 +99,6 @@ function YearSeparatorMesh(props: JSX.IntrinsicElements['group']) {
                 geometry={nodes.separator.geometry}
                 material={separatorMaterial}
                 position={[0, 0, 0]}
-                rotation={[0, 0, 0]}
             />
         </group>
     );
@@ -100,11 +115,23 @@ function DecadePlinthMesh(props: YearDodecagonMeshProps) {
         metalness: 0.3,
     });
 
+    const bevelMaterial = new THREE.MeshStandardMaterial({
+        color: '#888888',
+        roughness: 0.5,
+        metalness: 0.3,
+    });
+
     return (
         <group {...props} dispose={null}>
             <mesh
-                geometry={nodes.plinth.geometry}
+                geometry={nodes.plinth_1.geometry}
                 material={plinthMaterial}
+                position={[0, 1, 0]}
+                rotation={[0, 0, 0]}
+            />
+            <mesh
+                geometry={nodes.plinth_2.geometry}
+                material={bevelMaterial}
                 position={[0, 1, 0]}
                 rotation={[0, 0, 0]}
             />
@@ -139,13 +166,14 @@ export function LowerDecadePlinth() {
             position={[3.25, 1.4, 0]}
             rotation={[0, Math.PI / 2, 0]}
         >
-            {`${(index + 1).toString().padStart(2, '0')} : ${month}`}
+            {`${(index + 1).toString().padStart(2, '0')} \' ${month}`}
         </Text>
     ));
 
     return (
         <group position={[0, -1, 0]} scale={0.5}>
             <DecadePlinthMesh />
+            {/* <YearSeparatorMesh position={[0, -25, 0]} scale={[1, 10, 1]} /> */}
             <RadialDistribution
                 segments={12}
                 radius={2.43}
@@ -158,29 +186,51 @@ export function LowerDecadePlinth() {
 
 export function UpperDecadePlinth() {
     return (
-        <group position={[0, 12, 0]} rotation={[Math.PI, 0, 0]} scale={0.5}>
+        <group position={[0, 14.4, 0]} rotation={[Math.PI, 0, 0]} scale={0.5}>
             <DecadePlinthMesh />
+            {/* <YearSeparatorMesh position={[0, -25, 0]} scale={[1, 10, 1]} /> */}
         </group>
     );
 }
 
-export function YearDodecagonSlice({ height = 0 }: { height?: number }) {
-    const offset = 0.12;
+export function YearDodecagonSlice({
+    height = 0,
+    year = 1984,
+}: {
+    height?: number;
+    year?: number;
+}) {
+    const offset = 0.19;
 
-    const dayElements: JSX.Element[] = [];
-    for (let week = 0; week < 5; week++) {
-        const lastWeekDays = week > 3 ? 3 : 7;
-        for (let day = 0; day < lastWeekDays; day++) {
-            const element = (
-                <DaySquare
-                    key={`day-${day}-week-${week}`}
-                    day={day}
-                    week={week}
-                />
-            );
-            dayElements.push(element);
+    const dayElements: JSX.Element[][] = Array.from({ length: 12 }, () => []);
+
+    const dates = useMemo(() => {
+        const dates: Date[] = [];
+        const startDate = new Date(year, 0, 1);
+        const endDate = new Date(year + 1, 0, 1);
+        for (
+            let d = new Date(startDate);
+            d < endDate;
+            d.setDate(d.getDate() + 1)
+        ) {
+            dates.push(new Date(d));
         }
-    }
+        // console.log(dates);
+        return dates;
+    }, [year]);
+
+
+    Object.values(dates).forEach((date) => {
+        const element = (
+            <DaySquare
+                key={`day:${date.getDate()}.month:${date.getMonth()}`}
+                date={date}
+            />
+        );
+        dayElements[date.getMonth()].push(element);
+    });
+
+    // console.log(dayElements);
 
     const monthElements: JSX.Element[] = [];
     Object.values(Month).forEach((month, i) => {
@@ -193,7 +243,7 @@ export function YearDodecagonSlice({ height = 0 }: { height?: number }) {
                     scale={1.8}
                     lineColor={'#888888'}
                 />
-                {dayElements}
+                {dayElements[i]}
             </group>
         );
     });
@@ -201,10 +251,6 @@ export function YearDodecagonSlice({ height = 0 }: { height?: number }) {
     return (
         <>
             <YearDodecagonMesh position={[0, height, 0]} scale={0.5} />
-
-            {height < 9 ? (
-                <YearSeparatorMesh position={[0, height, 0]} scale={0.5} />
-            ) : null}
             <RadialDistribution
                 segments={12}
                 radius={2.43}

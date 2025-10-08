@@ -18,6 +18,7 @@ type SquareMesh = GLTF & {
 type DaySquareMeshProps = JSX.IntrinsicElements['group'] & {
     selected: boolean;
     hovered: boolean;
+    future?: boolean;
     children?: React.ReactNode | React.ReactNode[];
 };
 
@@ -31,25 +32,29 @@ export function DaySquareMesh(props: DaySquareMeshProps) {
             regular: '#00ffdd',
             selected: '#eefffc',
             hovered: '#eefffc',
+            future: '#a0a0a0',
         },
         inner: {
             regular: '#00d0b4',
             selected: '#00d0b4',
             hovered: '#00d0b4',
+            future: '#7f7f7f',
         },
     };
 
     const outerColor = useMemo(() => {
+        if (props.future) return colors.outer.future;
         if (props.selected) return colors.outer.selected;
         if (props.hovered) return colors.outer.hovered;
         return colors.outer.regular;
-    }, [colors.outer, props.selected, props.hovered]);
+    }, [colors.outer, props.selected, props.hovered, props.future]);
 
     const innerColor = useMemo(() => {
+        if (props.future) return colors.inner.future;
         if (props.selected) return colors.inner.selected;
         if (props.hovered) return colors.inner.hovered;
         return colors.inner.regular;
-    }, [colors.inner, props.selected, props.hovered]);
+    }, [colors.inner, props.selected, props.hovered, props.future]);
 
     const outerMaterial = new THREE.MeshStandardMaterial({
         color: outerColor,
@@ -80,12 +85,13 @@ export function DaySquareMesh(props: DaySquareMeshProps) {
 useGLTF.preload('./media/meshes/day_square.glb');
 
 export function DaySquare({ date }: { date: Date }) {
-    const [isSelected, setIsSelected] = useState(false);
+    // const [isSelected, setIsSelected] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
-    const { dayHovered, setDayHovered } = useCanvasContext();
+    const { dayHovered, setDayHovered, selectedDate, setSelectedDate } = useCanvasContext();
+
+    const isSelected = selectedDate?.toDateString() === date.toDateString();
 
     const dayOffset = [0.105, 0.105];
-    // const dayOfYear = week * 7 + day;
     const day = date.getDay();
     const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
     const firstDayWeekday = firstDayOfMonth.getDay();
@@ -98,22 +104,27 @@ export function DaySquare({ date }: { date: Date }) {
         return 0.15;
     }, [isSelected, isHovered]);
 
+    const handlePointerEnter = () => {
+        setIsHovered(true);
+    };
+
+    const handlePointerLeave = () => {
+        setIsHovered(false);
+    }
+
+    const handleClick = (e: Event) => {
+        e.stopPropagation();
+        // setIsSelected(!isSelected);
+        setSelectedDate(date);
+        console.log(date);
+    }
+
     return (
         <group
             key={`day:${day}.week:${week}`}
-            onPointerEnter={() => {
-                // if (dayHovered) return;
-                // setDayHovered(true);
-                setIsHovered(true);
-            }}
-            onPointerLeave={() => {
-                // setDayHovered(false);
-                setIsHovered(false);
-            }}
-            onClick={() => {
-                setIsSelected(!isSelected);
-                console.log(date);
-            }}
+            onPointerEnter={handlePointerEnter}
+            onPointerLeave={handlePointerLeave}
+            onClick={handleClick}
             position={[0, dayOffset[1], -dayOffset[0]]}
         >
             <DaySquareMesh
@@ -122,6 +133,7 @@ export function DaySquare({ date }: { date: Date }) {
                 scale={[0.47, 0.47, meshDepth]}
                 selected={isSelected}
                 hovered={isHovered}
+                future={date > new Date()}
             >
                 {isHovered && (
                     <Text
@@ -131,7 +143,6 @@ export function DaySquare({ date }: { date: Date }) {
                         font="./media/fonts/mono/DMMono-Regular.ttf"
                         fontSize={0.8}
                         position={[0, 0, 1]}
-                        // rotation={[0, Math.PI / 2, 0]}
                     >
                         {(date.getDate()).toString().padStart(2, '0')}
                     </Text>

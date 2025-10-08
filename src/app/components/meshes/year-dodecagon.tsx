@@ -3,7 +3,7 @@ import React, { JSX, useMemo } from 'react';
 import { useGLTF, Text } from '@react-three/drei';
 import { GLTF } from 'three-stdlib';
 import { DaySquare } from './day-square';
-import { SVGCurve } from '../../page';
+import { SVGCurve } from '../utils/mesh';
 import { RadialDistribution } from '../layout/distribution';
 // import monthGridSvg from './curves/month_grid.svg';
 
@@ -70,6 +70,7 @@ function YearDodecagonMesh(props: YearDodecagonMeshProps) {
                 material={dodecagonMaterial}
                 position={[0, 0, 0]}
                 rotation={[0, 0, 0]}
+                
             />
             <mesh
                 geometry={nodes.dodecagon_2.geometry}
@@ -241,7 +242,7 @@ export function YearDodecagonSlice({
                     rotation={[0, Math.PI / 2, 0]}
                     position={[0, 0, 0]}
                     scale={1.8}
-                    lineColor={'#888888'}
+                    lineColor={'#494949'}
                 />
                 {dayElements[i]}
             </group>
@@ -257,6 +258,29 @@ export function YearDodecagonSlice({
                 position={[0, height + offset, 0]}
                 elements={monthElements}
             />
+        </>
+    );
+}
+
+function YearGroup({ year = 0, height = 0 }: { year?: number; height?: number }) {
+    const offset = 0.35 * height;
+    return (
+        <>
+            <YearDodecagonSlice height={height + offset} year={year} />
+        </>
+    );
+}
+
+export function DecadeGroup({ decade = 1980 }: { decade?: number }) {
+    return (
+        <>
+            <YearSeparatorMesh position={[0, 6, 0]} scale={[0.5, 30, 0.5]} />
+            <LowerDecadePlinth />
+            {Array.from({ length: 10 }).map((_, i) => {
+                const year = decade + i;
+                return <YearGroup key={i} height={i} year={year} />
+})}
+            <UpperDecadePlinth />
         </>
     );
 }

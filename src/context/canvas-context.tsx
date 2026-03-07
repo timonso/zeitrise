@@ -7,6 +7,8 @@ interface CanvasContextProps {
     setDayHovered: (hovered: boolean) => void;
     currentDecade: number;
     setCurrentDecade: (decade: number) => void;
+    currentRotation: [number, number, number];
+    setCurrentRotation: (rotation: [number, number, number]) => void;
 }
 
 const CanvasContext = createContext<CanvasContextProps | undefined>(undefined);
@@ -16,6 +18,7 @@ export const CanvasProvider = ({ children }: { children: ReactNode }) => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(defaultDate);
     const [dayHovered, setDayHovered] = useState<boolean>(false);
     const [currentDecade, setCurrentDecade] = useState<number>(2020);
+    const [currentRotation, setCurrentRotation] = useState<[number, number, number]>([0,0,0]);
 
     return (
         <CanvasContext.Provider
@@ -26,6 +29,8 @@ export const CanvasProvider = ({ children }: { children: ReactNode }) => {
                 setDayHovered,
                 currentDecade,
                 setCurrentDecade,
+                currentRotation,
+                setCurrentRotation
             }}
         >
             {children}

@@ -15,7 +15,7 @@ export function RadialDistribution({
         <>
     {
         Array.from({ length: segments }).map((_, i) => {
-            const angle = (i * 2 * Math.PI) / segments;
+            const angle = (i * 2 * Math.PI) / segments - Math.PI / 2;
             const distance = radius;
 
             return (

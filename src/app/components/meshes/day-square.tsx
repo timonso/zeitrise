@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import React, { JSX, useMemo, useState } from 'react';
 import { useGLTF, Text } from '@react-three/drei';
 import { GLTF } from 'three-stdlib';
-import { useCanvasContext } from '@/context/canvas-context';
+import { useCameraWriter, useDateStore } from '@/context/scene-store';
 
 type SquareMesh = GLTF & {
     nodes: {
@@ -87,7 +87,8 @@ useGLTF.preload('./media/meshes/day_square.glb');
 export function DaySquare({ date }: { date: Date }) {
     // const [isSelected, setIsSelected] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
-    const { dayHovered, setDayHovered, selectedDate, setSelectedDate } = useCanvasContext();
+    const { dayHovered, setDayHovered, selectedDate, setSelectedDate } = useDateStore();
+    const setRotation = useCameraWriter((state) => state.setRotation);
 
     const isSelected = selectedDate?.toDateString() === date.toDateString();
 
@@ -115,6 +116,7 @@ export function DaySquare({ date }: { date: Date }) {
     const handleClick = (e: Event) => {
         e.stopPropagation();
         // setIsSelected(!isSelected);
+        setRotation({ x: 0, y: date.getMonth() * Math.PI * 2 /24 * (Math.PI / 180), z: 0 });
         setSelectedDate(date);
         console.log(date);
     }

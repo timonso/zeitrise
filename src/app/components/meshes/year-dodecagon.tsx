@@ -174,7 +174,6 @@ export function LowerDecadePlinth() {
     return (
         <group position={[0, -1, 0]} scale={0.5}>
             <DecadePlinthMesh />
-            {/* <YearSeparatorMesh position={[0, -25, 0]} scale={[1, 10, 1]} /> */}
             <RadialDistribution
                 segments={12}
                 radius={2.43}
@@ -189,7 +188,6 @@ export function UpperDecadePlinth() {
     return (
         <group position={[0, 14.4, 0]} rotation={[Math.PI, 0, 0]} scale={0.5}>
             <DecadePlinthMesh />
-            {/* <YearSeparatorMesh position={[0, -25, 0]} scale={[1, 10, 1]} /> */}
         </group>
     );
 }

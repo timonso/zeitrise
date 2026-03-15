@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import React, { JSX, useMemo, useState } from 'react';
+import React, { JSX, useEffect, useMemo, useState } from 'react';
 import { useGLTF, Text } from '@react-three/drei';
 import { GLTF } from 'three-stdlib';
 import { useCameraWriter, useDateStore } from '@/context/scene-store';
@@ -22,12 +22,7 @@ type DaySquareMeshProps = JSX.IntrinsicElements['group'] & {
     children?: React.ReactNode | React.ReactNode[];
 };
 
-export function DaySquareMesh(props: DaySquareMeshProps) {
-    const { nodes, materials } = useGLTF(
-        './media/meshes/day_square.glb'
-    ) as unknown as SquareMesh;
-
-    const colors = {
+const COLORS = {
         outer: {
             regular: '#00ffdd',
             selected: '#eefffc',
@@ -42,31 +37,46 @@ export function DaySquareMesh(props: DaySquareMeshProps) {
         },
     };
 
+export function DaySquareMesh(props: DaySquareMeshProps) {
+    const { nodes } = useGLTF(
+        './media/meshes/day_square.glb',
+    ) as unknown as SquareMesh;
+
     const outerColor = useMemo(() => {
-        if (props.future) return colors.outer.future;
-        if (props.selected) return colors.outer.selected;
-        if (props.hovered) return colors.outer.hovered;
-        return colors.outer.regular;
-    }, [colors.outer, props.selected, props.hovered, props.future]);
+        if (props.future) return COLORS.outer.future;
+        if (props.selected) return COLORS.outer.selected;
+        if (props.hovered) return COLORS.outer.hovered;
+        return COLORS.outer.regular;
+    }, [props.selected, props.hovered, props.future]);
 
     const innerColor = useMemo(() => {
-        if (props.future) return colors.inner.future;
-        if (props.selected) return colors.inner.selected;
-        if (props.hovered) return colors.inner.hovered;
-        return colors.inner.regular;
-    }, [colors.inner, props.selected, props.hovered, props.future]);
+        if (props.future) return COLORS.inner.future;
+        if (props.selected) return COLORS.inner.selected;
+        if (props.hovered) return COLORS.inner.hovered;
+        return COLORS.inner.regular;
+    }, [props.selected, props.hovered, props.future]);
 
-    const outerMaterial = new THREE.MeshStandardMaterial({
+    const outerMaterial = useMemo(
+        () => new THREE.MeshStandardMaterial({
         color: outerColor,
         roughness: 0.5,
         metalness: 0.0,
-    });
+    }), [outerColor]);
 
-    const innerMaterial = new THREE.MeshStandardMaterial({
-        color: innerColor,
-        roughness: 0.2,
-        metalness: 0.0,
-    });
+    const innerMaterial = useMemo(() => {
+        return new THREE.MeshStandardMaterial({
+            color: innerColor,
+            roughness: 0.2,
+            metalness: 0.0,
+        });
+    }, [innerColor]);
+
+    useEffect(() => {
+        return () => {
+            outerMaterial.dispose();
+            innerMaterial.dispose();
+        };
+    }, [outerMaterial, innerMaterial]);
 
     return (
         <group {...props} dispose={null}>
@@ -87,10 +97,13 @@ useGLTF.preload('./media/meshes/day_square.glb');
 export function DaySquare({ date }: { date: Date }) {
     // const [isSelected, setIsSelected] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
-    const { dayHovered, setDayHovered, selectedDate, setSelectedDate } = useDateStore();
+    const dateKey = useMemo(
+        () => new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime(),
+        [date],
+    );
+    const isSelected = useDateStore((state) => state.selectedDateKey === dateKey);
+    const setSelectedDate = useDateStore((state) => state.setSelectedDate);
     const setRotation = useCameraWriter((state) => state.setRotation);
-
-    const isSelected = selectedDate?.toDateString() === date.toDateString();
 
     const dayOffset = [0.105, 0.105];
     const day = date.getDay();
@@ -111,15 +124,18 @@ export function DaySquare({ date }: { date: Date }) {
 
     const handlePointerLeave = () => {
         setIsHovered(false);
-    }
+    };
 
     const handleClick = (e: Event) => {
+        if (isSelected) {
+            return;
+        }
+        const monthRotation = (date.getMonth() * Math.PI * 2) / 12;
         e.stopPropagation();
-        // setIsSelected(!isSelected);
-        setRotation({ x: 0, y: date.getMonth() * Math.PI * 2 /24 * (Math.PI / 180), z: 0 });
+        setRotation({ x: 0, y: monthRotation, z: 0 });
         setSelectedDate(date);
-        console.log(date);
-    }
+        // console.log(date);
+    };
 
     return (
         <group
@@ -146,7 +162,7 @@ export function DaySquare({ date }: { date: Date }) {
                         fontSize={0.8}
                         position={[0, 0, 1]}
                     >
-                        {(date.getDate()).toString().padStart(2, '0')}
+                        {date.getDate().toString().padStart(2, '0')}
                     </Text>
                 )}
             </DaySquareMesh>

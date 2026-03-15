@@ -6,8 +6,12 @@ type CameraState = {
     setRotation: (r: { x: number; y: number; z: number }) => void;
 };
 
+const getDayKey = (date: Date) =>
+    new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+
 type DateState = {
     selectedDate: Date | null;
+    selectedDateKey: number | null;
     setSelectedDate: (date: Date) => void;
     dayHovered: boolean;
     setDayHovered: (hovered: boolean) => void;
@@ -34,7 +38,9 @@ export const useCameraWriter = create<CameraState>()(
 export const useDateStore = create<DateState>()(
     subscribeWithSelector((set) => ({
         selectedDate: new Date(),
-        setSelectedDate: (date) => set({ selectedDate: date }),
+        selectedDateKey: getDayKey(new Date()),
+        setSelectedDate: (date) =>
+            set({ selectedDate: date, selectedDateKey: getDayKey(date) }),
         dayHovered: false,
         setDayHovered: (hovered) => set({ dayHovered: hovered }),
         currentDecade: 2020,

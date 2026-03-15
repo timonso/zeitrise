@@ -263,9 +263,7 @@ export function YearDodecagonSlice({
 function YearGroup({ year = 0, height = 0 }: { year?: number; height?: number }) {
     const offset = 0.35 * height;
     return (
-        <>
             <YearDodecagonSlice height={height + offset} year={year} />
-        </>
     );
 }
 

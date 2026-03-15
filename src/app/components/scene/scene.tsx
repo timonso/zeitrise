@@ -7,6 +7,7 @@ import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import * as THREE from 'three';
 
 import { useCameraStore, useCameraWriter, useDateStore } from '@/context/scene-store';
+import { ThreeDom } from '@react-three-dom/core';
 
 function CameraDriver({ controlsRef }: { controlsRef: RefObject<OrbitControlsImpl | null> }) {
     const cameraDriver = useCameraWriter
@@ -46,19 +47,13 @@ function CameraSync() {
 export function Scene() {
     const [isOrtho, setIsOrtho] = useState(false);
     const [targetHeight, setTargetHeight] = useState(7);
-    const [cameraRotation, setCameraRotation] = useState([0,0,0]);
-    const rotationRef = useRef<[number, number, number]>([0, 0, 0]);
     const orbitControlsRef = useRef<OrbitControlsImpl>(null);
  
     const cameraSpotlight = new THREE.DirectionalLight('white', 0.1);
     cameraSpotlight.position.set(0, 0, 1);
     cameraSpotlight.castShadow = false;
 
-    const { currentDecade, setCurrentDecade, currentRotation, setCurrentRotation } = useDateStore(); 
-    // const debouncedSetCameraRotation = useMemo(() => debounce((rotation: [number, number, number]) => {
-    //     // setCameraRotation(rotation)
-    //     setCurrentRotation(rotation);
-    // }, 500), [setCurrentRotation]);
+    const currentDecade = useDateStore((state) => state.currentDecade);
 
 
     const setupScene = ({
@@ -80,14 +75,15 @@ export function Scene() {
             orthographic={isOrtho}
             onCreated={setupScene}
         >
+            <ThreeDom />
             <CameraSync />
             <CameraDriver controlsRef={orbitControlsRef} />
-            <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
+            {/* <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
                 <GizmoViewport
                     axisColors={['red', 'green', 'blue']}
                     labelColor="black"
                 />
-            </GizmoHelper>
+            </GizmoHelper> */}
             {/* <gridHelper args={[10, 10]} /> */}
             {/* <axesHelper args={[5]} /> */}
             <ambientLight color="white" intensity={0.5} />
@@ -107,7 +103,7 @@ export function Scene() {
                 target={[0, targetHeight, 0]}
                 maxDistance={22}
                 minDistance={6}
-                // enablePan={true}
+                enablePan={false}
                 enableZoom={true}
                 maxZoom={0}
                 minZoom={0}

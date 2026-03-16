@@ -7,7 +7,7 @@ import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import * as THREE from 'three';
 
 import { useCameraStore, useCameraWriter, useDateStore } from '@/context/scene-store';
-import { ThreeDom } from '@react-three-dom/core';
+// import { ThreeDom } from '@react-three-dom/core';
 
 function CameraDriver({ controlsRef }: { controlsRef: RefObject<OrbitControlsImpl | null> }) {
     const cameraDriver = useCameraWriter
@@ -74,7 +74,7 @@ export function Scene() {
             orthographic={isOrtho}
             onCreated={setupScene}
         >
-            <ThreeDom />
+            {/* <ThreeDom /> */}
             <Suspense fallback={<Html center>Loading...</Html>}>
             <CameraSync />
             <CameraDriver controlsRef={orbitControlsRef} />

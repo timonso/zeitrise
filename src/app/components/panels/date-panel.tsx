@@ -43,19 +43,21 @@ const YearDial = () => {
                             />
                         );
                     })}
+                        <Image
+                            src="./media/curves/dial.svg"
+                            alt="Year Dial"
+                            fill
+                            style={{ objectFit: 'contain' }}
+                            className={`${styles.nodrag}`}
+                            priority
+                        />
                     <Image
                         src="./media/curves/dial_rim.svg"
                         alt="Year Dial Rim"
                         fill
                         style={{ objectFit: 'contain' }}
                         className={`${styles.dial_rim} ${styles.nodrag}`}
-                    />
-                    <Image
-                        src="./media/curves/dial.svg"
-                        alt="Year Dial"
-                        fill
-                        style={{ objectFit: 'contain' }}
-                        className={`${styles.nodrag}`}
+                        priority
                     />
                 </div>
             </div>
@@ -75,6 +77,7 @@ export function DatePanel() {
 
     return (
         <div className={styles.date_panel}>
+            <YearDial />
             <input
                 type="number"
                 value={currentDecade}
@@ -82,7 +85,6 @@ export function DatePanel() {
                 onChange={(e) => setCurrentDecade(parseInt(e.target.value))}
             />
             <p>{selectedDate?.toDateString()}</p>
-            <YearDial />
             {/* <p>Camera rotation: {rotation.x.toFixed(2)}, {rotation.y.toFixed(2)}, {rotation.z.toFixed(2)}</p> */}
         </div>
     );

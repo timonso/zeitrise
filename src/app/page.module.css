@@ -32,12 +32,6 @@
   flex-direction: column;
   justify-items: center;
   align-items: center;
-
-  border: 2px solid #1a1a1a;
-  border-radius: 160px 160px 16px 16px;
-  width: 320px;
-  height: 450px;
-  padding: 40px 40px;
 }
 
 .dial_dot {
@@ -49,6 +43,9 @@
 
 .dial_container {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: var(--dial-size);
   height: var(--dial-size);
 }
@@ -132,10 +129,15 @@
   display: absolute;
   top: 32px;
   left: 32px;
-  width: fit-content;
+  /* width: fit-content; */
   z-index: 10;
-  padding: 24px;
   background-color: white;
+  border-radius: 160px 160px 16px 16px;
+
+  border: 2px solid #1a1a1a;
+  width: 320px;
+  height: 450px;
+  padding: 40px 40px;
 }
 
 .main ol {

@@ -153,7 +153,7 @@ export function DaySquare({ date }: { date: Date }) {
                 hovered={isHovered}
                 future={date > new Date()}
             >
-                {isHovered && (
+                {(isHovered || isSelected) && (
                     <Text
                         color="white"
                         anchorX="center"

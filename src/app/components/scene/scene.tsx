@@ -1,8 +1,8 @@
-import { GizmoHelper, GizmoViewport, OrbitControls } from '@react-three/drei';
+import { GizmoHelper, GizmoViewport, OrbitControls, Html } from '@react-three/drei';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { DecadeGroup } from '../meshes/year-dodecagon';
 import styles from '../../page.module.css';
-import { useRef, useState, useEffect, RefObject } from 'react';
+import { useRef, useState, useEffect, RefObject, Suspense } from 'react';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import * as THREE from 'three';
 
@@ -43,7 +43,6 @@ function CameraSync() {
   return null
 }
 
-
 export function Scene() {
     const [isOrtho, setIsOrtho] = useState(false);
     const [targetHeight, setTargetHeight] = useState(7);
@@ -76,6 +75,7 @@ export function Scene() {
             onCreated={setupScene}
         >
             <ThreeDom />
+            <Suspense fallback={<Html center>Loading...</Html>}>
             <CameraSync />
             <CameraDriver controlsRef={orbitControlsRef} />
             {/* <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
@@ -112,6 +112,7 @@ export function Scene() {
                 enableDamping={true}
             />
             <DecadeGroup decade={currentDecade} />
+            </Suspense>
         </Canvas>
     );
 }

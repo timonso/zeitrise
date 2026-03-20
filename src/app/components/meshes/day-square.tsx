@@ -1,8 +1,10 @@
 import * as THREE from 'three';
-import React, { JSX, useEffect, useMemo, useState } from 'react';
+import React, { JSX, useEffect, useMemo, useRef, useState } from 'react';
 import { useGLTF, Text } from '@react-three/drei';
+import type { ThreeEvent } from '@react-three/fiber';
 import { GLTF } from 'three-stdlib';
-import { useCameraWriter, useDateStore } from '@/context/scene-store';
+import { useDateStore } from '@/context/scene-store';
+// import { centerMonth } from '../panels/date-panel';
 
 type SquareMesh = GLTF & {
     nodes: {
@@ -81,7 +83,7 @@ export function DaySquareMesh(props: DaySquareMeshProps) {
     return (
         <group {...props} dispose={null}>
             <group scale={[0.117, 0.117, 0.04]}>
-                <mesh geometry={nodes.Cube.geometry} material={outerMaterial} />
+                <mesh geometry={nodes.Cube.geometry} material={outerMaterial}/>
                 <mesh
                     geometry={nodes.Cube_1.geometry}
                     material={innerMaterial}
@@ -97,13 +99,14 @@ useGLTF.preload('./media/meshes/day_square.glb');
 export function DaySquare({ date }: { date: Date }) {
     // const [isSelected, setIsSelected] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
+    const meshGroupRef = useRef<THREE.Group>(null);
     const dateKey = useMemo(
         () => new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime(),
         [date],
     );
     const isSelected = useDateStore((state) => state.selectedDateKey === dateKey);
     const setSelectedDate = useDateStore((state) => state.setSelectedDate);
-    const setRotation = useCameraWriter((state) => state.setRotation);
+    const setHoveredDate = useDateStore((state) => state.setHoveredDate);
 
     const dayOffset = [0.105, 0.105];
     const day = date.getDay();
@@ -118,33 +121,58 @@ export function DaySquare({ date }: { date: Date }) {
         return 0.15;
     }, [isSelected, isHovered]);
 
-    const handlePointerEnter = () => {
+    const facesCamera = (e: ThreeEvent<MouseEvent | PointerEvent>) => {
+        const group = meshGroupRef.current;
+        if (!group) return false;
+
+        const worldPosition = new THREE.Vector3();
+        const worldQuaternion = new THREE.Quaternion();
+
+        group.getWorldPosition(worldPosition);
+        group.getWorldQuaternion(worldQuaternion);
+
+        const groupPositiveXAxis = new THREE.Vector3(1, 0, 0)
+            .applyQuaternion(worldQuaternion)
+            .normalize();
+
+        const toCamera = e.camera.position.clone().sub(worldPosition).normalize();
+        return groupPositiveXAxis.dot(toCamera) > 0;
+    };
+
+    const handlePointerEnter = (e: ThreeEvent<PointerEvent>) => {
+        if (!facesCamera(e)) return;
+        e.stopPropagation();
         setIsHovered(true);
+        setHoveredDate(date);
     };
 
-    const handlePointerLeave = () => {
+    const handlePointerLeave = (e: ThreeEvent<PointerEvent>) => {
+        e.stopPropagation();
         setIsHovered(false);
+        setHoveredDate(null);
     };
 
-    const handleClick = (e: Event) => {
+    const handleClick = (e: ThreeEvent<MouseEvent>) => {
+        if (!facesCamera(e)) return;
+        e.stopPropagation();
         if (isSelected) {
             return;
         }
-        const monthRotation = (date.getMonth() * Math.PI * 2) / 12;
-        e.stopPropagation();
-        setRotation({ x: 0, y: monthRotation, z: 0 });
         setSelectedDate(date);
+        // centerMonth(date, setRotation);
         // console.log(date);
     };
 
     return (
         <group
+            ref={meshGroupRef}
             key={`day:${day}.week:${week}`}
             onPointerEnter={handlePointerEnter}
             onPointerLeave={handlePointerLeave}
             onClick={handleClick}
             position={[0, dayOffset[1], -dayOffset[0]]}
         >
+            {/* <axesHelper args={[0.2]} /> */}
             <DaySquareMesh
                 position={[0, week * 0.1 + padding[1], -day * 0.1 - padding[0]]}
                 rotation={[0, Math.PI / 2, 0]}

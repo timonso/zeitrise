@@ -7,6 +7,8 @@
   --button-secondary-hover: #f2f2f2;
   --dial-size: 240px;
 
+  --border: 1px solid rgba(178, 178, 178, 1.0);
+
   display: flex;
   align-items: center;
   justify-items: center;
@@ -26,12 +28,88 @@
   }
 }
 
+.date_selector {
+  height: 120px;
+  width: 100%;
+  background-color: #3838383b;
+  border-top: var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0px 40px;
+  padding-bottom: 40px;
+  /* border-radius: 0 0 16px 16px; */
+}
+
+.date_picker {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  color: black;
+  font-family: var(--font-geist-mono);
+  font-size: 24px;
+
+    &.hovering {
+      .date_input {
+        font-weight: 600;
+      }
+    }
+}
+
+.date_input {
+  background-color: transparent;
+  border: none;
+  color: black;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: center;
+  text-justify: center;
+  letter-spacing: 2px;
+  padding-left: 2px;
+  border-radius: 4px;
+
+  transition: all 0.2s;
+
+  &:focus, &:hover {
+    font-weight: 600;
+    opacity: 0.8;
+    background-color: #3838381f;
+  }
+
+
+}
+
 .dial_group {
   display: flex;
   gap: 16px;
   flex-direction: column;
   justify-items: center;
   align-items: center;
+  padding: 40px 40px;
+}
+
+.dial_options {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.dial_button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  /* padding: 12px; */
+  border: var(--border);
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .dial_dot {
@@ -123,6 +201,7 @@
   width: 100%;
   height: 100%;
   z-index: 0;
+  /* cursor: crosshair; */
 }
 
 .date_panel {
@@ -134,10 +213,55 @@
   background-color: white;
   border-radius: 160px 160px 16px 16px;
 
-  border: 2px solid #1a1a1a;
+  border: var(--border);
   width: 320px;
-  height: 450px;
-  padding: 40px 40px;
+  height: fit-content;
+  overflow: hidden;
+  /* padding: 40px 40px; */
+}
+
+.date_information {
+  position: relative;
+  top:0;
+  left: 0;
+  transform: translate(0%, -50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  /* padding: 16px; */
+}
+
+.date_chip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  background-color: #464646;
+  border: 1px solid #1a1a1a;
+  width: 35%;
+  overflow: hidden;
+}
+
+.chip_segment {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 12px 12px;
+  height: 100%;
+  border-left: 1px solid #1a1a1a;
+
+  font-size: 20px;
+  &:first-child {
+    border: none;
+  }
+
+  &.chip_active {
+    background-color: var(--accent);
+    color: white;
+  }
 }
 
 .main ol {

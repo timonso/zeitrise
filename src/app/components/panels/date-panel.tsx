@@ -10,13 +10,13 @@ import randomSymbol from '../../../../public/media/curves/symbols/random.svg';
 import { useEffect, useState } from 'react';
 
 enum Weekday {
+    'SUN',
     'MON',
     'TUE',
     'WED',
     'THU',
     'FRI',
     'SAT',
-    'SUN',
 }
 
 export function centerMonth(

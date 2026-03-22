@@ -30,7 +30,7 @@ export function centerMonth(
 const YearDial = () => {
     const rotation = useCameraStore((state) => state.rotation);
     const setRotation = useCameraWriter((state) => state.setRotation);
-    const { selectedDate } = useDateStore();
+    const { selectedDate, setSelectedDate } = useDateStore();
 
     return (
         <div className={styles.dial_group}>
@@ -88,11 +88,14 @@ const YearDial = () => {
                 <div className={styles.dial_button}>
                     <Image
                         src={todaySymbol}
-                        alt="Year Dial"
+                        alt="Today Button"
                         // fill
                         width={24}
                         style={{ objectFit: 'contain' }}
-                        className={styles.nodrag}
+                        className={`${styles.nodrag} ${styles.clickable}`}
+                        onClick={() => {
+                            setSelectedDate(new Date());
+                        }}
                         priority
                     />
                 </div>
@@ -100,7 +103,7 @@ const YearDial = () => {
                 <div className={styles.dial_button}>
                     <Image
                         src={randomSymbol}
-                        alt="Year Dial"
+                        alt="Random Button"
                         // fill
                         width={24}
                         style={{ objectFit: 'contain' }}

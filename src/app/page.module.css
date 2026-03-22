@@ -1,397 +1,422 @@
 .page {
-  --gray-rgb: 0, 0, 0;
-  --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
-  --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
+    --gray-rgb: 0, 0, 0;
+    --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
+    --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
+    --text-color: black;
+    --text-color-light: #666;
 
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --dial-size: 240px;
+    --button-primary-hover: #383838;
+    --button-secondary-hover: #f2f2f2;
+    --dial-size: 240px;
 
-  --border: 1px solid rgba(178, 178, 178, 1.0);
+    --outline-light: #c0c0c0;
+    --border: 1px solid var(--outline-light);
+    --fill-light: #ededed;
 
-  display: flex;
-  align-items: center;
-  justify-items: center;
-  width: 100vw;
-  height: 100vh;
-  background-color: #DEDEDE;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #efefef;
 }
 
-@media (prefers-color-scheme: dark) {
-  .page {
-    --gray-rgb: 255, 255, 255;
-    --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
-    --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
+/* @font-face {
+  font-family: 'DM Mono';
+  src: url('./media/fonts/mono/DMMono-Medium.ttf') format('truetype');
+} */
 
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-  }
+@media (prefers-color-scheme: dark) {
+    .page {
+        --gray-rgb: 255, 255, 255;
+        --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
+        --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
+
+        --button-primary-hover: #ccc;
+        --button-secondary-hover: #1a1a1a;
+    }
+}
+
+.clickable {
+    cursor: pointer;
+    pointer-events: all !important;
 }
 
 .date_selector {
-  height: 120px;
-  width: 100%;
-  background-color: #3838383b;
-  border-top: var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding: 0px 40px;
-  padding-bottom: 40px;
-  /* border-radius: 0 0 16px 16px; */
+    height: fit-content;
+    width: 100%;
+    background-color: var(--fill-light);
+    border-top: var(--border);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 0px 36px;
+    /* padding-bottom: 40px; */
+    /* border-radius: 0 0 16px 16px; */
+}
+
+.date_information {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    padding: inherit;
+    /* padding: 16px; */
 }
 
 .date_picker {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-  color: black;
-  font-family: var(--font-geist-mono);
-  font-size: 24px;
+    --picker-pb: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    /* color: black; */
+    color: var(--outline-light);
+    font-family: var(--font-geist-mono);
+    font-size: 24px;
+    padding-bottom: var(--picker-pb);
+    padding-top: calc(var(--picker-pb) * 2 + 2px);
 
     &.hovering {
-      .date_input {
-        font-weight: 600;
-      }
+        .date_input {
+            font-weight: 600;
+        }
     }
 }
 
 .date_input {
-  background-color: transparent;
-  border: none;
-  color: black;
-  font-family: inherit;
-  font-size: inherit;
-  text-align: center;
-  text-justify: center;
-  letter-spacing: 2px;
-  padding-left: 2px;
-  border-radius: 4px;
+    background-color: transparent;
+    border: none;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: inherit;
+    text-align: center;
+    text-justify: center;
+    letter-spacing: 2px;
+    padding-left: 2px;
+    border-radius: 4px;
+    text-shadow: 0px 1px 0px var(--outline-light);
 
-  transition: all 0.2s;
+    transition: all 0.4s;
 
-  &:focus, &:hover {
-    font-weight: 600;
-    opacity: 0.8;
-    background-color: #3838381f;
-  }
-
-
+    &:focus,
+    &:hover {
+        font-weight: 600;
+        opacity: 0.8;
+        background-color: #3838381f;
+    }
 }
 
 .dial_group {
-  display: flex;
-  gap: 16px;
-  flex-direction: column;
-  justify-items: center;
-  align-items: center;
-  padding: 40px 40px;
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    padding: 36px;
 }
 
 .dial_options {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
 }
 
 .dial_button {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 48px;
-  height: 48px;
-  /* padding: 12px; */
-  border: var(--border);
-  color: white;
-  border-radius: 50%;
-  cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    /* padding: 12px; */
+    border: var(--border);
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 .dial_dot {
-  width: 12px;
-  height: 12px;
-  background-color: var(--accent);
-  border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    background-color: var(--accent);
+    border-radius: 50%;
 }
 
 .dial_container {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: var(--dial-size);
-  height: var(--dial-size);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--dial-size);
+    height: var(--dial-size);
 }
 
 .dial_wrapper {
-  position: relative;
-  width: var(--dial-size);
-  height: var(--dial-size);
-  /* border: 2px solid #1a1a1a; */
+    position: relative;
+    width: var(--dial-size);
+    height: var(--dial-size);
+    /* border: 2px solid #1a1a1a; */
     &:hover {
-    .dial_rim {
-    transform: scale(1.02);
-    opacity: 0.7;
+        .dial_rim {
+            transform: scale(1.02);
+            opacity: 0.7;
+        }
     }
-  }
 }
 
 .dial_rim {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-origin: center center;
-  transition: transform 0.2s, opacity 0.2s;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-origin: center center;
+    transition:
+        transform 0.2s,
+        opacity 0.2s;
 }
 
 .year_dial_display {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  /* width: 100%; */
-  /* height: 100%; */
-  transform: translate(-50%, -50%);
-  font-family: var(--font-geist-mono);
-  font-size: 24px;
-  z-index: 1000;
-  color: #1a1a1a;
-  /* line-height: 56px; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* width: 100%; */
+    /* height: 100%; */
+    transform: translate(-50%, -50%);
+    font-family: var(--font-geist-mono);
+    font-size: 24px;
+    z-index: 1000;
+    color: var(--accent);
+    /* line-height: 56px; */
 }
 
 .year_dial_tick {
-  opacity: 0.0;
-  position: absolute;
-  top: 0%;
-  left: 50%;
-  width: 32px;
-  height: 48px;
-  background-color: #1a1a1a;
-  transform-origin: center calc(var(--dial-size) / 2);
-  margin-left: -16px;
-  z-index: 1000;
-  cursor: pointer;
+    opacity: 0;
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    width: 32px;
+    height: 48px;
+    background-color: #1a1a1a;
+    transform-origin: center calc(var(--dial-size) / 2);
+    margin-left: -16px;
+    z-index: 1000;
+    cursor: pointer;
 }
 
 .nodrag {
-  user-drag: none;
-  -webkit-user-drag: none;
-  user-select: none;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  pointer-events: none;
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    pointer-events: none;
 }
 
 .main {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
 }
 
 .canvas {
-  position: absolute !important;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  /* cursor: crosshair; */
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    /* cursor: crosshair; */
 }
 
 .date_panel {
-  display: absolute;
-  top: 32px;
-  left: 32px;
-  /* width: fit-content; */
-  z-index: 10;
-  background-color: white;
-  border-radius: 160px 160px 16px 16px;
+    display: absolute;
+    top: 32px;
+    left: 32px;
+    /* width: fit-content; */
+    z-index: 10;
+    background-color: white;
+    border-radius: 160px 160px 16px 16px;
 
-  border: var(--border);
-  width: 320px;
-  height: fit-content;
-  overflow: hidden;
-  /* padding: 40px 40px; */
-}
-
-.date_information {
-  position: relative;
-  top:0;
-  left: 0;
-  transform: translate(0%, -50%);
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  /* padding: 16px; */
+    border: var(--border);
+    width: fit-content;
+    height: fit-content;
+    overflow: hidden;
+    /* padding: 40px 40px; */
 }
 
 .date_chip {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 100px;
-  background-color: #464646;
-  border: 1px solid #1a1a1a;
-  width: 35%;
-  overflow: hidden;
+  height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    background-color: transparent;
+    border: var(--border);
+    width: 50%;
+    overflow: hidden;
 }
 
 .chip_segment {
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 12px 12px;
-  height: 100%;
-  border-left: 1px solid #1a1a1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 12px 12px;
+    height: 100%;
+    border-left: var(--border);
+    background-color: white;
+    color: var(--text-color);
+    font-family: var(--font-geist-mono);
+    font-size: 20px;
+    &:first-child {
+        border: none;
+    }
 
-  font-size: 20px;
-  &:first-child {
-    border: none;
-  }
-
-  &.chip_active {
-    background-color: var(--accent);
-    color: white;
-  }
+    &.chip_active {
+        background-color: var(--fill-light);
+        /* color: white; */
+    }
 }
 
 .main ol {
-  font-family: var(--font-geist-mono);
-  padding-left: 0;
-  margin: 0;
-  font-size: 14px;
-  line-height: 24px;
-  letter-spacing: -0.01em;
-  list-style-position: inside;
+    font-family: var(--font-geist-mono);
+    padding-left: 0;
+    margin: 0;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: -0.01em;
+    list-style-position: inside;
 }
 
 .main li:not(:last-of-type) {
-  margin-bottom: 8px;
+    margin-bottom: 8px;
 }
 
 .main code {
-  font-family: inherit;
-  background: var(--gray-alpha-100);
-  padding: 2px 4px;
-  border-radius: 4px;
-  font-weight: 600;
+    font-family: inherit;
+    background: var(--gray-alpha-100);
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-weight: 600;
 }
 
 .ctas {
-  display: flex;
-  gap: 16px;
+    display: flex;
+    gap: 16px;
 }
 
 .ctas a {
-  appearance: none;
-  border-radius: 128px;
-  height: 48px;
-  padding: 0 20px;
-  border: 1px solid transparent;
-  transition:
-    background 0.2s,
-    color 0.2s,
-    border-color 0.2s;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 500;
+    appearance: none;
+    border-radius: 128px;
+    height: 48px;
+    padding: 0 20px;
+    border: 1px solid transparent;
+    transition:
+        background 0.2s,
+        color 0.2s,
+        border-color 0.2s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 500;
 }
 
 a.primary {
-  background: var(--foreground);
-  color: var(--background);
-  gap: 8px;
+    background: var(--foreground);
+    color: var(--background);
+    gap: 8px;
 }
 
 a.secondary {
-  border-color: var(--gray-alpha-200);
-  min-width: 158px;
+    border-color: var(--gray-alpha-200);
+    min-width: 158px;
 }
 
 .footer {
-  grid-row-start: 3;
-  display: flex;
-  gap: 24px;
+    grid-row-start: 3;
+    display: flex;
+    gap: 24px;
 }
 
 .footer a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .footer img {
-  flex-shrink: 0;
+    flex-shrink: 0;
 }
 
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
+    a.primary:hover {
+        background: var(--button-primary-hover);
+        border-color: transparent;
+    }
 
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
+    a.secondary:hover {
+        background: var(--button-secondary-hover);
+        border-color: transparent;
+    }
 
-  .footer a:hover {
-    text-decoration: underline;
-    text-underline-offset: 4px;
-  }
+    .footer a:hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+    }
 }
 
 @media (max-width: 600px) {
-  .page {
-    padding: 32px;
-    padding-bottom: 80px;
-  }
+    .page {
+        padding: 32px;
+        padding-bottom: 80px;
+    }
 
-  .main {
-    align-items: center;
-  }
+    .main {
+        align-items: center;
+    }
 
-  .main ol {
-    text-align: center;
-  }
+    .main ol {
+        text-align: center;
+    }
 
-  .ctas {
-    flex-direction: column;
-  }
+    .ctas {
+        flex-direction: column;
+    }
 
-  .ctas a {
-    font-size: 14px;
-    height: 40px;
-    padding: 0 16px;
-  }
+    .ctas a {
+        font-size: 14px;
+        height: 40px;
+        padding: 0 16px;
+    }
 
-  a.secondary {
-    min-width: auto;
-  }
+    a.secondary {
+        min-width: auto;
+    }
 
-  .footer {
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-  }
+    .footer {
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 @media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
+    .logo {
+        filter: invert();
+    }
 }

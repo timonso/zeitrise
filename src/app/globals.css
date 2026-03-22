@@ -1,7 +1,9 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --accent: #005544;
+  --accent: rgb(0, 85, 68);
+  --icon-idle: black;
+  --icon-active: var(--accent);
 }
 
 @media (prefers-color-scheme: dark) {

@@ -52,8 +52,6 @@
     flex-direction: column;
     gap: 24px;
     padding: 0px 36px;
-    /* padding-bottom: 40px; */
-    /* border-radius: 0 0 16px 16px; */
 }
 
 .date_information {
@@ -87,6 +85,7 @@
     &.hovering {
         .date_input {
             font-weight: 600;
+            color: var(--accent);
         }
     }
 }
@@ -143,6 +142,39 @@
     color: white;
     border-radius: 50%;
     cursor: pointer;
+    outline: 2px solid transparent;
+    outline-offset: 0px;
+
+    transition: all 0.2s;
+
+    &:hover {
+        background-color: var(--fill-light);
+        border-width: 2px;
+    }
+
+    &:active {
+        filter: brightness(0.9);
+        outline: 2px solid var(--outline-light);
+        outline-offset: 2px;
+    }
+
+    &.active {
+        background-color: var(--fill-light);
+        border-color: var(--accent);
+        border-width: 2px;
+        /* background-color: rgba(var(--accent), 0.6); */
+        outline: 2px solid var(--accent);
+        outline-offset: -6px;
+
+        .dial_icon {
+            color: var(--icon-active);
+        }
+    }
+}
+
+.dial_icon {
+    color: var(--icon-idle);
+    transition: color 0.2s;
 }
 
 .dial_dot {
@@ -150,6 +182,7 @@
     height: 12px;
     background-color: var(--accent);
     border-radius: 50%;
+    border: 3px solid var(--outline-light);
 }
 
 .dial_container {
@@ -165,17 +198,24 @@
     position: relative;
     width: var(--dial-size);
     height: var(--dial-size);
-    /* border: 2px solid #1a1a1a; */
+    
     &:hover {
         .dial_rim {
             transform: scale(1.02);
             opacity: 0.7;
         }
     }
+
+    &:active {
+        .dial_rim {
+            transform: scale(1);
+            opacity: 0.4;
+        }
+      }
 }
 
 .dial_rim {
-    position: relative;
+    position: absolute;
     width: 100%;
     height: 100%;
     transform-origin: center center;
@@ -256,7 +296,7 @@
 }
 
 .date_chip {
-  height: 48px;
+    height: 48px;
     display: flex;
     justify-content: center;
     align-items: center;

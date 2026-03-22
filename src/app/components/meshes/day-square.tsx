@@ -107,6 +107,9 @@ export function DaySquare({ date }: { date: Date }) {
     const isSelected = useDateStore((state) => state.selectedDateKey === dateKey);
     const setSelectedDate = useDateStore((state) => state.setSelectedDate);
     const setHoveredDate = useDateStore((state) => state.setHoveredDate);
+    const ignoreRaycast: THREE.Object3D['raycast'] = () => {
+        // Keep hover handling on the tile mesh instead of the overlay text mesh.
+    };
 
     const dayOffset = [0.105, 0.105];
     const day = date.getDay();
@@ -183,6 +186,7 @@ export function DaySquare({ date }: { date: Date }) {
             >
                 {(isHovered || isSelected) && (
                     <Text
+                        raycast={ignoreRaycast}
                         color="white"
                         anchorX="center"
                         anchorY="middle"

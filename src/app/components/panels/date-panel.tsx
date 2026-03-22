@@ -5,8 +5,10 @@ import {
 } from '@/context/scene-store';
 import Image from 'next/image';
 import styles from '../../page.module.css';
-import todaySymbol from '../../../../public/media/curves/symbols/today.svg';
-import randomSymbol from '../../../../public/media/curves/symbols/random.svg';
+import Dial from '../../../../public/media/curves/dial.svg';
+import DialRim from '../../../../public/media/curves/dial_rim.svg';
+import TodayIcon from '../../../../public/media/curves/symbols/today.svg';
+import RandomIcon from '../../../../public/media/curves/symbols/random.svg';
 import { useEffect, useState } from 'react';
 
 enum Weekday {
@@ -27,10 +29,21 @@ export function centerMonth(
     setter({ x: 0, y: monthRotation, z: 0 });
 }
 
+function sameDayLocal(a: Date | null, b: Date | null): boolean {
+  if (!a || !b) return false;
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
+}
+
 const YearDial = () => {
     const rotation = useCameraStore((state) => state.rotation);
     const setRotation = useCameraWriter((state) => state.setRotation);
     const { selectedDate, setSelectedDate } = useDateStore();
+    const todayDate = new Date();
+    const isToday = sameDayLocal(selectedDate, todayDate);
 
     return (
         <div className={styles.dial_group}>
@@ -66,49 +79,40 @@ const YearDial = () => {
                             />
                         );
                     })}
-                    <Image
-                        src="./media/curves/dial.svg"
-                        alt="Year Dial"
-                        fill
-                        style={{ objectFit: 'contain' }}
+                    <Dial
+                        fill="black"
+                        aria-hidden="true"
                         className={`${styles.nodrag}`}
-                        priority
                     />
-                    <Image
-                        src="./media/curves/dial_rim.svg"
-                        alt="Year Dial Rim"
-                        fill
-                        style={{ objectFit: 'contain' }}
+                    <DialRim
+                        width={"100%"}
                         className={`${styles.dial_rim} ${styles.nodrag}`}
-                        priority
                     />
                 </div>
             </div>
             <div className={styles.dial_options}>
-                <div className={styles.dial_button}>
-                    <Image
-                        src={todaySymbol}
-                        alt="Today Button"
-                        // fill
+                <div
+                    className={`${styles.dial_button} ${styles.nodrag} ${styles.clickable} ${isToday ? styles.active : ''}`}
+                    onClick={() => {
+                        setSelectedDate(todayDate);
+                    }}
+                >
+                    <TodayIcon
                         width={24}
-                        style={{ objectFit: 'contain' }}
-                        className={`${styles.nodrag} ${styles.clickable}`}
-                        onClick={() => {
-                            setSelectedDate(new Date());
-                        }}
-                        priority
+                        height={24}
+                        fill="currentColor"
+                        aria-hidden="true"
+                        className={`${styles.nodrag} ${styles.dial_icon}`}
                     />
                 </div>
                 <div className={styles.dial_dot} />
-                <div className={styles.dial_button}>
-                    <Image
-                        src={randomSymbol}
-                        alt="Random Button"
-                        // fill
+                <div className={`${styles.dial_button} ${styles.nodrag} ${styles.clickable}`}>
+                    <RandomIcon
                         width={24}
-                        style={{ objectFit: 'contain' }}
-                        className={styles.nodrag}
-                        priority
+                        height={24}
+                        fill="currentColor"
+                        aria-hidden="true"
+                        className={`${styles.nodrag} ${styles.dial_icon}`}
                     />
                 </div>
             </div>

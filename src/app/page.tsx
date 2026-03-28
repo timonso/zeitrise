@@ -1,18 +1,18 @@
 'use client';
 
-import styles from './page.module.css';
+// import styles from './page.module.css';
 import React from 'react';
-import { Scene } from './components/scene/scene';
-import { DatePanel } from './components/panels/date-panel';
+// import { Scene } from './components/scene/scene';
+// import { DatePanel } from './components/panels/date-panel';
 
 export default function Home() {
     return (
-        <div className={styles.page}>
-            <main className={styles.main}>
+        <>
+            {/* <main className={styles.main}>
                     <DatePanel />
                     <Scene />
             </main>
-            <footer className={styles.footer}></footer>
-        </div>
+            <footer className={styles.footer}></footer> */}
+        </>
     );
 }

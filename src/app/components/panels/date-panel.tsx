@@ -1,10 +1,12 @@
+"use client";
+
 import {
     useCameraStore,
     useCameraWriter,
     useDateStore,
 } from '@/context/scene-store';
 import Image from 'next/image';
-import styles from '../../page.module.css';
+import styles from '../../layout.module.css';
 import Dial from '../../../../public/media/curves/dial.svg';
 import DialRim from '../../../../public/media/curves/dial_rim.svg';
 import TodayIcon from '../../../../public/media/curves/symbols/today.svg';

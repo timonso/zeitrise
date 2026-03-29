@@ -7,18 +7,82 @@
 
     --button-primary-hover: #383838;
     --button-secondary-hover: #f2f2f2;
-    --dial-size: 240px;
+    --dial-size: 210px;
 
     --outline-light: #c0c0c0;
     --border: 1px solid var(--outline-light);
     --fill-light: #ededed;
 
     display: flex;
-    align-items: center;
-    justify-items: center;
+    /* align-items: center;
+    justify-items: center; */
     width: 100vw;
     height: 100vh;
     background-color: #efefef;
+}
+
+.side_panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: fit-content;
+    height: 100%;
+    border-right: var(--border);
+    border-top: var(--border);
+    border-bottom: var(--border);
+    border-radius: 0px 60px 60px 0px;
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(24px);
+    padding: 44px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+.menu_panel {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* align-items: center; */
+}
+
+.main_menu {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+}
+
+.logo_group {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    justify-content: space-between;
+    height: 96px;
+    width: 100%;
+}
+
+.main_chip {
+    display: flex;
+    align-items: center;
+    background: var(--fill-light);
+    border: var(--border);
+    padding: 22px;
+    height: 100%;
+}
+
+.left_chip {
+    justify-content: flex-start;
+    width: fit-content;
+    border-radius: 60px 16px 16px 60px;
+}
+
+.right_chip {
+    justify-content: flex-end;
+    width: auto;
+    border-radius: 16px 60px 60px 16px;
 }
 
 /* @font-face {
@@ -198,7 +262,7 @@
     position: relative;
     width: var(--dial-size);
     height: var(--dial-size);
-    
+
     &:hover {
         .dial_rim {
             transform: scale(1.02);
@@ -211,7 +275,7 @@
             transform: scale(1);
             opacity: 0.4;
         }
-      }
+    }
 }
 
 .dial_rim {

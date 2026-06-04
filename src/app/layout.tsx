@@ -10,6 +10,7 @@ import ThisDay from '../media/curves/symbols/this_day.svg';
 import Dive from '../media/curves/symbols/dive.svg';
 import Heatmap from '../media/curves/symbols/heatmap.svg';
 import { ComponentType } from 'react';
+import { URLDateSync } from '@/components/utils/url-sync';
 
 // const geistSans = localFont({
 //   src: "/media/fonts/serif/dm_serif.ttf",
@@ -63,6 +64,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={`${geistMono.variable}`}>
+                <URLDateSync />
                 <div className={styles.page}>
                     <Scene />
                     <div className={styles.side_panel}>

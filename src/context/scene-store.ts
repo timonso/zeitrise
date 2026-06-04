@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
+import { setURLDate } from '@/components/utils/url-sync';
 
 type CameraState = {
     rotation: { x: number; y: number; z: number };
@@ -16,6 +17,7 @@ type DateState = {
     selectedDate: Date | null;
     selectedDateKey: number | null;
     setSelectedDate: (date: Date) => void;
+    setSelectedDateFromURL: (date: Date) => void;
     currentDecade: number;
     setCurrentDecade: (decade: number) => void;
     currentRotation: [number, number, number];
@@ -45,8 +47,13 @@ export const useDateStore = create<DateState>()(
         },
         selectedDate: new Date(),
         selectedDateKey: getDayKey(new Date()),
-        setSelectedDate: (date) =>
-            set({ selectedDate: date, selectedDateKey: getDayKey(date) }),
+        setSelectedDate: (date) => {
+            set({ selectedDate: date, selectedDateKey: getDayKey(date) });
+            setURLDate(date);
+        },
+        setSelectedDateFromURL: (date) => {
+            set({ selectedDate: date, selectedDateKey: getDayKey(date) });
+        },
         currentDecade: 2020,
         setCurrentDecade: (decade) => set({ currentDecade: decade }),
         currentRotation: [0, 0, 0],

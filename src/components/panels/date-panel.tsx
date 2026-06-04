@@ -375,6 +375,7 @@ const DateInformation = ({ selectedDate }: { selectedDate: Date | null }) => {
 };
 
 export function DatePanel() {
+
     const {
         selectedDate,
         setSelectedDate,

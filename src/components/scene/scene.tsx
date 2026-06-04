@@ -18,7 +18,7 @@ function CameraDriver({ controlsRef }: { controlsRef: RefObject<OrbitControlsImp
         const unsubscribe = cameraDriver.subscribe(
             (state) => state.rotation,
             (rotation) => {
-                console.log('CameraDriver received rotation update:', rotation);
+                // console.log('CameraDriver received rotation update:', rotation);
                 const controls = controlsRef.current;
                 if (!controls) return;
                 controls.setAzimuthalAngle(rotation.y);

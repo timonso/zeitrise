@@ -1,0 +1,45 @@
+.nav_button {
+    --height: 64px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    height: 64px;
+    width: 100%;
+    border-radius: calc(var(--height) / 2);
+    background-color: var(--fill-light);
+    border: var(--border);
+
+    opacity: 0.75;
+
+    &:hover {
+        opacity: 1;
+        filter: brightness(0.96);
+    }
+
+    &:active {
+        filter: brightness(0.92);
+    }
+
+    & .nav_button_icon {
+        display: flex;
+        place-items: center;
+        color: var(--icon-idle);
+    }
+
+    & .nav_button_label {
+        margin-left: 16px;
+        font-size: 18px;
+        font-weight: 500;
+        text-transform: uppercase;
+        color: var(--text-color);
+    }
+
+    & .focused {
+        opacity: 1;
+        & .nav_button_icon {
+            display: flex;
+            place-items: center;
+            color: var(--icon-active);
+        }
+    }
+}

@@ -3,7 +3,7 @@
 import { GizmoHelper, GizmoViewport, OrbitControls, Html } from '@react-three/drei';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { DecadeGroup } from '../meshes/year-dodecagon';
-import styles from '../../layout.module.css';
+import styles from './scene.module.css';
 import { useRef, useState, useEffect, RefObject, Suspense } from 'react';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import * as THREE from 'three';

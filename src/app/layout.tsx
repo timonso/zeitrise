@@ -1,10 +1,15 @@
+import '../styles/globals.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import styles from './layout.module.css';
-import './globals.css';
-import { Scene } from './components/scene/scene';
-import { DatePanel } from './components/panels/date-panel';
-import FullLogo from '../../public/media/curves/logos/zr-full-color.svg';
+import buttons from '../styles/buttons.module.css';
+import { Scene } from '../components/scene/scene';
+import { DatePanel } from '../components/panels/date-panel';
+import FullLogo from '../media/curves/logos/zr-full-color.svg';
+import ThisDay from '../media/curves/symbols/this_day.svg';
+import Dive from '../media/curves/symbols/dive.svg';
+import Heatmap from '../media/curves/symbols/heatmap.svg';
+import { ComponentType } from 'react';
 
 // const geistSans = localFont({
 //   src: "/media/fonts/serif/dm_serif.ttf",
@@ -32,7 +37,21 @@ const MainMenu = () => {
                   <div style={{ fontSize: 24, fontWeight: 'bold', color: 'red' }}>W.I.P.</div>
                 </div>
             </div>
+            <div className={`${styles.main_nav_group}`}>
+                <NavButton label='On this Day' Icon={ThisDay} />
+                <NavButton label='Decade Dive' Icon={Dive} />
+                <NavButton label='Heatmap' Icon={Heatmap} />
+            </div>
         </div>
+    );
+};
+
+const NavButton = ({ label, Icon }: { label: string; Icon?: ComponentType<{ width?: number, className?: string, fill?: string }> }) => {
+    return (
+    <button className={`${buttons.nav_button}`}>
+        {Icon ? <Icon width={32} className={`${buttons.nav_button_icon}`} fill="currentColor" /> : null}
+        <span className={`${buttons.nav_button_label}`}>{label}</span>
+    </button>
     );
 };
 

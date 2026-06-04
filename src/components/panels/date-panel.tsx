@@ -5,12 +5,11 @@ import {
     useCameraWriter,
     useDateStore,
 } from '@/context/scene-store';
-import Image from 'next/image';
-import styles from '../../layout.module.css';
-import Dial from '../../../../public/media/curves/dial.svg';
-import DialRim from '../../../../public/media/curves/dial_rim.svg';
-import TodayIcon from '../../../../public/media/curves/symbols/today.svg';
-import RandomIcon from '../../../../public/media/curves/symbols/random.svg';
+import styles from './date-panel.module.css';
+import Dial from '../../media/curves/dial.svg';
+import DialRim from '../../media/curves/dial_rim.svg';
+import TodayIcon from '../../media/curves/symbols/today.svg';
+import RandomIcon from '../../media/curves/symbols/random.svg';
 import { useEffect, useState } from 'react';
 
 enum Weekday {
@@ -84,17 +83,16 @@ const YearDial = () => {
                     <Dial
                         fill="black"
                         aria-hidden="true"
-                        className={`${styles.nodrag}`}
                     />
                     <DialRim
                         width={"100%"}
-                        className={`${styles.dial_rim} ${styles.nodrag}`}
+                        className={`${styles.dial_rim}`}
                     />
                 </div>
             </div>
             <div className={styles.dial_options}>
-                <div
-                    className={`${styles.dial_button} ${styles.nodrag} ${styles.clickable} ${isToday ? styles.active : ''}`}
+                <button
+                    className={`${styles.dial_button} ${isToday ? styles.active : ''}`}
                     onClick={() => {
                         setSelectedDate(todayDate);
                     }}
@@ -104,19 +102,19 @@ const YearDial = () => {
                         height={24}
                         fill="currentColor"
                         aria-hidden="true"
-                        className={`${styles.nodrag} ${styles.dial_icon}`}
+                        className={`${styles.dial_icon}`}
                     />
-                </div>
+                </button>
                 <div className={styles.dial_dot} />
-                <div className={`${styles.dial_button} ${styles.nodrag} ${styles.clickable}`}>
+                <button className={`${styles.dial_button}`}>
                     <RandomIcon
                         width={24}
                         height={24}
                         fill="currentColor"
                         aria-hidden="true"
-                        className={`${styles.nodrag} ${styles.dial_icon}`}
+                        className={`${styles.dial_icon}`}
                     />
-                </div>
+                </button>
             </div>
         </div>
     );

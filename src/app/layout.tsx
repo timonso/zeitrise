@@ -9,7 +9,7 @@ import FullLogo from '../media/curves/logos/zr-full-color.svg';
 import ThisDay from '../media/curves/symbols/this_day.svg';
 import Dive from '../media/curves/symbols/dive.svg';
 import Heatmap from '../media/curves/symbols/heatmap.svg';
-import { ComponentType } from 'react';
+import { ComponentType, Suspense } from 'react';
 import { URLDateSync } from '@/components/utils/url-sync';
 
 // const geistSans = localFont({
@@ -64,7 +64,9 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={`${geistMono.variable}`}>
-                <URLDateSync />
+                <Suspense fallback={null}>
+                    <URLDateSync />
+                </Suspense>
                 <div className={styles.page}>
                     <Scene />
                     <div className={styles.side_panel}>

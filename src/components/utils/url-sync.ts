@@ -69,4 +69,5 @@ export function URLDateSync() {
             setSelectedDateFromURL(urlDate);
         }
     }, [dateParam, selectedDate, setSelectedDateFromURL]);
+    return null;
 }

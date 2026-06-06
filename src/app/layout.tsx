@@ -11,6 +11,7 @@ import Dive from '../media/curves/symbols/dive.svg';
 import Heatmap from '../media/curves/symbols/heatmap.svg';
 import { ComponentType, Suspense } from 'react';
 import { URLDateSync } from '@/components/utils/url-sync';
+import { SidePanel } from '@/components/panels/side-panel';
 
 // const geistSans = localFont({
 //   src: "/media/fonts/serif/dm_serif.ttf",
@@ -27,35 +28,6 @@ export const metadata: Metadata = {
     description: 'Decade',
 };
 
-const MainMenu = () => {
-    return (
-        <div className={styles.main_menu}>
-            <div className={styles.logo_group}>
-                <div className={`${styles.main_chip} ${styles.left_chip}`}>
-                    <FullLogo width={120} />
-                </div>
-                <div className={`${styles.main_chip} ${styles.right_chip}`}>
-                  <div style={{ fontSize: 24, fontWeight: 'bold', color: 'red' }}>W.I.P.</div>
-                </div>
-            </div>
-            <div className={`${styles.main_nav_group}`}>
-                <NavButton label='On this Day' Icon={ThisDay} />
-                <NavButton label='Decade Dive' Icon={Dive} />
-                <NavButton label='Heatmap' Icon={Heatmap} />
-            </div>
-        </div>
-    );
-};
-
-const NavButton = ({ label, Icon }: { label: string; Icon?: ComponentType<{ width?: number, className?: string, fill?: string }> }) => {
-    return (
-    <button className={`${buttons.nav_button}`}>
-        {Icon ? <Icon width={32} className={`${buttons.nav_button_icon}`} fill="currentColor" /> : null}
-        <span className={`${buttons.nav_button_label}`}>{label}</span>
-    </button>
-    );
-};
-
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -69,12 +41,7 @@ export default function RootLayout({
                 </Suspense>
                 <div className={styles.page}>
                     <Scene />
-                    <div className={styles.side_panel}>
-                      <div className={styles.menu_panel}>
-                        <MainMenu />
-                        <DatePanel />
-                      </div>
-                    </div>
+                    <SidePanel />
                     {children}
                 </div>
             </body>

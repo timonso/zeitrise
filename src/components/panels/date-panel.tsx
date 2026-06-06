@@ -43,8 +43,11 @@ const YearDial = () => {
     const rotation = useCameraStore((state) => state.rotation);
     const setRotation = useCameraWriter((state) => state.setRotation);
     const { selectedDate, setSelectedDate } = useDateStore();
+    const hoveredDate = useDateStore((state) => state.hoveredDate);
     const todayDate = new Date();
     const isToday = sameDayLocal(selectedDate, todayDate);
+
+    const indicatorClassName = (index: number) => `${styles.tick_indicator} ${hoveredDate?.getMonth() === index ? styles.focused : ''}`;
 
     return (
         <div className={styles.dial_group}>
@@ -61,23 +64,27 @@ const YearDial = () => {
                     {Array.from({ length: 12 }).map((_, i) => {
                         const index = 6 - i;
                         const angle = (index * 360) / 12;
+                        const intuitiveIndex = 11 - (i + 5) % 12;
 
                         return (
                             <div
                                 key={index}
+                                id = {`month-tick-${intuitiveIndex}`}
                                 className={styles.year_dial_tick}
                                 style={{
                                     transform: `rotateZ(${180 - angle}deg)`,
                                 }}
                                 onClick={() => {
-                                    console.log(`Clicked on month ${index}`);
+                                    // console.log(`Clicked on month ${index}`);
                                     setRotation({
                                         x: 0,
                                         y: (angle * Math.PI) / 180,
                                         z: 0,
                                     });
                                 }}
-                            />
+                            >
+                                <div className={indicatorClassName(intuitiveIndex)}/>
+                            </div>
                         );
                     })}
                     <Dial

@@ -8,7 +8,7 @@ import { useRef, useState, useEffect, RefObject, Suspense } from 'react';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import * as THREE from 'three';
 
-import { useCameraStore, useCameraWriter, useDateStore } from '@/context/scene-store';
+import { useCameraStore, useCameraWriter, useDateStore, useUIStore } from '@/context/scene-store';
 // import { ThreeDom } from '@react-three-dom/core';
 
 function CameraDriver({ controlsRef }: { controlsRef: RefObject<OrbitControlsImpl | null> }) {
@@ -49,7 +49,10 @@ export function Scene() {
     const [isOrtho, setIsOrtho] = useState(false);
     const [targetHeight, setTargetHeight] = useState(7);
     const orbitControlsRef = useRef<OrbitControlsImpl>(null);
- 
+
+    const isSidePanelExpanded = useUIStore((state) => state.isSidePanelExpanded);
+    const className = `${styles.canvas} ${!isSidePanelExpanded ? styles.wide : ''}`;
+
     const cameraSpotlight = new THREE.DirectionalLight('white', 0.1);
     cameraSpotlight.position.set(0, 0, 1);
     cameraSpotlight.castShadow = false;
@@ -71,7 +74,7 @@ export function Scene() {
 
     return (
         <Canvas
-            className={styles.canvas}
+            className={className}
             camera={{ fov: 45, position: [0, 0, 24] }}
             orthographic={isOrtho}
             onCreated={setupScene}

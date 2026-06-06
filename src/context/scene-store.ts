@@ -24,6 +24,11 @@ type DateState = {
     setCurrentRotation: (rotation: [number, number, number]) => void;
 };
 
+type UIState = {
+    isSidePanelExpanded: boolean;
+    setIsSidePanelExpanded: (expanded: boolean) => void;
+}
+
 export const useCameraStore = create<CameraState>()(
     subscribeWithSelector((set) => ({
         rotation: { x: 0, y: 0, z: 0 },
@@ -58,5 +63,12 @@ export const useDateStore = create<DateState>()(
         setCurrentDecade: (decade) => set({ currentDecade: decade }),
         currentRotation: [0, 0, 0],
         setCurrentRotation: (rotation) => set({ currentRotation: rotation }),
+    })),
+);
+
+export const useUIStore = create<UIState>()(
+    subscribeWithSelector((set) => ({
+        isSidePanelExpanded: true,
+        setIsSidePanelExpanded: (expanded) => set({ isSidePanelExpanded: expanded }),
     })),
 );

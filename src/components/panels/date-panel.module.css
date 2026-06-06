@@ -240,16 +240,50 @@
 }
 
 .year_dial_tick {
-    display: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
+    background-color: none;
     top: 0%;
     left: 50%;
     width: 32px;
     height: 48px;
+    border-radius: 8px;
     transform-origin: center calc(var(--dial-size) / 2);
     margin-left: -16px;
     z-index: 1000;
     cursor: pointer;
+
+    &:hover {
+        .tick_indicator {
+        opacity: 0.4;
+        width: 24px;
+    }
+    }
+
+    &:active {
+        .tick_indicator {
+        width: 12px;
+        opacity: 0.8;
+    }
+    }
+
+    .tick_indicator {
+        opacity: 0;
+        background-color: var(--accent);
+        width: 12px;
+        height: 4px;
+        border-radius: 2px;
+        position: absolute;
+        top: -12px;
+        transition: width 0.2s, opacity 0.2s;
+
+        &.focused {
+            opacity: 0.4;
+            width: 24px;
+        }
+    }
 }
 
 .nodrag {
@@ -276,7 +310,7 @@
     /* width: fit-content; */
     z-index: 10;
     background-color: white;
-    border-radius: 160px 160px 16px 16px;
+    border-radius: 160px 160px var(--border-radius) var(--border-radius);
 
     border: var(--border);
     width: fit-content;

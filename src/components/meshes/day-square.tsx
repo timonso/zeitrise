@@ -6,7 +6,6 @@ import { useGLTF, Text } from '@react-three/drei';
 import type { ThreeEvent } from '@react-three/fiber';
 import { GLTF } from 'three-stdlib';
 import { useDateStore } from '@/context/scene-store';
-// import { centerMonth } from '../panels/date-panel';
 
 type SquareMesh = GLTF & {
     nodes: {
@@ -164,7 +163,6 @@ export function DaySquare({ date }: { date: Date }) {
             return;
         }
         setSelectedDate(date);
-        // centerMonth(date, setRotation);
         // console.log(date);
     };
 

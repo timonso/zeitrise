@@ -11,8 +11,25 @@ import * as THREE from 'three';
 import { useCameraStore, useCameraWriter, useDateStore, useUIStore } from '@/context/scene-store';
 // import { ThreeDom } from '@react-three-dom/core';
 
+const HORIZON_ANGLE = Math.PI / 2
+const MIN_POLAR_ANGLE = Math.PI / 4;
+const MAX_POLAR_ANGLE = Math.PI - Math.PI / 4;
+
+const centerSelectedMonth = (controlsRef: RefObject<OrbitControlsImpl | null>, selectedDate: Date) => {
+    controlsRef.current?.setPolarAngle(HORIZON_ANGLE);
+    const currentMonth = selectedDate?.getMonth() ?? 3
+    const currentAngle = THREE.MathUtils.degToRad((currentMonth * 360) / 12);
+    controlsRef.current?.setAzimuthalAngle(currentAngle)
+}
+
 function CameraDriver({ controlsRef }: { controlsRef: RefObject<OrbitControlsImpl | null> }) {
     const cameraDriver = useCameraWriter
+    const selectedDate = useDateStore((state) => state.selectedDate)
+
+    // init
+    useEffect(() => {
+        centerSelectedMonth(controlsRef, selectedDate ?? new Date());
+    }, [])
 
     useEffect(() => {
         const unsubscribe = cameraDriver.subscribe(
@@ -24,25 +41,25 @@ function CameraDriver({ controlsRef }: { controlsRef: RefObject<OrbitControlsImp
                 controls.setAzimuthalAngle(rotation.y);
                 controls.update();
             })
-            return () => unsubscribe();
+        return () => unsubscribe();
     }, [cameraDriver, controlsRef])
-    
+
     return null;
 }
 
 function CameraSync() {
-  const { camera } = useThree()
-  const setRotation = useCameraStore((s) => s.setRotation)
+    const { camera } = useThree()
+    const setRotation = useCameraStore((s) => s.setRotation)
 
-  useFrame(() => {
-    // const { x, y, z } = camera.rotation
+    useFrame(() => {
+        // const { x, y, z } = camera.rotation
 
-    const euler = new THREE.Euler().setFromQuaternion(camera.quaternion, 'YXZ');
+        const euler = new THREE.Euler().setFromQuaternion(camera.quaternion, 'YXZ');
 
-    setRotation({ x:0, y:euler.y, z:0 })
-  })
+        setRotation({ x: 0, y: euler.y, z: 0 })
+    })
 
-  return null
+    return null
 }
 
 export function Scene() {
@@ -69,7 +86,7 @@ export function Scene() {
     }) => {
         // camera.add(cameraSpotlight);
         scene.add(camera);
-        scene.fog = new THREE.Fog( 0xcccccc, 25, 40 );
+        scene.fog = new THREE.Fog(0xcccccc, 22, 40);
     };
 
     return (
@@ -81,42 +98,43 @@ export function Scene() {
         >
             {/* <ThreeDom /> */}
             <Suspense fallback={<Html center>Loading...</Html>}>
-            <CameraSync />
-            <CameraDriver controlsRef={orbitControlsRef} />
-            {/* <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
+                <CameraSync />
+                <CameraDriver controlsRef={orbitControlsRef} />
+                {/* <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
                 <GizmoViewport
                     axisColors={['red', 'green', 'blue']}
                     labelColor="black"
                 />
             </GizmoHelper> */}
-            {/* <gridHelper args={[10, 10]} /> */}
-            {/* <axesHelper args={[5]} /> */}
-            <ambientLight color="white" intensity={0.5} />
-            <directionalLight
-                color="white"
-                intensity={0.7}
-                position={[0, 10, 0]}
-            />
-            <directionalLight
-                color="white"
-                intensity={0.7}
-                position={[0, -10, 0]}
-            />
-            <OrbitControls
-                ref={orbitControlsRef}
-                maxPolarAngle={Math.PI / 2}
-                target={[0, targetHeight, 0]}
-                maxDistance={22}
-                minDistance={6}
-                enablePan={false}
-                enableZoom={true}
-                maxZoom={0}
-                minZoom={0}
-                panSpeed={0.5}
-                screenSpacePanning={true}
-                enableDamping={true}
-            />
-            <DecadeGroup decade={currentDecade} />
+                {/* <gridHelper args={[10, 10]} /> */}
+                {/* <axesHelper args={[5]} /> */}
+                <ambientLight color="white" intensity={0.5} />
+                <directionalLight
+                    color="white"
+                    intensity={0.7}
+                    position={[0, 10, 0]}
+                />
+                <directionalLight
+                    color="white"
+                    intensity={0.7}
+                    position={[0, -10, 0]}
+                />
+                <OrbitControls
+                    ref={orbitControlsRef}
+                    maxPolarAngle={MAX_POLAR_ANGLE}
+                    minPolarAngle={MIN_POLAR_ANGLE}
+                    target={[0, targetHeight, 0]}
+                    maxDistance={22}
+                    minDistance={6}
+                    enablePan={false}
+                    enableZoom={true}
+                    maxZoom={0}
+                    minZoom={0}
+                    panSpeed={0.5}
+                    screenSpacePanning={true}
+                    enableDamping={true}
+                />
+                <DecadeGroup decade={currentDecade} />
             </Suspense>
         </Canvas>
     );

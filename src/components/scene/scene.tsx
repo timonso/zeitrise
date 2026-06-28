@@ -14,6 +14,7 @@ import { useCameraStore, useCameraWriter, useDateStore, useUIStore } from '@/con
 const HORIZON_ANGLE = Math.PI / 2
 const MIN_POLAR_ANGLE = Math.PI / 4;
 const MAX_POLAR_ANGLE = Math.PI - Math.PI / 4;
+const INIT_CAM_POS = [0, 0, 24] as [number, number, number];
 
 const centerSelectedMonth = (controlsRef: RefObject<OrbitControlsImpl | null>, selectedDate: Date) => {
     controlsRef.current?.setPolarAngle(HORIZON_ANGLE);
@@ -57,6 +58,8 @@ function CameraSync() {
         const euler = new THREE.Euler().setFromQuaternion(camera.quaternion, 'YXZ');
 
         setRotation({ x: 0, y: euler.y, z: 0 })
+        // camera.position.x = INIT_CAM_POS[0];
+        // camera.position.z = INIT_CAM_POS[2];
     })
 
     return null
@@ -76,7 +79,6 @@ export function Scene() {
 
     const currentDecade = useDateStore((state) => state.currentDecade);
 
-
     const setupScene = ({
         camera,
         scene,
@@ -92,7 +94,7 @@ export function Scene() {
     return (
         <Canvas
             className={className}
-            camera={{ fov: 45, position: [0, 0, 24] }}
+            camera={{ fov: 45, position: INIT_CAM_POS }}
             orthographic={isOrtho}
             onCreated={setupScene}
         >

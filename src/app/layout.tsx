@@ -12,6 +12,7 @@ import Heatmap from '../media/curves/symbols/heatmap.svg';
 import { ComponentType, Suspense } from 'react';
 import { URLDateSync } from '@/components/utils/url-sync';
 import { SidePanel } from '@/components/panels/side-panel';
+import { NavigationPanel } from '@/components/panels/navigation-panel';
 
 // const geistSans = localFont({
 //   src: "/media/fonts/serif/dm_serif.ttf",
@@ -42,6 +43,7 @@ export default function RootLayout({
                 <div className={styles.page}>
                     <Scene />
                     <SidePanel />
+                    <NavigationPanel />
                     {children}
                 </div>
             </body>

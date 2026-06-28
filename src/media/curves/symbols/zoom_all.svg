@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 484 417" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-17505.5,-5914.708349)">
+        <g transform="matrix(1,0,0,1.790072,16901,3150.464323)">
+            <g transform="matrix(-0.715733,0,0,0.399835,11462.176888,512.234897)">
+                <path d="M14918,2581L15170.013,2726.5L15170.013,3017.5L14918,3163L14665.987,3017.5L14665.987,2726.5L14918,2581ZM14918,2661.666L14735.845,2766.833L14735.845,2977.167L14918,3082.334L15100.155,2977.167L15100.155,2766.833L14918,2661.666Z"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1.790072,16901,3150.464323)">
+            <g transform="matrix(-0.221816,-0.071542,-0.5,0.483794,6058.371661,1705.551778)">
+                <rect x="16676" y="2542" width="582" height="50"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1.790072,16901,3150.464323)">
+            <g transform="matrix(0,0.179445,0.981959,-0,-1735.813251,-1384.084492)">
+                <rect x="16676" y="2548.669" width="582" height="36.661"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1.790072,16901,3150.464323)">
+            <g transform="matrix(0,0.104576,1.363831,-0,-2659.080617,-137.247857)">
+                <path d="M17690.695,2548.669L17592.002,2572.133L16790.719,2572.133L16692.026,2548.669L17690.695,2548.669Z"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1.790072,16901,3150.464323)">
+            <g transform="matrix(-0,0.104576,-1.363831,-0,4228.829143,-137.247857)">
+                <path d="M17690.695,2548.669L17592.002,2572.133L16790.719,2572.133L16692.026,2548.669L17690.695,2548.669Z"/>
+            </g>
+        </g>
+    </g>
+</svg>

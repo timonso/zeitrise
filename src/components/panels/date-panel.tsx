@@ -22,7 +22,7 @@ enum Weekday {
     'SAT',
 }
 
-export function centerMonth(
+function centerMonth(
     date: Date,
     setter: (rotation: { x: number; y: number; z: number }) => void,
 ) {

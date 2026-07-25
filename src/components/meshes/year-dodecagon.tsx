@@ -5,6 +5,7 @@ import { GLTF } from 'three-stdlib';
 import { DaySquare } from './day-square';
 import { SVGCurve } from '../utils/mesh';
 import { RadialDistribution } from '../layout/distribution';
+import { useDateStore } from '@/context/scene-store';
 // import monthGridSvg from './curves/month_grid.svg';
 
 useGLTF.preload('./media/meshes/year_dodecagon.glb');
@@ -162,12 +163,13 @@ export function LowerDecadePlinth() {
             color="white"
             anchorX="center"
             anchorY="middle"
-            font="./media/fonts/mono/DMMono-Medium.ttf"
+            font="./media/fonts/mono/geist_mono.ttf"
+            // font="./media/fonts/mono/DMMono-Medium.ttf"
             fontSize={0.4}
             position={[3.25, 1.4, 0]}
             rotation={[0, Math.PI / 2, 0]}
         >
-            {`${(index + 1).toString().padStart(2, '0')} \' ${month}`}
+            {`${(index + 1).toString().padStart(2, '0')} • ${month}`}
         </Text>
     ));
 
@@ -185,9 +187,31 @@ export function LowerDecadePlinth() {
 }
 
 export function UpperDecadePlinth() {
+    const { selectedDate } = useDateStore((state) => state);
+    const elements = Object.keys(Month).map((month, index) => (
+        <Text
+            key={month}
+            color="white"
+            anchorX="center"
+            anchorY="middle"
+            font="./media/fonts/mono/geist_mono.ttf"
+            // font="./media/fonts/mono/DMMono-Medium.ttf"
+            fontSize={0.4}
+            position={[3.25, 1.4, 0]}
+            rotation={[Math.PI, Math.PI / 2, 0]}
+        >
+            {`${selectedDate?.getFullYear().toString().slice(0, -1)}"X`}
+        </Text>
+    )).reverse();
     return (
-        <group position={[0, 14.4, 0]} rotation={[Math.PI, 0, 0]} scale={0.5}>
+        <group position={[0, 14.4, 0]} rotation={[Math.PI, Math.PI , 0]} scale={0.5}>
             <DecadePlinthMesh />
+            <RadialDistribution
+                segments={12}
+                radius={2.43}
+                position={[0, 0, 0]}
+                elements={elements}
+            />
         </group>
     );
 }
@@ -263,7 +287,7 @@ export function YearDodecagonSlice({
 function YearGroup({ year = 0, height = 0 }: { year?: number; height?: number }) {
     const offset = 0.35 * height;
     return (
-            <YearDodecagonSlice height={height + offset} year={year} />
+        <YearDodecagonSlice height={height + offset} year={year} />
     );
 }
 

@@ -21,6 +21,7 @@ import { NavigationPanel } from '@/components/panels/navigation-panel';
 
 const geistMono = localFont({
     src: '../../public/media/fonts/mono/geist_mono.ttf',
+    // src: '../../public/media/fonts/mono/DMMono-Medium.ttf',
     variable: '--font-geist-mono',
 });
 

@@ -1,5 +1,6 @@
 :root {
     --button-size: 52px;
+    --panel-background: rgba(255, 255, 255, 0.9);
 }
 
 .navigation_panel_wrapper {
@@ -16,6 +17,14 @@
     flex-direction: column;
     justify-content: right;
     gap: 36px;
+
+    filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.2));
+
+    &.disabled {
+        opacity: 0.6;
+        pointer-events: none;
+        filter: saturate(0.0);
+    }
 }
 
 .navigation_panel_group {
@@ -23,10 +32,10 @@
     flex-direction: column;
     align-items: center;
 
-    background-color: rgba(255, 255, 255, 0.9);
-    border:var(--border);
+    background-color: var(--panel-background);
+    border: var(--border);
     border-radius: var(--border-radius);
-    
+
     width: var(--button-size);
     min-height: var(--button-size);
     height: fit-content;
@@ -43,10 +52,11 @@
     display: flex;
     opacity: 0.8;
     place-items: center;
-    width: 100%;
+    justify-content: center;
+    width: var(--button-size);
     height: var(--button-size);
-    padding: 13px;
-    background-color: rgba(255, 255, 255, 0.9);
+    padding: 14px;
+    background-color: var(--panel-background);
 
     cursor: pointer;
 
@@ -54,4 +64,78 @@
         opacity: 1.0;
         filter: brightness(0.95);
     }
+}
+
+.navigation_panel_decade_scroller {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px;
+    gap: 6px;
+    height: fit-content;
+    width: 100%;
+    overflow: visible;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: inset -16px 0 14px -16px rgba(0, 0, 0, 0.12);
+}
+
+.navigation_panel_year_plate {
+    display: flex;
+    place-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    mask-image: linear-gradient(to right,
+            black 0%,
+            transparent 100%);
+
+    /* opacity: 0.9; */
+    translate: 32% 0px;
+    color: var(--background);
+    transition: translate 0.2s ease-in-out;
+
+    --year-plate-fill: var(--fill-light);
+    --year-plate-stroke: var(--outline-light);
+
+    & .indicator {
+        position: absolute;
+        left: 38%;
+        height: 16px;
+        width: 16px;
+        background-color: var(--outline-light);
+        border-radius: 3px;
+        transition: all 0.2s ease-in-out;
+    }
+
+    &:hover,
+    &.active {
+        color: var(--foreground);
+
+        & .indicator {
+            position: absolute;
+            background-color: var(--fill-light);
+            rotate: 45deg;
+        }
+
+
+        --year-plate-fill: var(--accent);
+        --year-plate-stroke: rgba(255, 255, 255, 0.3);
+    }
+
+    &:hover {
+        translate: 30% 0px;
+    }
+
+    &:active {
+        filter: brightness(0.8);
+    }
+}
+
+.navigation_panel_year_plate_text {
+    position: absolute;
+    left: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: var(--font-geist-mono);
+    color: inherit;
 }

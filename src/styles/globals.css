@@ -1,9 +1,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --overlay: rgb(200, 200, 200);
   --accent: rgb(0, 85, 68);
   --icon-idle: black;
   --icon-active: var(--accent);
+  --wide-margin: 220px;
 }
 
 @media (prefers-color-scheme: dark) {

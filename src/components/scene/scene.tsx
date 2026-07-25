@@ -131,7 +131,7 @@ export function Scene() {
 
     const currentDecade = useDateStore((state) => state.currentDecade);
 
-    function setCameraOffset(camera, xOffset, yOffset) {
+    function setCameraOffset(camera: THREE.PerspectiveCamera, xOffset: number, yOffset: number) {
         const { aspect } = camera
         camera.setViewOffset(
             aspect * 2, 2,
@@ -162,7 +162,7 @@ export function Scene() {
         scene.add(cameraSpotlight.target);
         scene.add(camera);
         scene.fog = new THREE.Fog(0xcccccc, 22, 40);
-        setCameraOffset(camera, -0.16, 0)
+        setCameraOffset(camera as THREE.PerspectiveCamera, -0.16, 0)
     };
 
     return (

@@ -4,7 +4,24 @@ import { setURLDate } from '@/components/utils/url-sync';
 import { Camera } from 'three';
 import type { OrbitControls } from 'three-stdlib';
 
-const TARGET_HEIGHT = 7;
+
+export const yearToTargetY = (year: number) => {
+    year = year % 10;
+    return year + 0.35 * year + 0.65;
+}
+
+const INITIAL_TARGET_HEIGHT = yearToTargetY(4.5);
+
+export const setCameraTargetToYear = (year: number) => {
+    const cameraTarget = useCameraStore.getState().cameraTarget;
+    const setCameraTarget = useCameraStore.getState().setCameraTarget;
+    setCameraTarget([cameraTarget[0], yearToTargetY(year), cameraTarget[2]]);
+}
+
+export const resetCameraTarget = () => {
+    const setCameraTarget = useCameraStore.getState().setCameraTarget;
+    setCameraTarget([0, INITIAL_TARGET_HEIGHT, 0]);
+}
 
 type CameraState = {
     orbitControls: OrbitControls | null;
@@ -49,7 +66,7 @@ export const useCameraStore = create<CameraState>()(
         setCamera: (camera) => set({ camera }),
         orbitControls: null,
         setOrbitControls: (orbitControls) => set({ orbitControls }),
-        cameraTarget: [0, TARGET_HEIGHT, 0],
+        cameraTarget: [0, INITIAL_TARGET_HEIGHT, 0],
         setCameraTarget: (target) => set({ cameraTarget: target }),
         rotation: { x: 0, y: 0, z: 0 },
         setRotation: (rotation) => set({ rotation }),
@@ -62,7 +79,7 @@ export const useCameraWriter = create<CameraState>()(
         setCamera: (camera) => set({ camera }),
         orbitControls: null,
         setOrbitControls: (orbitControls) => set({ orbitControls }),
-        cameraTarget: [0, TARGET_HEIGHT, 0],
+        cameraTarget: [0, INITIAL_TARGET_HEIGHT, 0],
         setCameraTarget: (target) => set({ cameraTarget: target }),
         rotation: { x: 0, y: 0, z: 0 },
         setRotation: (rotation) => set({ rotation }),
@@ -81,9 +98,11 @@ export const useDateStore = create<DateState>()(
         setSelectedDate: (date) => {
             set({ selectedDate: date, selectedDateKey: getDayKey(date) });
             setURLDate(date);
+            // setCameraTargetToYear(date.getFullYear());
         },
         setSelectedDateFromURL: (date) => {
             set({ selectedDate: date, selectedDateKey: getDayKey(date) });
+            // setCameraTargetToYear(date.getFullYear());
         },
         currentDecade: 2020,
         setCurrentDecade: (decade) => set({ currentDecade: decade }),

@@ -34,8 +34,8 @@ const COLORS = {
         },
         inner: {
             regular: '#00d0b4',
-            selected: '#00d0b4',
-            hovered: '#00d0b4',
+            selected: '#008170',
+            hovered: '#00a892',
             future: '#7f7f7f',
         },
     };

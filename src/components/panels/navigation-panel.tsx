@@ -8,29 +8,17 @@ import ZoomAll from '@/media/curves/symbols/zoom_all.svg';
 import NextDecade from '@/media/curves/symbols/next_decade.svg';
 import PreviousDecade from '@/media/curves/symbols/previous_decade.svg';
 import YearPlateShape from '@/media/curves/year_plate.svg';
-import { useCameraStore, useDateStore, useUIStore } from '@/context/scene-store';
+import { resetCameraTarget, setCameraTargetToYear, useCameraStore, useDateStore, useUIStore, yearToTargetY } from '@/context/scene-store';
 import { HORIZON_ANGLE } from '../scene/scene';
 
-const yearToTargetY = (year: number) => {
-    return year + 0.35 * year + 0.5;
-}
-
-const setCameraTargetToYear = (year: number) => {
-    const cameraTarget = useCameraStore.getState().cameraTarget;
-    const setCameraTarget = useCameraStore.getState().setCameraTarget;
-    setCameraTarget([cameraTarget[0], yearToTargetY(year), cameraTarget[2]]);
-}
-
 const CenterSelectionButton = () => {
-    const { selectedDate, setSelectedDate } = useDateStore((state) => state);
+    const { selectedDate } = useDateStore((state) => state);
     const { setSelectedIsFocused } = useDateStore((state) => state);
-
-    const selectedYear = (selectedDate?.getFullYear() ?? 0) % 10;
 
     return (
         <div className={styles.navigation_panel_group} onClick={() => {
             setSelectedIsFocused(false);
-            // setCameraTargetToYear(selectedYear);
+            setCameraTargetToYear(selectedDate?.getFullYear() ?? 0);
         }}>
             <div className={styles.navigation_panel_button}>
                 <CenterSelected />
@@ -54,6 +42,7 @@ const ZoomControls = () => {
 
     const zoomAll = () => {
         orbitControls?.dollyIn(999);
+        resetCameraTarget();
         orbitControls?.update();
     }
 
@@ -110,7 +99,6 @@ const DecadeScroller = () => {
 }
 
 const DecadeNavigationGroup = () => {
-    const { currentDecade, setCurrentDecade } = useDateStore((state) => state);
     const {selectedDate, setSelectedDate} = useDateStore((state) => state);
 
     const setNextDecade = () => {
@@ -144,14 +132,14 @@ const DecadeNavigationGroup = () => {
 }
 
 export const NavigationPanel = () => {
-    const { sceneLoading, setSceneLoading } = useUIStore((state) => state);
+    const { sceneLoading } = useUIStore((state) => state);
     const className = `${styles.navigation_panel_wrapper} ${sceneLoading ? styles.disabled : ''}`;
 
     return (
         <div className={className}>
             <CenterSelectionButton />
-            <ZoomControls />
             <DecadeNavigationGroup />
+            <ZoomControls />
         </div>
     )
 }

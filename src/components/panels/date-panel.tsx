@@ -11,6 +11,7 @@ import DialRim from '../../media/curves/dial_rim.svg';
 import TodayIcon from '../../media/curves/symbols/today.svg';
 import RandomIcon from '../../media/curves/symbols/random.svg';
 import { useEffect, useState } from 'react';
+import { setCameraTargetToYear } from '@/context/scene-store';
 
 enum Weekday {
     'SUN',
@@ -102,6 +103,7 @@ const YearDial = () => {
                     className={`${styles.dial_button} ${isToday ? styles.active : ''}`}
                     onClick={() => {
                         setSelectedDate(todayDate);
+                        setCameraTargetToYear(todayDate.getFullYear());
                     }}
                 >
                     <TodayIcon

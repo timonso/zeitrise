@@ -7,21 +7,16 @@ import styles from './scene.module.css';
 import { useRef, useState, useEffect, RefObject, Suspense, useLayoutEffect } from 'react';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import * as THREE from 'three';
-import { suspend } from 'suspend-react';
+// import { suspend } from 'suspend-react';
 
 import { useCameraStore, useCameraWriter, useDateStore, useUIStore } from '@/context/scene-store';
 // import { ThreeDom } from '@react-three-dom/core';
 
 export const HORIZON_ANGLE = Math.PI / 2
 const MIN_POLAR_ANGLE = Math.PI / 4;
-const MAX_POLAR_ANGLE = Math.PI - Math.PI / 4;
+const MAX_POLAR_ANGLE = Math.PI * 3 / 4;
 const INIT_CAM_POS = [0, 0, 24] as [number, number, number];
-
-function ArtificialDelay({ ms = 2000, decade }: { ms: number; decade: number }) {
-    //   const decadeX = decade + Math.random()
-    suspend(() => new Promise((resolve) => setTimeout(resolve, ms)), ['delay', decade]);
-    return null;
-}
+export const BACKGROUND_COLOR = new THREE.Color(0.9, 0.9, 0.9);
 
 function LoadingOverlay() {
     return (
@@ -158,10 +153,12 @@ export function Scene() {
         scene: THREE.Scene;
     }) => {
         cameraSpotlight.position.set(...camera.position.toArray());
-        camera.add(cameraSpotlight);
-        scene.add(cameraSpotlight.target);
+        // camera.add(cameraSpotlight);
+        // scene.add(cameraSpotlight.target);
         scene.add(camera);
-        scene.fog = new THREE.Fog(0xcccccc, 22, 40);
+        // scene.fog = new THREE.FogExp2(BACKGROUND_COLOR, 0.04);
+        // scene.fog = new THREE.Fog(BACKGROUND_COLOR, 26, 36);
+        scene.background = new THREE.Color(BACKGROUND_COLOR);
         setCameraOffset(camera as THREE.PerspectiveCamera, -0.16, 0)
     };
 

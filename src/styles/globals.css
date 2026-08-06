@@ -5,7 +5,10 @@
   --accent: rgb(0, 85, 68);
   --icon-idle: black;
   --icon-active: var(--accent);
-  --wide-margin: 220px;
+  --wide-margin: calc(220px * var(--interface-scale));
+
+  /* --interface-scale: 1.0; */
+  /* --interface-scale: 0.9; */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,6 +25,7 @@ body {
 }
 
 body {
+  /* zoom: 0.9; */
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;

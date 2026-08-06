@@ -12,6 +12,7 @@ import TodayIcon from '../../media/curves/symbols/today.svg';
 import RandomIcon from '../../media/curves/symbols/random.svg';
 import { useEffect, useState } from 'react';
 import { setCameraTargetToYear } from '@/context/scene-store';
+import { scaled } from '@/styles/constants';
 
 enum Weekday {
     'SUN',
@@ -107,8 +108,8 @@ const YearDial = () => {
                     }}
                 >
                     <TodayIcon
-                        width={24}
-                        height={24}
+                        width={scaled(24)}
+                        height={scaled(24)}
                         fill="currentColor"
                         aria-hidden="true"
                         className={`${styles.dial_icon}`}
@@ -117,8 +118,8 @@ const YearDial = () => {
                 <div className={styles.dial_dot} />
                 <button className={`${styles.dial_button}`}>
                     <RandomIcon
-                        width={24}
-                        height={24}
+                        width={scaled(24)}
+                        height={scaled(24)}
                         fill="currentColor"
                         aria-hidden="true"
                         className={`${styles.dial_icon}`}
@@ -318,7 +319,7 @@ const DateSelector = ({
                     inputMode="numeric"
                     value={dayDisplay}
                     placeholder={'DD'}
-                    style={{ width: '40px' }}
+                    style={{ width: `${scaled(40)}px` }}
                     onChange={(e) =>
                         !isHovering
                             ? handleDayChange(e.target.value)
@@ -332,7 +333,7 @@ const DateSelector = ({
                     inputMode="numeric"
                     value={monthDisplay}
                     placeholder={'MM'}
-                    style={{ width: '40px' }}
+                    style={{ width: `${scaled(40)}px` }}
                     onChange={(e) =>
                         !isHovering
                             ? handleMonthChange(e.target.value)
@@ -346,7 +347,7 @@ const DateSelector = ({
                     inputMode="numeric"
                     value={yearDisplay}
                     placeholder={'YYYY'}
-                    style={{ width: '70px' }}
+                    style={{ width: `${scaled(70)}px` }}
                     onChange={(e) =>
                         !isHovering
                             ? handleYearChange(e.target.value)

@@ -3,20 +3,20 @@
     align-items: center;
     background: var(--fill-light);
     border: var(--border);
-    padding: 22px;
+    padding: calc(22px * var(--interface-scale));
     height: 100%;
 }
 
 .left_chip {
     justify-content: flex-start;
     width: fit-content;
-    border-radius: 60px 16px 16px 60px;
+    border-radius: calc(60px * var(--interface-scale)) calc(16px * var(--interface-scale)) calc(16px * var(--interface-scale)) calc(60px * var(--interface-scale));
 }
 
 .right_chip {
     justify-content: flex-end;
     width: auto;
-    border-radius: 16px 60px 60px 16px;
+    border-radius: calc(16px * var(--interface-scale)) calc(60px * var(--interface-scale)) calc(60px * var(--interface-scale)) calc(16px * var(--interface-scale));
 }
 
 /* @font-face {
@@ -48,8 +48,8 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    padding: 0px 36px;
+    gap: calc(24px * var(--interface-scale));
+    padding: 0 calc(36px * var(--interface-scale));
 }
 
 .date_information {
@@ -61,24 +61,24 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 32px;
+    gap: calc(32px * var(--interface-scale));
     padding: inherit;
-    /* padding: 16px; */
+    /* padding: calc(16px * var(--interface-scale)); */
 }
 
 .date_picker {
-    --picker-pb: 20px;
+    --picker-pb: calc(20px * var(--interface-scale));
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 4px;
+    gap: calc(4px * var(--interface-scale));
     /* color: black; */
     color: var(--outline-light);
     font-family: var(--font-geist-mono);
-    font-size: 24px;
+    font-size: calc(24px * var(--interface-scale));
     padding-bottom: var(--picker-pb);
-    padding-top: calc(var(--picker-pb) * 2 + 2px);
+    padding-top: calc((var(--picker-pb) * 2) + (2px * var(--interface-scale)));
 
     &.hovering {
         .date_input {
@@ -96,10 +96,10 @@
     font-size: inherit;
     text-align: center;
     text-justify: center;
-    letter-spacing: 2px;
-    padding-left: 2px;
-    border-radius: 4px;
-    text-shadow: 0px 1px 0px var(--outline-light);
+    letter-spacing: calc(2px * var(--interface-scale));
+    padding-left: calc(2px * var(--interface-scale));
+    border-radius: calc(4px * var(--interface-scale));
+    text-shadow: 0 calc(1px * var(--interface-scale)) 0 var(--outline-light);
 
     transition: all 0.4s;
 
@@ -113,11 +113,11 @@
 
 .dial_group {
     display: flex;
-    gap: 16px;
+    gap: calc(16px * var(--interface-scale));
     flex-direction: column;
     justify-items: center;
     align-items: center;
-    padding: 36px;
+    padding: calc(36px * var(--interface-scale));
 }
 
 .dial_options {
@@ -125,7 +125,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 16px;
+    gap: calc(16px * var(--interface-scale));
 }
 
 .dial_button {
@@ -133,37 +133,37 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 48px;
-    height: 48px;
-    /* padding: 12px; */
+    width: calc(48px * var(--interface-scale));
+    height: calc(48px * var(--interface-scale));
+    /* padding: calc(12px * var(--interface-scale)); */
     border: var(--border);
     color: white;
     border-radius: 50%;
     cursor: pointer;
-    outline: 2px solid transparent;
+    outline: calc(2px * var(--interface-scale)) solid transparent;
     background-color: transparent;
-    outline-offset: 0px;
+    outline-offset: 0;
 
     transition: all 0.2s;
 
     &:hover {
         background-color: var(--fill-light);
-        border-width: 2px;
+        border-width: calc(2px * var(--interface-scale));
     }
 
     &:active {
         filter: brightness(0.9);
-        outline: 2px solid var(--outline-light);
-        outline-offset: 2px;
+        outline: calc(2px * var(--interface-scale)) solid var(--outline-light);
+        outline-offset: calc(2px * var(--interface-scale));
     }
 
     &.active {
         background-color: var(--fill-light);
         border-color: var(--accent);
-        border-width: 2px;
+        border-width: calc(2px * var(--interface-scale));
         /* background-color: rgba(var(--accent), 0.6); */
-        outline: 2px solid var(--accent);
-        outline-offset: -6px;
+        outline: calc(2px * var(--interface-scale)) solid var(--accent);
+        outline-offset: calc(-6px * var(--interface-scale));
 
         .dial_icon {
             color: var(--icon-active);
@@ -177,11 +177,11 @@
 }
 
 .dial_dot {
-    width: 12px;
-    height: 12px;
+    width: calc(12px * var(--interface-scale));
+    height: calc(12px * var(--interface-scale));
     background-color: var(--accent);
     border-radius: 50%;
-    border: 3px solid var(--outline-light);
+    border: calc(3px * var(--interface-scale)) solid var(--outline-light);
 }
 
 .dial_container {
@@ -231,12 +231,12 @@
     /* height: 100%; */
     transform: translate(-50%, -50%);
     font-family: var(--font-geist-mono);
-    font-size: 24px;
+    font-size: calc(24px * var(--interface-scale));
     font-weight: 600;
     z-index: 1000;
     color: var(--accent);
-    text-shadow: 0px 1px 0px var(--outline-light);
-    /* line-height: 56px; */
+    text-shadow: 0 calc(1px * var(--interface-scale)) 0 var(--outline-light);
+    /* line-height: calc(56px * var(--interface-scale)); */
 }
 
 .year_dial_tick {
@@ -247,24 +247,24 @@
     background-color: none;
     top: 0%;
     left: 50%;
-    width: 32px;
-    height: 48px;
-    border-radius: 8px;
+    width: calc(32px * var(--interface-scale));
+    height: calc(48px * var(--interface-scale));
+    border-radius: calc(8px * var(--interface-scale));
     transform-origin: center calc(var(--dial-size) / 2);
-    margin-left: -16px;
+    margin-left: calc(-16px * var(--interface-scale));
     z-index: 1000;
     cursor: pointer;
 
     &:hover {
         .tick_indicator {
         opacity: 0.4;
-        width: 24px;
+        width: calc(24px * var(--interface-scale));
     }
     }
 
     &:active {
         .tick_indicator {
-        width: 12px;
+        width: calc(12px * var(--interface-scale));
         opacity: 0.8;
     }
     }
@@ -272,16 +272,16 @@
     .tick_indicator {
         opacity: 0;
         background-color: var(--accent);
-        width: 12px;
-        height: 4px;
-        border-radius: 2px;
+        width: calc(12px * var(--interface-scale));
+        height: calc(4px * var(--interface-scale));
+        border-radius: calc(2px * var(--interface-scale));
         position: absolute;
-        top: -12px;
+        top: calc(-12px * var(--interface-scale));
         transition: width 0.2s, opacity 0.2s;
 
         &.focused {
             opacity: 0.4;
-            width: 24px;
+            width: calc(24px * var(--interface-scale));
         }
     }
 }
@@ -305,26 +305,26 @@
 
 .date_panel {
     display: absolute;
-    top: 32px;
-    left: 32px;
+    top: calc(32px * var(--interface-scale));
+    left: calc(32px * var(--interface-scale));
     /* width: fit-content; */
     z-index: 10;
     background-color: white;
-    border-radius: 160px 160px var(--border-radius) var(--border-radius);
+    border-radius: calc(160px * var(--interface-scale)) calc(160px * var(--interface-scale)) var(--border-radius) var(--border-radius);
 
     border: var(--border);
     width: fit-content;
     height: fit-content;
     overflow: hidden;
-    /* padding: 40px 40px; */
+    /* padding: calc(40px * var(--interface-scale)) calc(40px * var(--interface-scale)); */
 }
 
 .date_chip {
-    height: 48px;
+    height: calc(48px * var(--interface-scale));
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 100px;
+    border-radius: calc(100px * var(--interface-scale));
     background-color: transparent;
     border: var(--border);
     width: 50%;
@@ -336,13 +336,13 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    padding: 12px 12px;
+    padding: calc(12px * var(--interface-scale)) calc(12px * var(--interface-scale));
     height: 100%;
     border-left: var(--border);
     background-color: white;
     color: var(--text-color);
     font-family: var(--font-geist-mono);
-    font-size: 20px;
+    font-size: calc(20px * var(--interface-scale));
     &:first-child {
         border: none;
     }
@@ -357,35 +357,35 @@
     font-family: var(--font-geist-mono);
     padding-left: 0;
     margin: 0;
-    font-size: 14px;
-    line-height: 24px;
+    font-size: calc(14px * var(--interface-scale));
+    line-height: calc(24px * var(--interface-scale));
     letter-spacing: -0.01em;
     list-style-position: inside;
 }
 
 .main li:not(:last-of-type) {
-    margin-bottom: 8px;
+    margin-bottom: calc(8px * var(--interface-scale));
 }
 
 .main code {
     font-family: inherit;
     background: var(--gray-alpha-100);
-    padding: 2px 4px;
-    border-radius: 4px;
+    padding: calc(2px * var(--interface-scale)) calc(4px * var(--interface-scale));
+    border-radius: calc(4px * var(--interface-scale));
     font-weight: 600;
 }
 
 .ctas {
     display: flex;
-    gap: 16px;
+    gap: calc(16px * var(--interface-scale));
 }
 
 .ctas a {
     appearance: none;
-    border-radius: 128px;
-    height: 48px;
-    padding: 0 20px;
-    border: 1px solid transparent;
+    border-radius: calc(128px * var(--interface-scale));
+    height: calc(48px * var(--interface-scale));
+    padding: 0 calc(20px * var(--interface-scale));
+    border: calc(1px * var(--interface-scale)) solid transparent;
     transition:
         background 0.2s,
         color 0.2s,
@@ -394,32 +394,32 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
-    line-height: 20px;
+    font-size: calc(16px * var(--interface-scale));
+    line-height: calc(20px * var(--interface-scale));
     font-weight: 500;
 }
 
 a.primary {
     background: var(--foreground);
     color: var(--background);
-    gap: 8px;
+    gap: calc(8px * var(--interface-scale));
 }
 
 a.secondary {
     border-color: var(--gray-alpha-200);
-    min-width: 158px;
+    min-width: calc(158px * var(--interface-scale));
 }
 
 .footer {
     grid-row-start: 3;
     display: flex;
-    gap: 24px;
+    gap: calc(24px * var(--interface-scale));
 }
 
 .footer a {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: calc(8px * var(--interface-scale));
 }
 
 .footer img {
@@ -440,14 +440,14 @@ a.secondary {
 
     .footer a:hover {
         text-decoration: underline;
-        text-underline-offset: 4px;
+        text-underline-offset: calc(4px * var(--interface-scale));
     }
 }
 
 @media (max-width: 600px) {
     .page {
-        padding: 32px;
-        padding-bottom: 80px;
+        padding: calc(32px * var(--interface-scale));
+        padding-bottom: calc(80px * var(--interface-scale));
     }
 
     .main {
@@ -463,9 +463,9 @@ a.secondary {
     }
 
     .ctas a {
-        font-size: 14px;
-        height: 40px;
-        padding: 0 16px;
+        font-size: calc(14px * var(--interface-scale));
+        height: calc(40px * var(--interface-scale));
+        padding: 0 calc(16px * var(--interface-scale));
     }
 
     a.secondary {

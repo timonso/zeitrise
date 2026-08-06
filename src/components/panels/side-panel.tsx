@@ -12,11 +12,12 @@ import Heatmap from '@/media/curves/symbols/heatmap.svg';
 import Collapse from '@/media/curves/symbols/collapse.svg';
 import Expand from '@/media/curves/symbols/expand.svg';
 import { useUIStore } from '@/context/scene-store';
+import { scaled } from '@/styles/constants';
 
 const NavButton = ({ label, Icon }: { label: string; Icon?: ComponentType<{ width?: number, className?: string, fill?: string }> }) => {
     return (
         <button className={`${buttons.nav_button}`}>
-            {Icon ? <Icon width={32} className={`${buttons.nav_button_icon}`} fill="currentColor" /> : null}
+            {Icon ? <Icon width={scaled(32)} className={`${buttons.nav_button_icon}`} fill="currentColor" /> : null}
             <span className={`${buttons.nav_button_label}`}>{label}</span>
         </button>
     );
@@ -33,10 +34,10 @@ const MainMenu = () => {
         <div className={styles.main_menu}>
             <div className={styles.logo_group}>
                 <div className={`${styles.main_chip} ${styles.left_chip}`}>
-                    <FullLogo width={120} />
+                    <FullLogo width={scaled(120)} />
                 </div>
                 <div className={`${styles.main_chip} ${styles.right_chip}`} onClick={toggleSidepanel}>
-                    {isSidePanelExpanded ? <Collapse width={32} /> : <Expand width={32} />}
+                    {isSidePanelExpanded ? <Collapse width={scaled(32)} /> : <Expand width={scaled(32)} />}
                     {/* <div style={{ fontSize: 24, fontWeight: 'bold', color: 'red' }}>
                         W.I.P.
                     </div> */}

@@ -13,6 +13,7 @@ import { ComponentType, Suspense } from 'react';
 import { URLDateSync } from '@/components/utils/url-sync';
 import { SidePanel } from '@/components/panels/side-panel';
 import { NavigationPanel } from '@/components/panels/navigation-panel';
+import { INTERFACE_SCALE } from '@/styles/constants';
 
 // const geistSans = localFont({
 //   src: "/media/fonts/serif/dm_serif.ttf",
@@ -24,6 +25,16 @@ const geistMono = localFont({
     // src: '../../public/media/fonts/mono/DMMono-Medium.ttf',
     variable: '--font-geist-mono',
 });
+
+const InterfaceScale = ({ scale }: { scale: number }) => (
+    <style>{`
+            :root {
+                --interface-scale: ${scale};
+                // zoom: ${scale};
+            }
+    `}</style>
+)
+
 
 export const metadata: Metadata = {
     title: 'ZeitRise',
@@ -38,6 +49,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={`${geistMono.variable}`}>
+                <InterfaceScale scale={INTERFACE_SCALE} />
                 <Suspense fallback={null}>
                     <URLDateSync />
                 </Suspense>

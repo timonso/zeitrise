@@ -25,7 +25,7 @@ type DaySquareMeshProps = JSX.IntrinsicElements['group'] & {
     children?: React.ReactNode | React.ReactNode[];
 };
 
-const COLORS = {
+export const DAY_COLORS = {
         outer: {
             regular: '#00ffdd',
             selected: '#eefffc',
@@ -46,17 +46,17 @@ export function DaySquareMesh(props: DaySquareMeshProps) {
     ) as unknown as SquareMesh;
 
     const outerColor = useMemo(() => {
-        if (props.future) return COLORS.outer.future;
-        if (props.selected) return COLORS.outer.selected;
-        if (props.hovered) return COLORS.outer.hovered;
-        return COLORS.outer.regular;
+        if (props.future) return DAY_COLORS.outer.future;
+        if (props.selected) return DAY_COLORS.outer.selected;
+        if (props.hovered) return DAY_COLORS.outer.hovered;
+        return DAY_COLORS.outer.regular;
     }, [props.selected, props.hovered, props.future]);
 
     const innerColor = useMemo(() => {
-        if (props.future) return COLORS.inner.future;
-        if (props.selected) return COLORS.inner.selected;
-        if (props.hovered) return COLORS.inner.hovered;
-        return COLORS.inner.regular;
+        if (props.future) return DAY_COLORS.inner.future;
+        if (props.selected) return DAY_COLORS.inner.selected;
+        if (props.hovered) return DAY_COLORS.inner.hovered;
+        return DAY_COLORS.inner.regular;
     }, [props.selected, props.hovered, props.future]);
 
     const outerMaterial = useMemo(

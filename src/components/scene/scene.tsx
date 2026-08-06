@@ -2,7 +2,7 @@
 
 import { GizmoHelper, GizmoViewport, OrbitControls, Html } from '@react-three/drei';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
-import { DecadeGroup } from '../meshes/year-dodecagon';
+import { DecadeTower } from '../meshes/year-dodecagon';
 import styles from './scene.module.css';
 import { useRef, useState, useEffect, RefObject, Suspense, useLayoutEffect } from 'react';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
@@ -199,7 +199,7 @@ export function Scene() {
                         maxPolarAngle={MAX_POLAR_ANGLE}
                         minPolarAngle={MIN_POLAR_ANGLE}
                         // target={cameraTarget}
-                        maxDistance={22}
+                        maxDistance={24}
                         minDistance={6}
                         enablePan={false}
                         enableZoom={true}
@@ -209,7 +209,7 @@ export function Scene() {
                         screenSpacePanning={true}
                         enableDamping={true}
                     />
-                    <DecadeGroup decade={currentDecade} />
+                    <DecadeTower decade={currentDecade} />
                     {/* <ArtificialDelay ms={2000} decade={currentDecade} /> */}
                 </Suspense>
             </Canvas>

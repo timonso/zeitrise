@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import React, { JSX, useMemo } from 'react';
 import { useGLTF, Text } from '@react-three/drei';
 import { GLTF } from 'three-stdlib';
-import { DaySquare } from './day-square';
+import { DAY_COLORS, DaySquare } from './day-square';
 import { SVGCurve } from '../utils/mesh';
 import { RadialDistribution } from '../layout/distribution';
 import { useDateStore } from '@/context/scene-store';
@@ -14,103 +14,7 @@ useGLTF.preload('./media/meshes/year_separator.glb');
 
 const gridColors = {
     regular: '#494949',
-    hovered: '#ffffff',
-    selected: '#707070',
-}
-
-type DodecagonMesh = GLTF & {
-    nodes: {
-        dodecagon_1: THREE.Mesh;
-        dodecagon_2: THREE.Mesh;
-    };
-    materials: {
-        dodecagon: THREE.MeshStandardMaterial;
-        bevel: THREE.MeshStandardMaterial;
-    };
-};
-
-type SeparatorMesh = GLTF & {
-    nodes: {
-        separator: THREE.Mesh;
-    };
-    materials: {
-        separator: THREE.MeshStandardMaterial;
-    };
-};
-
-type PlinthMesh = GLTF & {
-    nodes: {
-        plinth_1: THREE.Mesh;
-        plinth_2: THREE.Mesh;
-    };
-    materials: {
-        plinth: THREE.MeshStandardMaterial;
-        bevel: THREE.MeshStandardMaterial;
-    };
-};
-
-type YearDodecagonMeshProps = JSX.IntrinsicElements['group'] & {
-    // selected: boolean;
-    // hovered: boolean;
-};
-
-function YearDodecagonMesh(props: YearDodecagonMeshProps) {
-    const { nodes, materials } = useGLTF(
-        './media/meshes/year_dodecagon.glb'
-    ) as unknown as DodecagonMesh;
-
-    const dodecagonMaterial = new THREE.MeshStandardMaterial({
-        color: '#777777',
-        roughness: 0.5,
-        metalness: 0.3,
-    });
-
-    const bevelMaterial = new THREE.MeshStandardMaterial({
-        color: '#888888',
-        roughness: 0.5,
-        metalness: 0.3,
-    });
-
-    return (
-        <group {...props} dispose={null}>
-            <mesh
-                geometry={nodes.dodecagon_1.geometry}
-                material={dodecagonMaterial}
-                position={[0, 0, 0]}
-                rotation={[0, 0, 0]}
-
-            />
-            <mesh
-                geometry={nodes.dodecagon_2.geometry}
-                material={bevelMaterial}
-                position={[0, 0, 0]}
-                rotation={[0, 0, 0]}
-            />
-        </group>
-    );
-}
-
-export function YearSeparatorMesh(props: JSX.IntrinsicElements['group']) {
-    const { nodes, materials } = useGLTF(
-        './media/meshes/year_separator.glb'
-    ) as unknown as SeparatorMesh;
-
-    const separatorMaterial = new THREE.MeshStandardMaterial({
-        color: '#8e8e8e',
-        roughness: 0.5,
-        metalness: 0.3,
-        side: THREE.DoubleSide,
-    });
-
-    return (
-        <group {...props} dispose={null}>
-            <mesh
-                geometry={nodes.separator.geometry}
-                material={separatorMaterial}
-                position={[0, 0, 0]}
-            />
-        </group>
-    );
+    selected: DAY_COLORS.inner.selected,
 }
 
 const addFogToShader = (
@@ -170,6 +74,111 @@ const addFogToShader = (
 
 }
 
+type DodecagonMesh = GLTF & {
+    nodes: {
+        dodecagon_1: THREE.Mesh;
+        dodecagon_2: THREE.Mesh;
+    };
+    materials: {
+        dodecagon: THREE.MeshStandardMaterial;
+        bevel: THREE.MeshStandardMaterial;
+    };
+};
+
+type SeparatorMesh = GLTF & {
+    nodes: {
+        separator: THREE.Mesh;
+    };
+    materials: {
+        separator: THREE.MeshStandardMaterial;
+    };
+};
+
+type PlinthMesh = GLTF & {
+    nodes: {
+        plinth_1: THREE.Mesh;
+        plinth_2: THREE.Mesh;
+    };
+    materials: {
+        plinth: THREE.MeshStandardMaterial;
+        bevel: THREE.MeshStandardMaterial;
+    };
+};
+
+type YearDodecagonMeshProps = JSX.IntrinsicElements['group'] & {
+    // selected: boolean;
+    // hovered: boolean;
+    active?: boolean;
+};
+
+function YearDodecagonMesh(props: YearDodecagonMeshProps) {
+    const { nodes, materials } = useGLTF(
+        './media/meshes/year_dodecagon.glb'
+    ) as unknown as DodecagonMesh;
+
+    const dodecagonMaterial = new THREE.MeshStandardMaterial({
+        color: '#777777',
+        roughness: 0.5,
+        metalness: 0.3,
+    });
+
+    const bevelMaterial = new THREE.MeshStandardMaterial({
+        color: '#888888',
+        roughness: 0.5,
+        metalness: 0.3,
+    });
+
+    if (!props.active) {
+        addFogToShader(dodecagonMaterial);
+        addFogToShader(bevelMaterial);
+    }
+
+    return (
+        <group {...props} dispose={null}>
+            <mesh
+                geometry={nodes.dodecagon_1.geometry}
+                material={dodecagonMaterial}
+                position={[0, 0, 0]}
+                rotation={[0, 0, 0]}
+
+            />
+            <mesh
+                geometry={nodes.dodecagon_2.geometry}
+                material={bevelMaterial}
+                position={[0, 0, 0]}
+                rotation={[0, 0, 0]}
+            />
+        </group>
+    );
+}
+
+export function YearSeparatorMesh(props: JSX.IntrinsicElements['group'] & { active?: boolean }) {
+    const { nodes, materials } = useGLTF(
+        './media/meshes/year_separator.glb'
+    ) as unknown as SeparatorMesh;
+
+    const separatorMaterial = new THREE.MeshStandardMaterial({
+        color: '#8e8e8e',
+        roughness: 0.5,
+        metalness: 0.3,
+        side: THREE.DoubleSide,
+    });
+
+    if (!props.active) {
+        addFogToShader(separatorMaterial);
+    }
+
+    return (
+        <group {...props} dispose={null}>
+            <mesh
+                geometry={nodes.separator.geometry}
+                material={separatorMaterial}
+                position={[0, 0, 0]}
+            />
+        </group>
+    );
+}
+
 function DecadePlinthMesh(props: YearDodecagonMeshProps) {
     const { nodes } = useGLTF(
         './media/meshes/decade_plinth.glb'
@@ -197,12 +206,14 @@ function DecadePlinthMesh(props: YearDodecagonMeshProps) {
                 material={plinthMaterial}
                 position={[0, 1, 0]}
                 rotation={[0, 0, 0]}
+                scale={[1, 1, 1]}
             />
             <mesh
                 geometry={nodes.plinth_2.geometry}
                 material={bevelMaterial}
                 position={[0, 1, 0]}
                 rotation={[0, 0, 0]}
+                scale={[1, 1, 1]}
             />
         </group>
     );
@@ -233,7 +244,7 @@ const generatePlinthSteps = (direction: number = -1,
 
 const plinthSteps = generatePlinthSteps();
 
-export function LowerDecadePlinth() {
+export function LowerDecadePlinth({buildSteps = true}: {buildSteps?: boolean}) {
     const elements = Object.keys(Month).map((month, index) => (
         <Text
             key={month}
@@ -259,12 +270,12 @@ export function LowerDecadePlinth() {
                 position={[0, 0, 0]}
                 elements={elements}
             />
-            {plinthSteps}
+            {buildSteps && plinthSteps}
         </group>
     );
 }
 
-export function UpperDecadePlinth() {
+export function UpperDecadePlinth({buildSteps = true}: {buildSteps?: boolean}) {
     const { selectedDate } = useDateStore((state) => state);
     const elements = Object.keys(Month).map((month, index) => (
         <Text
@@ -290,7 +301,7 @@ export function UpperDecadePlinth() {
                 position={[0, 0, 0]}
                 elements={elements}
             />
-            {plinthSteps}
+            {buildSteps && plinthSteps}
         </group>
     );
 }
@@ -306,22 +317,25 @@ export function PlinthStep({ scale, height }: { scale: number[], height: number 
 export function YearDodecagonSlice({
     height = 0,
     year = 1984,
+    buildDays = true,
 }: {
     height?: number;
     year?: number;
+    buildDays?: boolean;
 }) {
     const offset = 0.19;
 
     const monthElements: JSX.Element[] = [];
     Object.values(Month).forEach((month, i) => {
+        if (!buildDays) return;
         monthElements.push(
-            <MonthGroup key={month} year={year} month={i} />
+            <MonthGroup key={month} year={year} month={i} buildDays={buildDays} />
         );
     });
 
     return (
         <>
-            <YearDodecagonMesh position={[0, height, 0]} scale={0.5} />
+            <YearDodecagonMesh position={[0, height, 0]} scale={0.5} active={buildDays} />
             <RadialDistribution
                 segments={12}
                 radius={2.43}
@@ -332,19 +346,20 @@ export function YearDodecagonSlice({
     );
 }
 
-function MonthGroup({ year, month }: { year: number, month: number }) {
+function MonthGroup({ year, month, buildDays = true }: { year: number, month: number, buildDays?: boolean }) {
     const dayElements: JSX.Element[][] = Array.from({ length: 12 }, () => []);
-    const isSelectedd = useDateStore((state) => state.selectedDate?.getMonth() === month && state.selectedDate?.getFullYear() === year);
+    const isSelected = useDateStore((state) => state.selectedDate?.getMonth() === month && state.selectedDate?.getFullYear() === year);
 
     const gridColor = useMemo(() => {
-        if (isSelectedd) {
+        if (isSelected && buildDays) {
             return gridColors.selected;
         }
         return gridColors.regular;
-    }, [isSelectedd]);
+    }, [isSelected, buildDays]);
 
     const dates = useMemo(() => {
         const dates: Date[] = [];
+        if (!buildDays) return dates;
         const startDate = new Date(year, 0, 1);
         const endDate = new Date(year + 1, 0, 1);
         for (
@@ -356,10 +371,11 @@ function MonthGroup({ year, month }: { year: number, month: number }) {
         }
         // console.log(dates);
         return dates;
-    }, [year]);
+    }, [year, buildDays]);
 
 
     Object.values(dates).forEach((date) => {
+        if (!buildDays) return;
         const element = (
             <DaySquare
                 key={`day:${date.getDate()}.month:${date.getMonth()}`}
@@ -384,23 +400,33 @@ function MonthGroup({ year, month }: { year: number, month: number }) {
 
 }
 
-function YearGroup({ year = 0, height = 0 }: { year?: number; height?: number }) {
+function YearGroup({ year = 0, height = 0, buildDays = true }: { year?: number; height?: number; buildDays?: boolean }) {
     const offset = 0.35 * height;
     return (
-        <YearDodecagonSlice height={height + offset} year={year} />
+        <YearDodecagonSlice height={height + offset} year={year} buildDays={buildDays} />
     );
 }
 
-export function DecadeGroup({ decade = 1980 }: { decade?: number }) {
+export function DecadeGroup({ decade = 1980, buildDays = true, initialHeight = 0 }: { decade?: number; buildDays?: boolean; initialHeight?: number }) {
     return (
-        <>
-            <YearSeparatorMesh position={[0, 6, 0]} scale={[0.5, 30, 0.5]} />
-            <LowerDecadePlinth />
+        <group>
+            <YearSeparatorMesh position={[0, initialHeight + 6.5, 0]} scale={[0.5, 30, 0.5]} />
             {Array.from({ length: 10 }).map((_, i) => {
                 const year = decade + i;
-                return <YearGroup key={i} height={i} year={year} />
+                return <YearGroup key={i} height={initialHeight + i} year={year} buildDays={buildDays} />
             })}
-            <UpperDecadePlinth />
-        </>
+        </group>
+    );
+}
+
+export function DecadeTower({ decade = 1980 }: { decade?: number }) {
+    return (
+        <group>
+            <UpperDecadePlinth buildSteps={true} />
+            {/* <DecadeGroup decade={decade - 10} buildDays={false} initialHeight={-11} /> */}
+            <DecadeGroup decade={decade} buildDays={true} />
+            {/* <DecadeGroup decade={decade + 10} buildDays={false} initialHeight={11} /> */}
+            <LowerDecadePlinth buildSteps={true} />
+        </group>
     );
 }

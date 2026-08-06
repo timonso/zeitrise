@@ -7,11 +7,11 @@
 
     --button-primary-hover: #383838;
     --button-secondary-hover: #f2f2f2;
-    --dial-size: 210px;
+    --dial-size: calc(210px * var(--interface-scale));
 
     --outline-light: #c0c0c0;
-    --border: 1px solid var(--outline-light);
-    --border-radius: 16px;
+    --border: calc(1px * var(--interface-scale)) solid var(--outline-light);
+    --border-radius: calc(16px * var(--interface-scale));
     --fill-light: #ededed;
 
     display: flex;
@@ -64,35 +64,35 @@
     font-family: var(--font-geist-mono);
     padding-left: 0;
     margin: 0;
-    font-size: 14px;
-    line-height: 24px;
+    font-size: calc(14px * var(--interface-scale));
+    line-height: calc(24px * var(--interface-scale));
     letter-spacing: -0.01em;
     list-style-position: inside;
 }
 
 .main li:not(:last-of-type) {
-    margin-bottom: 8px;
+    margin-bottom: calc(8px * var(--interface-scale));
 }
 
 .main code {
     font-family: inherit;
     background: var(--gray-alpha-100);
-    padding: 2px 4px;
-    border-radius: 4px;
+    padding: calc(2px * var(--interface-scale)) calc(4px * var(--interface-scale));
+    border-radius: calc(4px * var(--interface-scale));
     font-weight: 600;
 }
 
 .ctas {
     display: flex;
-    gap: 16px;
+    gap: calc(16px * var(--interface-scale));
 }
 
 .ctas a {
     appearance: none;
-    border-radius: 128px;
-    height: 48px;
-    padding: 0 20px;
-    border: 1px solid transparent;
+    border-radius: calc(128px * var(--interface-scale));
+    height: calc(48px * var(--interface-scale));
+    padding: 0 calc(20px * var(--interface-scale));
+    border: calc(1px * var(--interface-scale)) solid transparent;
     transition:
         background 0.2s,
         color 0.2s,
@@ -101,32 +101,32 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
-    line-height: 20px;
+    font-size: calc(16px * var(--interface-scale));
+    line-height: calc(20px * var(--interface-scale));
     font-weight: 500;
 }
 
 a.primary {
     background: var(--foreground);
     color: var(--background);
-    gap: 8px;
+    gap: calc(8px * var(--interface-scale));
 }
 
 a.secondary {
     border-color: var(--gray-alpha-200);
-    min-width: 158px;
+    min-width: calc(158px * var(--interface-scale));
 }
 
 .footer {
     grid-row-start: 3;
     display: flex;
-    gap: 24px;
+    gap: calc(24px * var(--interface-scale));
 }
 
 .footer a {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: calc(8px * var(--interface-scale));
 }
 
 .footer img {
@@ -146,14 +146,14 @@ a.secondary {
 
     .footer a:hover {
         text-decoration: underline;
-        text-underline-offset: 4px;
+        text-underline-offset: calc(4px * var(--interface-scale));
     }
 }
 
 @media (max-width: 600px) {
     .page {
-        padding: 32px;
-        padding-bottom: 80px;
+        padding: calc(32px * var(--interface-scale));
+        padding-bottom: calc(80px * var(--interface-scale));
     }
 
     .main {
@@ -169,9 +169,9 @@ a.secondary {
     }
 
     .ctas a {
-        font-size: 14px;
-        height: 40px;
-        padding: 0 16px;
+        font-size: calc(14px * var(--interface-scale));
+        height: calc(40px * var(--interface-scale));
+        padding: 0 calc(16px * var(--interface-scale));
     }
 
     a.secondary {

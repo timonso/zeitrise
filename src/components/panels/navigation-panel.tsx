@@ -10,6 +10,7 @@ import PreviousDecade from '@/media/curves/symbols/previous_decade.svg';
 import YearPlateShape from '@/media/curves/year_plate.svg';
 import { resetCameraTarget, setCameraTargetToYear, useCameraStore, useDateStore, useUIStore, yearToTargetY } from '@/context/scene-store';
 import { HORIZON_ANGLE } from '../scene/scene';
+import { INTERFACE_SCALE, scaled } from '@/styles/constants';
 
 const CenterSelectionButton = () => {
     const { selectedDate } = useDateStore((state) => state);
@@ -118,13 +119,13 @@ const DecadeNavigationGroup = () => {
     return (
         <div className={styles.navigation_panel_group}>
             <div className={styles.navigation_panel_button} onClick={setNextDecade}>
-                <NextDecade width="22px" height="22px" />
+                <NextDecade width={scaled(22)} />
             </div>
             <div className={styles.separator} />
             <DecadeScroller />
             <div className={styles.separator} />
             <div className={styles.navigation_panel_button} onClick={setPrevDecade}>
-                <PreviousDecade width="22px" height="22px" />
+                <PreviousDecade width={scaled(22)} />
             </div>
 
         </div>

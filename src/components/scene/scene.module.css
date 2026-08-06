@@ -39,16 +39,16 @@
     opacity: 1;
     z-index: 1;
     background-color: var(--overlay);
-    /* backdrop-filter: blur(240px); */
+    /* backdrop-filter: blur(calc(240px * var(--interface-scale))); */
 }
 
 .loading_box {
     position: relative;
     display: flex;
-    transform: translate(160px, 0);
+    transform: translate(calc(160px * var(--interface-scale)), 0);
     z-index: 999;
-    width: 200px;
-    height: 200px;
+    width: calc(200px * var(--interface-scale));
+    height: calc(200px * var(--interface-scale));
     place-items: center;
     justify-content: center;
     border-radius: var(--border-radius);

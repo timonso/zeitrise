@@ -1,9 +1,9 @@
 .nav_button {
-    --height: 64px;
-    padding: 0 22px;
+    --height: calc(64px * var(--interface-scale));
+    padding: 0 calc(22px * var(--interface-scale));
     display: flex;
     align-items: center;
-    height: 64px;
+    height: calc(64px * var(--interface-scale));
     width: 100%;
     border-radius: calc(var(--height) / 2);
     background-color: var(--fill-light);
@@ -28,8 +28,8 @@
     }
 
     & .nav_button_label {
-        margin-left: 16px;
-        font-size: 18px;
+        margin-left: calc(16px * var(--interface-scale));
+        font-size: calc(18px * var(--interface-scale));
         font-weight: 500;
         text-transform: uppercase;
         color: var(--text-color);

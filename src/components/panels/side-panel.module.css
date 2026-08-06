@@ -4,19 +4,19 @@
     left: 0;
     width: fit-content;
     /* height: 100%; */
-    margin: 12px 0 12px 0;
+    margin: calc(12px * var(--interface-scale)) 0 calc(12px * var(--interface-scale)) 0;
     border-right: var(--border);
     border-top: var(--border);
     border-bottom: var(--border);
-    border-radius: 0px 60px 60px 0px;
+    border-radius: 0 calc(60px * var(--interface-scale)) calc(60px * var(--interface-scale)) 0;
     background-color: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(24px);
-    padding: 44px;
+    backdrop-filter: blur(calc(24px * var(--interface-scale)));
+    padding: calc(44px * var(--interface-scale));
 
     display: flex;
     flex-direction: row;
     justify-content: left;
-    gap: 36px;
+    gap: calc(36px * var(--interface-scale));
 }
 
 .menu_panel {
@@ -28,7 +28,7 @@
 }
 
 .content_panel {
-    min-width: 400px;
+    min-width: calc(400px * var(--interface-scale));
     width: fit-content;
     background: white;
     border: var(--border);
@@ -38,18 +38,18 @@
 .main_menu {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: calc(24px * var(--interface-scale));
     width: 100%;
 }
 
 .logo_group {
     display: flex;
     flex-direction: row;
-    gap: 8px;
+    gap: calc(8px * var(--interface-scale));
     justify-content: space-between;
-    height: 96px;
+    height: calc(96px * var(--interface-scale));
     width: 100%;
-    margin-bottom: 16px;
+    margin-bottom: calc(16px * var(--interface-scale));
 }
 
 .main_chip {
@@ -58,7 +58,7 @@
     justify-content: center;
     background: var(--fill-light);
     border: var(--border);
-    padding: 22px;
+    padding: calc(22px * var(--interface-scale));
     height: 100%;
     cursor: pointer;
 
@@ -72,18 +72,18 @@
 .main_nav_group {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: calc(16px * var(--interface-scale));
     width: 100%;
 }
 
 .left_chip {
     justify-content: flex-start;
     width: fit-content;
-    border-radius: 60px 16px 16px 60px;
+    border-radius: calc(60px * var(--interface-scale)) calc(16px * var(--interface-scale)) calc(16px * var(--interface-scale)) calc(60px * var(--interface-scale));
 }
 
 .right_chip {
     /* justify-content: flex-end; */
     width: 100%;
-    border-radius: 16px 60px 60px 16px;
+    border-radius: calc(16px * var(--interface-scale)) calc(60px * var(--interface-scale)) calc(60px * var(--interface-scale)) calc(16px * var(--interface-scale));
 }

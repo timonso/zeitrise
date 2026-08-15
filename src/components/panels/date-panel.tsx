@@ -4,8 +4,10 @@ import {
     useCameraStore,
     useCameraWriter,
     useDateStore,
+    useUIStore,
 } from '@/context/scene-store';
 import styles from './date-panel.module.css';
+import buttons from '@/styles/buttons.module.css';
 import Dial from '../../media/curves/dial.svg';
 import DialRim from '../../media/curves/dial_rim.svg';
 import TodayIcon from '../../media/curves/symbols/today.svg';
@@ -48,15 +50,18 @@ const YearDial = () => {
     const hoveredDate = useDateStore((state) => state.hoveredDate);
     const todayDate = new Date();
     const isToday = sameDayLocal(selectedDate, todayDate);
+    const { sceneLoading } = useUIStore();
 
     const indicatorClassName = (index: number) => `${styles.tick_indicator} ${hoveredDate?.getMonth() === index ? styles.focused : ''}`;
 
     return (
         <div className={styles.dial_group}>
             <div className={styles.dial_wrapper}>
+                {!sceneLoading && 
                 <div className={styles.year_dial_display}>
                     {selectedDate?.getFullYear()}
                 </div>
+                }
                 <div
                     className={styles.dial_container}
                     style={{
@@ -101,7 +106,7 @@ const YearDial = () => {
             </div>
             <div className={styles.dial_options}>
                 <button
-                    className={`${styles.dial_button} ${isToday ? styles.active : ''}`}
+                    className={`${styles.dial_button} ${buttons.clickable} ${isToday ? buttons.selected + ' ' + styles.selected : ''}`}
                     onClick={() => {
                         setSelectedDate(todayDate);
                         setCameraTargetToYear(todayDate.getFullYear());
@@ -116,7 +121,7 @@ const YearDial = () => {
                     />
                 </button>
                 <div className={styles.dial_dot} />
-                <button className={`${styles.dial_button}`}>
+                <button className={`${styles.dial_button} ${buttons.clickable}`}>
                     <RandomIcon
                         width={scaled(24)}
                         height={scaled(24)}

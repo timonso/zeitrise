@@ -1,3 +1,29 @@
+.clickable {
+    cursor: pointer;
+    pointer-events: all !important;
+
+    &:hover {
+        opacity: 1.0;
+        filter: var(--hover-darkening);
+        outline: var(--border);
+        outline-offset: calc(-3px * var(--interface-scale));
+    }
+
+    &:active {
+        filter: var(--active-darkening);
+        /* scale: 0.98; */
+    }
+
+    &.selected {
+        outline-width: calc(2px * var(--interface-scale));
+        background-color: var(--accent-light);
+        border-color: var(--accent);
+        border-width: calc(2px * var(--interface-scale));
+    }
+
+    /* transition: outline-offset 0.2s; */
+}
+
 .nav_button {
     --height: calc(64px * var(--interface-scale));
     padding: 0 calc(22px * var(--interface-scale));
@@ -10,16 +36,6 @@
     border: var(--border);
 
     opacity: 0.75;
-
-    &:hover {
-        opacity: 1;
-        filter: brightness(0.96);
-    }
-
-    &:active {
-        filter: brightness(0.92);
-        scale: 0.98;
-    }
 
     & .nav_button_icon {
         display: flex;

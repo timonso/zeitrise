@@ -35,11 +35,6 @@
     }
 }
 
-.clickable {
-    cursor: pointer;
-    pointer-events: all !important;
-}
-
 .date_selector {
     height: fit-content;
     width: 100%;
@@ -135,35 +130,18 @@
     align-items: center;
     width: calc(48px * var(--interface-scale));
     height: calc(48px * var(--interface-scale));
-    /* padding: calc(12px * var(--interface-scale)); */
     border: var(--border);
     color: white;
     border-radius: 50%;
-    cursor: pointer;
     outline: calc(2px * var(--interface-scale)) solid transparent;
-    background-color: transparent;
     outline-offset: 0;
+    background-color: var(--fill-lighter);
 
-    transition: all 0.2s;
+    transition: all 0.6s;
 
-    &:hover {
-        background-color: var(--fill-light);
-        border-width: calc(2px * var(--interface-scale));
-    }
-
-    &:active {
-        filter: brightness(0.9);
-        outline: calc(2px * var(--interface-scale)) solid var(--outline-light);
-        outline-offset: calc(2px * var(--interface-scale));
-    }
-
-    &.active {
-        background-color: var(--fill-light);
-        border-color: var(--accent);
-        border-width: calc(2px * var(--interface-scale));
-        /* background-color: rgba(var(--accent), 0.6); */
-        outline: calc(2px * var(--interface-scale)) solid var(--accent);
-        outline-offset: calc(-6px * var(--interface-scale));
+    &.selected {
+        outline: calc(2px * var(--interface-scale)) solid var(--accent) !important;
+        outline-offset: calc(-6px * var(--interface-scale)) !important;
 
         .dial_icon {
             color: var(--icon-active);
@@ -316,6 +294,10 @@
     width: fit-content;
     height: fit-content;
     overflow: hidden;
+
+    /* outline: var(--border);
+    outline-offset: calc(2px * var(--interface-scale));
+    margin: calc(2px * var(--interface-scale)); */
     /* padding: calc(40px * var(--interface-scale)) calc(40px * var(--interface-scale)); */
 }
 
@@ -329,6 +311,8 @@
     border: var(--border);
     width: 50%;
     overflow: hidden;
+    outline: var(--border);
+    outline-offset: calc(-3px * var(--interface-scale));
 }
 
 .chip_segment {

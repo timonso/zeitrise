@@ -7,24 +7,27 @@
 }
 
 .canvas_container {
+    visibility: visible;
     position: absolute !important;
     width: 100%;
     height: 100%;
     z-index: 0;
 
     top: 0;
-    left: var(--wide-margin);
+    left: 0;
 
-    mask-image: linear-gradient(to left,
+    /* left: var(--wide-margin); */
+
+    /* mask-image: linear-gradient(to left,
             black 85%,
-            transparent 100%);
+            transparent 100%); */
 
-    &.wide {
+    /* &.wide {
         left: 0;
         width: 100%;
 
         mask-image: none;
-    }
+    } */
 }
 
 .loading_overlay {
@@ -45,7 +48,7 @@
 .loading_box {
     position: relative;
     display: flex;
-    transform: translate(calc(160px * var(--interface-scale)), 0);
+    /* transform: translate(calc(290px * var(--interface-scale)), 0); */
     z-index: 999;
     width: calc(200px * var(--interface-scale));
     height: calc(200px * var(--interface-scale));

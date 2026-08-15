@@ -5,6 +5,8 @@ import styles from './side-panel.module.css';
 import buttons from '@/styles/buttons.module.css';
 import { DatePanel } from './date-panel';
 
+import IconLogo from '@/media/curves/logos/zr-icon-color.svg';
+import WordmarkLogo from '@/media/curves/logos/zr-wordmark-color.svg';
 import FullLogo from '@/media/curves/logos/zr-full-color.svg';
 import ThisDay from '@/media/curves/symbols/this_day.svg';
 import Dive from '@/media/curves/symbols/dive.svg';
@@ -16,12 +18,28 @@ import { scaled } from '@/styles/constants';
 
 const NavButton = ({ label, Icon }: { label: string; Icon?: ComponentType<{ width?: number, className?: string, fill?: string }> }) => {
     return (
-        <button className={`${buttons.nav_button}`}>
+        <button className={`${buttons.nav_button} ${buttons.clickable}`}>
             {Icon ? <Icon width={scaled(32)} className={`${buttons.nav_button_icon}`} fill="currentColor" /> : null}
             <span className={`${buttons.nav_button_label}`}>{label}</span>
         </button>
     );
 };
+
+const LogoChip = () => {
+    const { isInterfaceVisible, setIsInterfaceVisible } = useUIStore();
+    const wrapperClassName = `${!isInterfaceVisible ? styles.logo_chip_wrapper : ''}`;
+    const className = `${styles.main_chip} ${styles.logo_chip} ${isInterfaceVisible ? styles.left_chip : ''}`;
+
+    return (
+        <div className={wrapperClassName}>
+        <div className={className} onClick={() => setIsInterfaceVisible(!isInterfaceVisible)}>
+            {/* <FullLogo width={scaled(120)} /> */}
+            <IconLogo width={scaled(54)} />
+            {isInterfaceVisible && <WordmarkLogo width={scaled(64)} />}
+        </div>
+        </div>
+    )
+}
 
 const MainMenu = () => {
     const { isSidePanelExpanded, setIsSidePanelExpanded } = useUIStore();
@@ -33,9 +51,7 @@ const MainMenu = () => {
     return (
         <div className={styles.main_menu}>
             <div className={styles.logo_group}>
-                <div className={`${styles.main_chip} ${styles.left_chip}`}>
-                    <FullLogo width={scaled(120)} />
-                </div>
+                <LogoChip />
                 <div className={`${styles.main_chip} ${styles.right_chip}`} onClick={toggleSidepanel}>
                     {isSidePanelExpanded ? <Collapse width={scaled(32)} /> : <Expand width={scaled(32)} />}
                     {/* <div style={{ fontSize: 24, fontWeight: 'bold', color: 'red' }}>
@@ -53,10 +69,18 @@ const MainMenu = () => {
 };
 
 export const SidePanel = () => {
-    const { isSidePanelExpanded, setIsSidePanelExpanded } = useUIStore();
+    const { isSidePanelExpanded, isInterfaceVisible } = useUIStore();
+
+    const className = `${styles.side_panel} ${isInterfaceVisible ? '' : styles.hidden}`;
+
+    if (!isInterfaceVisible) {
+        return (
+            <LogoChip />
+        )
+    }
 
     return (
-        <div className={styles.side_panel}>
+        <div className={className}>
             <div className={styles.menu_panel}>
                 <MainMenu />
                 <DatePanel />

@@ -2,17 +2,6 @@
     --gray-rgb: 0, 0, 0;
     --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
     --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
-    --text-color: black;
-    --text-color-light: #666;
-
-    --button-primary-hover: #383838;
-    --button-secondary-hover: #f2f2f2;
-    --dial-size: calc(210px * var(--interface-scale));
-
-    --outline-light: #c0c0c0;
-    --border: calc(1px * var(--interface-scale)) solid var(--outline-light);
-    --border-radius: calc(16px * var(--interface-scale));
-    --fill-light: #ededed;
 
     display: flex;
     /* align-items: center;
@@ -20,6 +9,7 @@
     width: 100vw;
     height: 100vh;
     background-color: #efefef;
+
 }
 
 /* @font-face {

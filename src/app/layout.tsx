@@ -2,14 +2,8 @@ import '../styles/globals.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import styles from './layout.module.css';
-import buttons from '../styles/buttons.module.css';
 import { Scene } from '../components/scene/scene';
-import { DatePanel } from '../components/panels/date-panel';
-import FullLogo from '../media/curves/logos/zr-full-color.svg';
-import ThisDay from '../media/curves/symbols/this_day.svg';
-import Dive from '../media/curves/symbols/dive.svg';
-import Heatmap from '../media/curves/symbols/heatmap.svg';
-import { ComponentType, Suspense } from 'react';
+import { Suspense } from 'react';
 import { URLDateSync } from '@/components/utils/url-sync';
 import { SidePanel } from '@/components/panels/side-panel';
 import { NavigationPanel } from '@/components/panels/navigation-panel';
@@ -30,7 +24,6 @@ const InterfaceScale = ({ scale }: { scale: number }) => (
     <style>{`
             :root {
                 --interface-scale: ${scale};
-                // zoom: ${scale};
             }
     `}</style>
 )

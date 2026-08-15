@@ -1,6 +1,7 @@
 "use client";
 
 import styles from './navigation-panel.module.css'
+import buttons from '@/styles/buttons.module.css';
 import CenterSelected from '@/media/curves/symbols/center_selected.svg';
 import ZoomIn from '@/media/curves/symbols/zoom_in.svg';
 import ZoomOut from '@/media/curves/symbols/zoom_out.svg';
@@ -9,8 +10,9 @@ import NextDecade from '@/media/curves/symbols/next_decade.svg';
 import PreviousDecade from '@/media/curves/symbols/previous_decade.svg';
 import YearPlateShape from '@/media/curves/year_plate.svg';
 import { resetCameraTarget, setCameraTargetToYear, useCameraStore, useDateStore, useUIStore, yearToTargetY } from '@/context/scene-store';
-import { HORIZON_ANGLE } from '../scene/scene';
-import { INTERFACE_SCALE, scaled } from '@/styles/constants';
+import { scaled } from '@/styles/constants';
+
+const navPanelButtonStyle = `${styles.navigation_panel_button} ${buttons.clickable}`;
 
 const CenterSelectionButton = () => {
     const { selectedDate } = useDateStore((state) => state);
@@ -21,7 +23,7 @@ const CenterSelectionButton = () => {
             setSelectedIsFocused(false);
             setCameraTargetToYear(selectedDate?.getFullYear() ?? 0);
         }}>
-            <div className={styles.navigation_panel_button}>
+            <div className={navPanelButtonStyle}>
                 <CenterSelected />
             </div>
         </div>
@@ -49,15 +51,15 @@ const ZoomControls = () => {
 
     return (
         <div className={styles.navigation_panel_group}>
-            <div className={styles.navigation_panel_button} onClick={zoomIn}>
+            <div className={navPanelButtonStyle} onClick={zoomIn}>
                 <ZoomIn />
             </div>
             <div className={styles.separator} />
-            <div className={styles.navigation_panel_button} onClick={zoomOut}>
+            <div className={navPanelButtonStyle} onClick={zoomOut}>
                 <ZoomOut />
             </div>
             <div className={styles.separator} />
-            <div className={styles.navigation_panel_button} onClick={zoomAll}>
+            <div className={navPanelButtonStyle} onClick={zoomAll}>
                 <ZoomAll />
             </div>
         </div>
@@ -118,13 +120,13 @@ const DecadeNavigationGroup = () => {
 
     return (
         <div className={styles.navigation_panel_group}>
-            <div className={styles.navigation_panel_button} onClick={setNextDecade}>
+            <div className={navPanelButtonStyle} onClick={setNextDecade}>
                 <NextDecade width={scaled(22)} />
             </div>
             <div className={styles.separator} />
             <DecadeScroller />
             <div className={styles.separator} />
-            <div className={styles.navigation_panel_button} onClick={setPrevDecade}>
+            <div className={navPanelButtonStyle} onClick={setPrevDecade}>
                 <PreviousDecade width={scaled(22)} />
             </div>
 
@@ -133,8 +135,8 @@ const DecadeNavigationGroup = () => {
 }
 
 export const NavigationPanel = () => {
-    const { sceneLoading } = useUIStore((state) => state);
-    const className = `${styles.navigation_panel_wrapper} ${sceneLoading ? styles.disabled : ''}`;
+    const { sceneLoading, isInterfaceVisible } = useUIStore((state) => state);
+    const className = `${styles.navigation_panel_wrapper} ${sceneLoading ? styles.disabled : ''} ${isInterfaceVisible ? '' : styles.hidden}`;
 
     return (
         <div className={className}>

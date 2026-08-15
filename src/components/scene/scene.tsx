@@ -20,7 +20,7 @@ export const BACKGROUND_COLOR = new THREE.Color(0.9, 0.9, 0.9);
 
 function LoadingOverlay() {
     return (
-        <Html fullscreen>
+        <Html>
             <div className={styles.loading_overlay}/>
         </Html>
     );
@@ -29,9 +29,9 @@ function LoadingOverlay() {
 function LoadingBox() {
     return (
         <div className={styles.loading_overlay}>
-            <div className={styles.loading_box}>
+            {/* <div className={styles.loading_box}>
                 <p>Loading...</p>
-            </div>
+            </div> */}
         </div>
     )
 }
@@ -117,7 +117,8 @@ export function Scene() {
 
     const { sceneLoading, setSceneLoading } = useUIStore((state) => state);
 
-    const isSidePanelExpanded = useUIStore((state) => state.isSidePanelExpanded);
+    const { isSidePanelExpanded, isInterfaceVisible } = useUIStore();
+    
     const className = `${styles.canvas_container} ${!isSidePanelExpanded ? styles.wide : ''}`;
 
     const cameraSpotlight = new THREE.DirectionalLight('white', 0.1);
@@ -127,6 +128,7 @@ export function Scene() {
     const currentDecade = useDateStore((state) => state.currentDecade);
 
     function setCameraOffset(camera: THREE.PerspectiveCamera, xOffset: number, yOffset: number) {
+        if (!camera) return;
         const { aspect } = camera
         camera.setViewOffset(
             aspect * 2, 2,
@@ -138,12 +140,32 @@ export function Scene() {
 
     // shift the whole scene to the right
     
+    const setOffsetFromSidePanel = (camera: THREE.PerspectiveCamera) => {
+        if (isSidePanelExpanded) {
+            setCameraOffset(camera, -0.36, 0)
+        } else {
+            setCameraOffset(camera, -0.16, 0)
+        }
+    }
 
     useEffect(() => {
         setSceneLoading(true);
         const timer = setTimeout(() => setSceneLoading(false), 1400);
         return () => clearTimeout(timer);
     }, [currentDecade]);
+
+    useEffect(() => {
+        setOffsetFromSidePanel(orbitControlsRef.current?.object as THREE.PerspectiveCamera);
+    }, [isSidePanelExpanded]);
+
+    useEffect(() => {
+        if (!isInterfaceVisible) {
+            setCameraOffset(orbitControlsRef.current?.object as THREE.PerspectiveCamera, 0, 0)
+        } else {
+            setOffsetFromSidePanel(orbitControlsRef.current?.object as THREE.PerspectiveCamera);
+        }
+    }, [isInterfaceVisible]);
+
 
     const setupScene = ({
         camera,
@@ -159,7 +181,8 @@ export function Scene() {
         // scene.fog = new THREE.FogExp2(BACKGROUND_COLOR, 0.04);
         // scene.fog = new THREE.Fog(BACKGROUND_COLOR, 26, 36);
         scene.background = new THREE.Color(BACKGROUND_COLOR);
-        setCameraOffset(camera as THREE.PerspectiveCamera, -0.16, 0)
+        setOffsetFromSidePanel(camera as THREE.PerspectiveCamera);
+        // setCameraOffset(camera as THREE.PerspectiveCamera, -0.36, 0)
     };
 
     return (

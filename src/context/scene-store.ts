@@ -58,6 +58,8 @@ type UIState = {
     setIsSidePanelExpanded: (expanded: boolean) => void;
     sceneLoading: boolean;
     setSceneLoading: (loading: boolean) => void;
+    isInterfaceVisible: boolean;
+    setIsInterfaceVisible: (visible: boolean) => void;
 }
 
 export const useCameraStore = create<CameraState>()(
@@ -119,5 +121,7 @@ export const useUIStore = create<UIState>()(
         setIsSidePanelExpanded: (expanded) => set({ isSidePanelExpanded: expanded }),
         sceneLoading: false,
         setSceneLoading: (loading) => set({ sceneLoading: loading }),
+        isInterfaceVisible: true,
+        setIsInterfaceVisible: (visible) => set({ isInterfaceVisible: visible }),
     })),
 );

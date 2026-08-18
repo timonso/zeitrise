@@ -26,14 +26,6 @@ enum Weekday {
     'SAT',
 }
 
-function centerMonth(
-    date: Date,
-    setter: (rotation: { x: number; y: number; z: number }) => void,
-) {
-    const monthRotation = (date.getMonth() * Math.PI * 2) / 12;
-    setter({ x: 0, y: monthRotation, z: 0 });
-}
-
 function sameDayLocal(a: Date | null, b: Date | null): boolean {
   if (!a || !b) return false;
   return (
@@ -137,13 +129,11 @@ const YearDial = () => {
 
 const DateSelector = ({
     currentDecade,
-    setCurrentDecade,
     selectedDate,
     setSelectedDate,
     hoveredDate,
 }: {
     currentDecade: number;
-    setCurrentDecade: (value: number) => void;
     selectedDate: Date | null;
     setSelectedDate: (date: Date) => void;
     hoveredDate: Date | null;
@@ -196,11 +186,6 @@ const DateSelector = ({
         setMonthDisplay(formatTwoDigits(selectedDate.getMonth() + 1));
         setYearDisplay(formatFourDigits(selectedDate.getFullYear()));
     }, [selectedDate, isHovering]);
-
-    useEffect(() => {
-        if (!selectedDate) return;
-        centerMonth(selectedDate, useCameraWriter.getState().setRotation);
-    }, [selectedDate]);
 
     useEffect(() => {
         if (isHovering || !selectedDate || dayDisplay.trim() === '') return;
@@ -294,11 +279,6 @@ const DateSelector = ({
                 setSelectedDate(newDate);
             }
 
-            const nextDecade = Math.floor(normalizedYear / 10) * 10;
-            if (currentDecade !== nextDecade) {
-                setCurrentDecade(nextDecade);
-            }
-
             setYearDisplay(formatFourDigits(normalizedYear));
         }, 800);
 
@@ -306,7 +286,6 @@ const DateSelector = ({
     }, [
         currentDecade,
         selectedDate,
-        setCurrentDecade,
         setSelectedDate,
         yearDisplay,
         isHovering,
@@ -395,7 +374,6 @@ export function DatePanel() {
         selectedDate,
         setSelectedDate,
         currentDecade,
-        setCurrentDecade,
         currentRotation,
         hoveredDate,
     } = useDateStore();
@@ -406,7 +384,6 @@ export function DatePanel() {
             {/* <DateInformation selectedDate={selectedDate} /> */}
             <DateSelector
                 currentDecade={currentDecade}
-                setCurrentDecade={setCurrentDecade}
                 selectedDate={selectedDate}
                 setSelectedDate={setSelectedDate}
                 hoveredDate={hoveredDate}

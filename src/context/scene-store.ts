@@ -10,6 +10,11 @@ export const yearToTargetY = (year: number) => {
     return year + 0.35 * year + 0.65;
 }
 
+export const dateToDecade = (date: Date) => {
+    const year = date.getFullYear();
+    return Math.floor(year / 10) * 10;
+}
+
 const INITIAL_TARGET_HEIGHT = yearToTargetY(4.5);
 
 export const setCameraTargetToYear = (year: number) => {
@@ -99,15 +104,17 @@ export const useDateStore = create<DateState>()(
         selectedDateKey: getDayKey(new Date()),
         setSelectedDate: (date) => {
             set({ selectedDate: date, selectedDateKey: getDayKey(date) });
+            set({ currentDecade: dateToDecade(date) });
             setURLDate(date);
             // setCameraTargetToYear(date.getFullYear());
         },
         setSelectedDateFromURL: (date) => {
             set({ selectedDate: date, selectedDateKey: getDayKey(date) });
+            set({ currentDecade: dateToDecade(date) });
             // setCameraTargetToYear(date.getFullYear());
         },
-        currentDecade: 2020,
         setCurrentDecade: (decade) => set({ currentDecade: decade }),
+        currentDecade: 2020,
         currentRotation: [0, 0, 0],
         setCurrentRotation: (rotation) => set({ currentRotation: rotation }),
         selectedIsFocused: true,

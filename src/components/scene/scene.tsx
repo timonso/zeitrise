@@ -21,7 +21,7 @@ export const BACKGROUND_COLOR = new THREE.Color(0.9, 0.9, 0.9);
 function LoadingOverlay() {
     return (
         <Html>
-            <div className={styles.loading_overlay}/>
+            <div className={styles.loading_overlay} />
         </Html>
     );
 }
@@ -46,16 +46,31 @@ const centerSelectedMonth = (controlsRef: RefObject<OrbitControlsImpl | null>, s
 function CameraDriver({ controlsRef, cameraSpotlight }: { controlsRef: RefObject<OrbitControlsImpl | null>; cameraSpotlight?: THREE.DirectionalLight }) {
     const { camera } = useThree()
     const cameraDriver = useCameraWriter
+    const setRotation = useCameraWriter((state) => state.setRotation);
     const cameraTarget = useCameraStore((state) => state.cameraTarget);
     const selectedDate = useDateStore((state) => state.selectedDate)
     const selectedIsFocused = useDateStore((state) => state.selectedIsFocused)
     const setSelectedIsFocused = useDateStore((state) => state.setSelectedIsFocused)
 
+    
     // init and listen for manual recentering
     useEffect(() => {
         centerSelectedMonth(controlsRef, selectedDate ?? new Date());
         setSelectedIsFocused(true)
     }, [selectedIsFocused])
+
+    function centerMonth(
+        date: Date,
+        setter: (rotation: { x: number; y: number; z: number }) => void,
+    ) {
+        const monthRotation = (date.getMonth() * Math.PI * 2) / 12;
+        setter({ x: 0, y: monthRotation, z: 0 });
+    }
+
+    useEffect(() => {
+        if (!selectedDate) return;
+        centerMonth(selectedDate, setRotation);
+    }, [selectedDate]);
 
     useEffect(() => {
         const controls = controlsRef.current;
@@ -118,7 +133,7 @@ export function Scene() {
     const { sceneLoading, setSceneLoading } = useUIStore((state) => state);
 
     const { isSidePanelExpanded, isInterfaceVisible } = useUIStore();
-    
+
     const className = `${styles.canvas_container} ${!isSidePanelExpanded ? styles.wide : ''}`;
 
     const cameraSpotlight = new THREE.DirectionalLight('white', 0.1);
@@ -139,7 +154,7 @@ export function Scene() {
     }
 
     // shift the whole scene to the right
-    
+
     const setOffsetFromSidePanel = (camera: THREE.PerspectiveCamera) => {
         if (isSidePanelExpanded) {
             setCameraOffset(camera, -0.36, 0)

@@ -12,6 +12,7 @@ import Dial from '../../media/curves/dial.svg';
 import DialRim from '../../media/curves/dial_rim.svg';
 import TodayIcon from '../../media/curves/symbols/today.svg';
 import RandomIcon from '../../media/curves/symbols/random.svg';
+import FaceLoop from '../../media/curves/symbols/face_loop.svg';
 import { useEffect, useState } from 'react';
 import { setCameraTargetToYear } from '@/context/scene-store';
 import { scaled } from '@/styles/constants';
@@ -27,12 +28,12 @@ enum Weekday {
 }
 
 function sameDayLocal(a: Date | null, b: Date | null): boolean {
-  if (!a || !b) return false;
-  return (
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate()
-  );
+    if (!a || !b) return false;
+    return (
+        a.getFullYear() === b.getFullYear() &&
+        a.getMonth() === b.getMonth() &&
+        a.getDate() === b.getDate()
+    );
 }
 
 const YearDial = () => {
@@ -49,11 +50,14 @@ const YearDial = () => {
     return (
         <div className={styles.dial_group}>
             <div className={styles.dial_wrapper}>
-                {!sceneLoading && 
-                <div className={styles.year_dial_display}>
-                    {selectedDate?.getFullYear()}
+                <div className={styles.year_dial_center}>
+                    {sceneLoading
+                        ? <FaceLoop width={scaled(42)} fill="currentColor" className={styles.dial_loading_icon} />
+                        : <div className={styles.year_dial_display}>
+                            {selectedDate?.getFullYear()}
+                        </div>
+                    }
                 </div>
-                }
                 <div
                     className={styles.dial_container}
                     style={{
@@ -68,7 +72,7 @@ const YearDial = () => {
                         return (
                             <div
                                 key={index}
-                                id = {`month-tick-${intuitiveIndex}`}
+                                id={`month-tick-${intuitiveIndex}`}
                                 className={styles.year_dial_tick}
                                 style={{
                                     transform: `rotateZ(${180 - angle}deg)`,
@@ -82,7 +86,7 @@ const YearDial = () => {
                                     });
                                 }}
                             >
-                                <div className={indicatorClassName(intuitiveIndex)}/>
+                                <div className={indicatorClassName(intuitiveIndex)} />
                             </div>
                         );
                     })}

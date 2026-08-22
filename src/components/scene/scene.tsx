@@ -165,7 +165,7 @@ export function Scene() {
 
     useEffect(() => {
         setSceneLoading(true);
-        const timer = setTimeout(() => setSceneLoading(false), 1400);
+        const timer = setTimeout(() => setSceneLoading(false), 3000);
         return () => clearTimeout(timer);
     }, [currentDecade]);
 

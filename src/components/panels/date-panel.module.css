@@ -201,20 +201,26 @@
         opacity 0.2s;
 }
 
-.year_dial_display {
+.year_dial_center {
     position: absolute;
     top: 50%;
     left: 50%;
-    /* width: 100%; */
-    /* height: 100%; */
     transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+.year_dial_display {
     font-family: var(--font-geist-mono);
     font-size: calc(24px * var(--interface-scale));
     font-weight: 600;
-    z-index: 1000;
     color: var(--accent);
     text-shadow: 0 calc(1px * var(--interface-scale)) 0 var(--outline-light);
-    /* line-height: calc(56px * var(--interface-scale)); */
+}
+
+.dial_loading_icon {
+    display: block;
+    /* opacity: 0.8; */
+    color: var(--accent);
 }
 
 .year_dial_tick {
@@ -235,16 +241,16 @@
 
     &:hover {
         .tick_indicator {
-        opacity: 0.4;
-        width: calc(24px * var(--interface-scale));
-    }
+            opacity: 0.4;
+            width: calc(24px * var(--interface-scale));
+        }
     }
 
     &:active {
         .tick_indicator {
-        width: calc(12px * var(--interface-scale));
-        opacity: 0.8;
-    }
+            width: calc(12px * var(--interface-scale));
+            opacity: 0.8;
+        }
     }
 
     .tick_indicator {
@@ -327,6 +333,7 @@
     color: var(--text-color);
     font-family: var(--font-geist-mono);
     font-size: calc(20px * var(--interface-scale));
+
     &:first-child {
         border: none;
     }

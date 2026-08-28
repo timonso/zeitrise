@@ -10,6 +10,11 @@ export const yearToTargetY = (year: number) => {
     return year + 0.35 * year + 0.65;
 }
 
+export const targetYToYear = (targetY: number) => {
+    const year = Math.round(targetY / 1.35);
+    return year;
+}
+
 export const dateToDecade = (date: Date) => {
     const year = date.getFullYear();
     return Math.floor(year / 10) * 10;
@@ -21,6 +26,15 @@ export const setCameraTargetToYear = (year: number) => {
     const cameraTarget = useCameraStore.getState().cameraTarget;
     const setCameraTarget = useCameraStore.getState().setCameraTarget;
     setCameraTarget([cameraTarget[0], yearToTargetY(year), cameraTarget[2]]);
+}
+
+export const incOrDecTarget = (direction: 'up' | 'down') => {
+    const cameraTarget = useCameraStore.getState().cameraTarget;
+    const target = cameraTarget[1];
+    const targetYear = targetYToYear(target);
+    const step = direction === 'up' ? 1 : -1; 
+    const newTarget = Math.min(Math.max(targetYear + step, 0), 9)
+    setCameraTargetToYear(newTarget);
 }
 
 export const resetCameraTarget = () => {

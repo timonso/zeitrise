@@ -9,10 +9,47 @@ import ZoomAll from '@/media/curves/symbols/zoom_all.svg';
 import NextDecade from '@/media/curves/symbols/next_decade.svg';
 import PreviousDecade from '@/media/curves/symbols/previous_decade.svg';
 import YearPlateShape from '@/media/curves/year_plate.svg';
-import { resetCameraTarget, setCameraTargetToYear, useCameraStore, useDateStore, useUIStore, yearToTargetY } from '@/context/scene-store';
+import { incOrDecTarget, resetCameraTarget, setCameraTargetToYear, useCameraStore, useDateStore, useUIStore, yearToTargetY } from '@/context/scene-store';
 import { scaled } from '@/styles/constants';
 
 const navPanelButtonStyle = `${styles.navigation_panel_button} ${buttons.clickable}`;
+
+import { useEffect } from "react";
+
+export function KeyboardShortcuts() {
+    useEffect(() => {
+        function handleKeyDown(event: KeyboardEvent) {
+            const target = event.target as HTMLElement;
+            if (
+                target.tagName === "INPUT" ||
+                target.tagName === "TEXTAREA" ||
+                target.tagName === "SELECT" ||
+                target.isContentEditable
+            ) {
+                return;
+            }
+
+            if (event.key >= '0' && event.key <= '9') {
+                setCameraTargetToYear(parseInt(event.key));
+            }
+
+            else if (event.key === 'ArrowUp') {
+                incOrDecTarget('up');
+            }
+
+            else if (event.key === 'ArrowDown') {
+                incOrDecTarget('down');
+            }
+        }
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, []);
+
+    return null;
+}
 
 const CenterSelectionButton = () => {
     const { selectedDate } = useDateStore((state) => state);
@@ -72,7 +109,7 @@ const YearPlate: React.FC<{ year: number }> = ({ year }) => {
 
     const scrollToYear = (year: number) => {
         setCameraTargetToYear(year);
-        if (!orbitControls) return;
+        // if (!orbitControls) return;
         // orbitControls.setPolarAngle(HORIZON_ANGLE);
         // orbitControls.update();
     }
@@ -93,16 +130,16 @@ const YearPlate: React.FC<{ year: number }> = ({ year }) => {
 const DecadeScroller = () => {
     const yearPlates = [];
     for (let i = 9; i >= 0; i--) {
-            const year = i;
-            yearPlates.push(<YearPlate key={year} year={year} />);
-        }
+        const year = i;
+        yearPlates.push(<YearPlate key={year} year={year} />);
+    }
     return (<div className={styles.navigation_panel_decade_scroller}>
         {yearPlates}
     </div>)
 }
 
 const DecadeNavigationGroup = () => {
-    const {selectedDate, setSelectedDate} = useDateStore((state) => state);
+    const { selectedDate, setSelectedDate } = useDateStore((state) => state);
 
     const setNextDecade = () => {
         if (!selectedDate) return;
@@ -143,6 +180,7 @@ export const NavigationPanel = () => {
             <CenterSelectionButton />
             <DecadeNavigationGroup />
             <ZoomControls />
+            <KeyboardShortcuts />
         </div>
     )
 }

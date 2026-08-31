@@ -1,6 +1,6 @@
 :root {
     --button-size: calc(52px * var(--interface-scale));
-    --panel-background: rgba(255, 255, 255, 0.9);
+    --panel-background: rgba(255, 255, 255, 1.0);
 }
 
 .navigation_panel_wrapper {

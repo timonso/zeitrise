@@ -1,6 +1,7 @@
 .clickable {
     cursor: pointer;
     pointer-events: all !important;
+    /* font-family: var(--font-geist-sans), Helvetica, sans-serif; */
 
     &:hover {
         opacity: 1.0;
@@ -58,5 +59,43 @@
             place-items: center;
             color: var(--icon-active);
         }
+    }
+}
+
+.minor_menu_button {
+    border-radius: calc(128px * var(--interface-scale));
+    height: auto;
+    padding: calc(6px * var(--interface-scale)) calc(16px * var(--interface-scale));
+    border: var(--border);
+    /* border: none; */
+    background: var(--panel-fill);
+    color: var(--text-color);
+
+    &:hover {
+        background: var(--fill-light);
+    }
+}
+
+.close_button {
+    opacity: 0.5;
+    position: absolute;
+    top: calc(9px * var(--interface-scale));
+    right: calc(9px * var(--interface-scale));
+    display: flex;
+    place-items: center;
+    justify-content: center;
+    width: calc(32px * var(--interface-scale));
+    height: calc(32px * var(--interface-scale));
+    background: var(--panel-fill);
+    border-radius: calc(10px * var(--interface-scale));
+    border: none;
+    font-size: calc(26px * var(--interface-scale));
+    text-align: center;
+    padding-bottom: calc(2px * var(--interface-scale));
+
+    & :hover {
+        opacity: 1.0;
+        background: var(--fill-light);
+        border: var(--border);
     }
 }

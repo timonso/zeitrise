@@ -20,6 +20,11 @@ const geistMono = localFont({
     variable: '--font-geist-mono',
 });
 
+const geistSans = localFont({
+    src: '../../public/media/fonts/sans/geist_sans.ttf',
+    variable: '--font-geist-sans'
+})
+
 const InterfaceScale = ({ scale }: { scale: number }) => (
     <style>{`
             :root {
@@ -41,7 +46,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`${geistMono.variable}`}>
+            <body className={`${geistMono.variable} ${geistSans.variable}`}>
                 <InterfaceScale scale={INTERFACE_SCALE} />
                 <Suspense fallback={null}>
                     <URLDateSync />

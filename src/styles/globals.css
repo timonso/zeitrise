@@ -1,6 +1,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --panel-fill: rgba(255, 255, 255, 0.75);
   --overlay: rgb(200, 200, 200);
   --accent: rgb(0, 85, 68);
   --accent-light: rgba(0, 85, 68, 0.2);
@@ -50,11 +51,14 @@ body {
   overflow-x: hidden;
 }
 
+html {
+  font-family: var(--font-geist-sans), Helvetica, sans-serif;
+}
+
 body {
   /* zoom: 0.9; */
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -76,6 +80,13 @@ p {
 
 button {
   cursor: pointer;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
 }
 
 @media (prefers-color-scheme: dark) {

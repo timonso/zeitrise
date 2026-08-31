@@ -15,10 +15,14 @@ import { scaled } from '@/styles/constants';
 const navPanelButtonStyle = `${styles.navigation_panel_button} ${buttons.clickable}`;
 
 import { useEffect } from "react";
+import { ToastPanel } from './toast-panel';
 
 export function KeyboardShortcuts() {
     useEffect(() => {
         function handleKeyDown(event: KeyboardEvent) {
+            if (event.defaultPrevented) {
+                return;
+            }
             const target = event.target as HTMLElement;
             if (
                 target.tagName === "INPUT" ||
@@ -172,7 +176,7 @@ const DecadeNavigationGroup = () => {
 }
 
 export const NavigationPanel = () => {
-    const { sceneLoading, isInterfaceVisible } = useUIStore((state) => state);
+    const { sceneLoading, isInterfaceVisible, showToast } = useUIStore((state) => state);
     const className = `${styles.navigation_panel_wrapper} ${sceneLoading ? styles.disabled : ''} ${isInterfaceVisible ? '' : styles.hidden}`;
 
     return (
@@ -181,6 +185,7 @@ export const NavigationPanel = () => {
             <DecadeNavigationGroup />
             <ZoomControls />
             <KeyboardShortcuts />
+            {showToast && <ToastPanel />}
         </div>
     )
 }

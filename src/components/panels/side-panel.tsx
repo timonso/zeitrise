@@ -25,6 +25,14 @@ const NavButton = ({ label, Icon }: { label: string; Icon?: ComponentType<{ widt
     );
 };
 
+const MinorMenuButton = ({label, onClick}: {label: string; onClick?: () => void}) => {
+    return (
+        <button className={`${buttons.minor_menu_button} ${buttons.clickable}`} onClick={onClick}>
+            <span className={`${buttons.minor_menu_button_label}`}>{label}</span>
+        </button>
+    )
+}
+
 const LogoChip = () => {
     const { isInterfaceVisible, setIsInterfaceVisible } = useUIStore();
     const wrapperClassName = `${!isInterfaceVisible ? styles.logo_chip_wrapper : ''}`;
@@ -63,6 +71,11 @@ const MainMenu = () => {
                 <NavButton label='On this Day' Icon={ThisDay} />
                 <NavButton label='Decade Dive' Icon={Dive} />
                 <NavButton label='Heatmap' Icon={Heatmap} />
+            </div>
+            <div className={`${styles.secondary_nav_group}`}>
+                <MinorMenuButton label='About' />
+                <MinorMenuButton label='Blog' />
+                <MinorMenuButton label='Help' />
             </div>
         </div>
     );

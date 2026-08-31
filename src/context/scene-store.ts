@@ -79,6 +79,10 @@ type UIState = {
     setSceneLoading: (loading: boolean) => void;
     isInterfaceVisible: boolean;
     setIsInterfaceVisible: (visible: boolean) => void;
+    showToast: boolean;
+    setShowToast: (show: boolean) => void;
+    toastMessage: string;
+    setToastMessage: (message: string) => void;
 }
 
 export const useCameraStore = create<CameraState>()(
@@ -144,5 +148,9 @@ export const useUIStore = create<UIState>()(
         setSceneLoading: (loading) => set({ sceneLoading: loading }),
         isInterfaceVisible: true,
         setIsInterfaceVisible: (visible) => set({ isInterfaceVisible: visible }),
+        showToast: true,
+        setShowToast: (show) => set({ showToast: show }),
+        toastMessage: 'WORK IN PROGRESS',
+        setToastMessage: (message) => set({ toastMessage: message }),
     })),
 );

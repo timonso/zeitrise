@@ -1,0 +1,18 @@
+.toast_panel {
+    z-index: 9999;
+    position: fixed;
+    top: calc(56px * var(--interface-scale));
+    right: calc(132px * var(--interface-scale));
+    width: fit-content;
+    min-width: calc(320px * var(--interface-scale));
+    max-width: calc(400px * var(--interface-scale));
+    height: calc(52px * var(--interface-scale));
+    padding: calc(16px * var(--interface-scale)) calc(24px * var(--interface-scale));
+    background-color: var(--panel-background);
+    border: var(--border);
+    border-radius: var(--border-radius);
+
+    display: flex;
+    place-items: center;
+    /* justify-content: center; */
+}

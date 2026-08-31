@@ -9,7 +9,7 @@
     border-top: var(--border);
     border-bottom: var(--border);
     border-radius: 0 calc(60px * var(--interface-scale)) calc(60px * var(--interface-scale)) 0;
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: var(--panel-fill);
     backdrop-filter: blur(calc(24px * var(--interface-scale)));
     padding: calc(44px * var(--interface-scale));
 
@@ -17,6 +17,8 @@
     flex-direction: row;
     justify-content: left;
     gap: calc(36px * var(--interface-scale));
+
+    font-family: var(--font-geist-sans);
 
     &.hidden {
         visibility: hidden;
@@ -113,6 +115,15 @@
 .main_nav_group {
     display: flex;
     flex-direction: column;
+    gap: calc(16px * var(--interface-scale));
+    width: 100%;
+}
+
+.secondary_nav_group {
+    opacity: 0.7;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
     gap: calc(16px * var(--interface-scale));
     width: 100%;
 }

@@ -92,6 +92,7 @@
     font-size: calc(26px * var(--interface-scale));
     text-align: center;
     padding-bottom: calc(2px * var(--interface-scale));
+    color: var(--text-color);
 
     & :hover {
         opacity: 1.0;

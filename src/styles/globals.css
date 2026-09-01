@@ -18,7 +18,7 @@
   --button-secondary-hover: #f2f2f2;
   --dial-size: calc(210px * var(--interface-scale));
 
-  --outline-light: #c0c0c0;
+  --outline-light: #c0c0c0bd;
   --border: calc(1px * var(--interface-scale)) solid var(--outline-light);
   --border-radius: calc(16px * var(--interface-scale));
   --fill-light: #ededed;
@@ -57,7 +57,7 @@ html {
 
 body {
   /* zoom: 0.9; */
-  color: var(--foreground);
+  color: var(--text-color);
   background: var(--background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

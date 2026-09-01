@@ -9,7 +9,7 @@ import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import * as THREE from 'three';
 // import { suspend } from 'suspend-react';
 
-import { useCameraStore, useCameraWriter, useDateStore, useUIStore } from '@/context/scene-store';
+import { monthToRotation, useCameraStore, useCameraWriter, useDateStore, useUIStore } from '@/context/scene-store';
 // import { ThreeDom } from '@react-three-dom/core';
 
 export const HORIZON_ANGLE = Math.PI / 2
@@ -45,7 +45,7 @@ const centerSelectedMonth = (controlsRef: RefObject<OrbitControlsImpl | null>, s
 
 function CameraDriver({ controlsRef, cameraSpotlight }: { controlsRef: RefObject<OrbitControlsImpl | null>; cameraSpotlight?: THREE.DirectionalLight }) {
     const { camera } = useThree()
-    const cameraDriver = useCameraWriter
+    const cameraWriter = useCameraWriter
     const setRotation = useCameraWriter((state) => state.setRotation);
     const cameraTarget = useCameraStore((state) => state.cameraTarget);
     const selectedDate = useDateStore((state) => state.selectedDate)
@@ -63,7 +63,7 @@ function CameraDriver({ controlsRef, cameraSpotlight }: { controlsRef: RefObject
         date: Date,
         setter: (rotation: { x: number; y: number; z: number }) => void,
     ) {
-        const monthRotation = (date.getMonth() * Math.PI * 2) / 12;
+        const monthRotation = monthToRotation(date.getMonth());
         setter({ x: 0, y: monthRotation, z: 0 });
     }
 
@@ -92,7 +92,7 @@ function CameraDriver({ controlsRef, cameraSpotlight }: { controlsRef: RefObject
     }, [camera, setCamera, controlsRef])
 
     useEffect(() => {
-        const unsubscribe = cameraDriver.subscribe(
+        const unsubscribe = cameraWriter.subscribe(
             (state) => state.rotation,
             (rotation) => {
                 // console.log('CameraDriver received rotation update:', rotation);
@@ -102,7 +102,7 @@ function CameraDriver({ controlsRef, cameraSpotlight }: { controlsRef: RefObject
                 controls.update();
             })
         return () => unsubscribe();
-    }, [cameraDriver, controlsRef])
+    }, [cameraWriter, controlsRef])
 
     return null;
 }

@@ -3,11 +3,21 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import { setURLDate } from '@/components/utils/url-sync';
 import { Camera } from 'three';
 import type { OrbitControls } from 'three-stdlib';
+import { ToastMessage } from '@/components/panels/toast-panel';
 
 
 export const yearToTargetY = (year: number) => {
     year = year % 10;
     return year + 0.35 * year + 0.65;
+}
+
+export const monthToRotation = (month: number) => {
+    return (month * 2 * Math.PI) / 12;
+}
+
+export const rotationToMonth = (rotation: number) => {
+    const month = Math.round((rotation * 12) / (2 * Math.PI)) % 12;
+    return month < 0 ? month + 12 : month;
 }
 
 export const targetYToYear = (targetY: number) => {
@@ -79,10 +89,8 @@ type UIState = {
     setSceneLoading: (loading: boolean) => void;
     isInterfaceVisible: boolean;
     setIsInterfaceVisible: (visible: boolean) => void;
-    showToast: boolean;
-    setShowToast: (show: boolean) => void;
-    toastMessage: string;
-    setToastMessage: (message: string) => void;
+    toast: ToastMessage | null;
+    setToast: (toast: ToastMessage | null) => void;
 }
 
 export const useCameraStore = create<CameraState>()(
@@ -148,9 +156,7 @@ export const useUIStore = create<UIState>()(
         setSceneLoading: (loading) => set({ sceneLoading: loading }),
         isInterfaceVisible: true,
         setIsInterfaceVisible: (visible) => set({ isInterfaceVisible: visible }),
-        showToast: true,
-        setShowToast: (show) => set({ showToast: show }),
-        toastMessage: 'WORK IN PROGRESS',
-        setToastMessage: (message) => set({ toastMessage: message }),
+        toast: {message: 'WORK IN PROGRESS', category: 'info'},
+        setToast: (toast) => set({ toast }),
     })),
 );

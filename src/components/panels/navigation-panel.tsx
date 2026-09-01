@@ -9,7 +9,7 @@ import ZoomAll from '@/media/curves/symbols/zoom_all.svg';
 import NextDecade from '@/media/curves/symbols/next_decade.svg';
 import PreviousDecade from '@/media/curves/symbols/previous_decade.svg';
 import YearPlateShape from '@/media/curves/year_plate.svg';
-import { incOrDecTarget, resetCameraTarget, setCameraTargetToYear, useCameraStore, useDateStore, useUIStore, yearToTargetY } from '@/context/scene-store';
+import { incOrDecTarget, resetCameraTarget, setCameraTargetToYear, useCameraStore, useDateStore, useUIStore, yearToTargetY, rotationToMonth, monthToRotation, useCameraWriter } from '@/context/scene-store';
 import { scaled } from '@/styles/constants';
 
 const navPanelButtonStyle = `${styles.navigation_panel_button} ${buttons.clickable}`;
@@ -18,7 +18,16 @@ import { useEffect } from "react";
 import { ToastPanel } from './toast-panel';
 
 export function KeyboardShortcuts() {
+    const setRotation = useCameraWriter((state) => state.setRotation);
+
     useEffect(() => {
+
+        function getViewedMonth() {
+            const rotation = useCameraStore.getState().rotation;
+            const month = rotationToMonth(rotation.y);
+            return month;
+        }
+
         function handleKeyDown(event: KeyboardEvent) {
             if (event.defaultPrevented) {
                 return;
@@ -43,6 +52,20 @@ export function KeyboardShortcuts() {
 
             else if (event.key === 'ArrowDown') {
                 incOrDecTarget('down');
+            }
+
+            else if (event.key === 'ArrowLeft') {
+                const month = getViewedMonth();
+                const newMonth = (month - 1 + 12) % 12;
+                const newRotation = monthToRotation(newMonth);
+                setRotation({ x: 0, y: newRotation, z: 0 });
+            }
+
+            else if (event.key === 'ArrowRight') {
+                const month = getViewedMonth();
+                const newMonth = (month + 1) % 12;
+                const newRotation = monthToRotation(newMonth);
+                setRotation({ x: 0, y: newRotation, z: 0 });
             }
         }
         window.addEventListener("keydown", handleKeyDown);
@@ -176,7 +199,7 @@ const DecadeNavigationGroup = () => {
 }
 
 export const NavigationPanel = () => {
-    const { sceneLoading, isInterfaceVisible, showToast } = useUIStore((state) => state);
+    const { sceneLoading, isInterfaceVisible } = useUIStore((state) => state);
     const className = `${styles.navigation_panel_wrapper} ${sceneLoading ? styles.disabled : ''} ${isInterfaceVisible ? '' : styles.hidden}`;
 
     return (
@@ -185,7 +208,7 @@ export const NavigationPanel = () => {
             <DecadeNavigationGroup />
             <ZoomControls />
             <KeyboardShortcuts />
-            {showToast && <ToastPanel />}
+            <ToastPanel />
         </div>
     )
 }

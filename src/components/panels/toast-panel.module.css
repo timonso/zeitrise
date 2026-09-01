@@ -7,12 +7,20 @@
     min-width: calc(320px * var(--interface-scale));
     max-width: calc(400px * var(--interface-scale));
     height: calc(52px * var(--interface-scale));
-    padding: calc(16px * var(--interface-scale)) calc(24px * var(--interface-scale));
+    padding: calc(16px * var(--interface-scale)) calc(20px * var(--interface-scale));
     background-color: var(--panel-background);
     border: var(--border);
     border-radius: var(--border-radius);
 
     display: flex;
+    gap: calc(12px * var(--interface-scale));
     place-items: center;
     /* justify-content: center; */
+}
+
+.toast_panel_icon {
+    display: flex;
+    place-items: center;
+    justify-content: center;
+    color: var(--accent);
 }

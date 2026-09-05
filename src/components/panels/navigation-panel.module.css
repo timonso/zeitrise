@@ -18,8 +18,6 @@
     place-content: space-between;
     align-items: end;
 
-    filter: drop-shadow(0 0 calc(1px * var(--interface-scale)) rgba(0, 0, 0, 0.1));
-
     &.disabled {
         opacity: 0.0;
         pointer-events: none;
@@ -51,6 +49,8 @@
     height: fit-content;
 
     overflow: hidden;
+
+    filter: drop-shadow(0 0 calc(1px * var(--interface-scale)) rgba(0, 0, 0, 0.1));
 
     & .separator {
         width: 100%;

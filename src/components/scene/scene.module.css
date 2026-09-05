@@ -42,7 +42,13 @@
     opacity: 1;
     z-index: 1;
     background-color: var(--overlay);
-    /* backdrop-filter: blur(calc(240px * var(--interface-scale))); */
+    /* background-image: linear-gradient(to bottom, var(--overlay), var(--accent-light-opaque)); */
+    background-image: url('/media/curves/ribbon_anim.svg');
+    /* background-repeat: repeat-x; */
+    background-size: 559px 47px;
+    background-position: center;
+    mask-image: linear-gradient(to left, rgba(255, 0, 0, 0.2) 0%, black 20%, black 80%, rgba(0, 0, 0, 0.2) 100%);
+    /* backdrop-filter: blur(calc(40px * var(--interface-scale))) saturate(0.0); */
 }
 
 .loading_box {

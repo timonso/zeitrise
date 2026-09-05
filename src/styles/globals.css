@@ -1,10 +1,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --panel-fill: rgba(255, 255, 255, 0.8);
-  --overlay: rgb(200, 200, 200);
   --accent: rgb(0, 85, 68);
+  --panel-fill: rgba(255, 255, 255, 0.8);
+  --overlay: rgb(240, 240, 240);
   --accent-light: rgba(0, 85, 68, 0.2);
+  --accent-light-opaque: rgba(0, 85, 68);
   --icon-idle: black;
   --icon-active: var(--accent);
   /* --wide-margin: calc(220px * var(--interface-scale)); */

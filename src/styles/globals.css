@@ -1,7 +1,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --panel-fill: rgba(255, 255, 255, 0.75);
+  --panel-fill: rgba(255, 255, 255, 0.8);
   --overlay: rgb(200, 200, 200);
   --accent: rgb(0, 85, 68);
   --accent-light: rgba(0, 85, 68, 0.2);

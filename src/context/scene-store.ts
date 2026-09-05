@@ -152,11 +152,11 @@ export const useUIStore = create<UIState>()(
     subscribeWithSelector((set) => ({
         isSidePanelExpanded: true,
         setIsSidePanelExpanded: (expanded) => set({ isSidePanelExpanded: expanded }),
-        sceneLoading: false,
+        sceneLoading: true,
         setSceneLoading: (loading) => set({ sceneLoading: loading }),
         isInterfaceVisible: true,
         setIsInterfaceVisible: (visible) => set({ isInterfaceVisible: visible }),
-        toast: {message: 'WORK IN PROGRESS', category: 'info'},
+        toast: {message: 'WORK IN PROGRESS', category: 'issue'},
         setToast: (toast) => set({ toast }),
     })),
 );

@@ -9,6 +9,7 @@ import ZoomAll from '@/media/curves/symbols/zoom_all.svg';
 import NextDecade from '@/media/curves/symbols/next_decade.svg';
 import PreviousDecade from '@/media/curves/symbols/previous_decade.svg';
 import YearPlateShape from '@/media/curves/year_plate.svg';
+import StackLoop from '../../media/curves/animated/stack_loop_scale.svg';
 import { incOrDecTarget, resetCameraTarget, setCameraTargetToYear, useCameraStore, useDateStore, useUIStore, yearToTargetY, rotationToMonth, monthToRotation, useCameraWriter } from '@/context/scene-store';
 import { scaled } from '@/styles/constants';
 
@@ -130,6 +131,16 @@ const ZoomControls = () => {
     )
 }
 
+const SceneLoadingIndicator = () => {
+    return (
+        <div className={`${styles.navigation_panel_group} ${styles.ext} ${styles.bottom_right_floater}`}>
+            <div className={styles.navigation_panel_loading_indicator}>
+                <StackLoop width={scaled(128)} fill="currentColor" className={styles.stack_loading_icon} />
+            </div>
+        </div>
+    )
+}
+
 const YearPlate: React.FC<{ year: number }> = ({ year }) => {
     const orbitControls = useCameraStore((state) => state.orbitControls);
     const cameraTarget = useCameraStore((state) => state.cameraTarget);
@@ -203,6 +214,7 @@ export const NavigationPanel = () => {
     const className = `${styles.navigation_panel_wrapper} ${sceneLoading ? styles.disabled : ''} ${isInterfaceVisible ? '' : styles.hidden}`;
 
     return (
+        <>
         <div className={className}>
             <CenterSelectionButton />
             <DecadeNavigationGroup />
@@ -210,5 +222,7 @@ export const NavigationPanel = () => {
             <KeyboardShortcuts />
             <ToastPanel />
         </div>
+        {sceneLoading && <SceneLoadingIndicator />}
+        </>
     )
 }

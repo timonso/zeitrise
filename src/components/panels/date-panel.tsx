@@ -12,7 +12,7 @@ import Dial from '../../media/curves/dial.svg';
 import DialRim from '../../media/curves/dial_rim.svg';
 import TodayIcon from '../../media/curves/symbols/today.svg';
 import RandomIcon from '../../media/curves/symbols/random.svg';
-import FaceLoop from '../../media/curves/symbols/face_loop.svg';
+import FaceLoop from '../../media/curves/animated/face_loop.svg';
 import { useEffect, useState } from 'react';
 import { setCameraTargetToYear } from '@/context/scene-store';
 import { scaled } from '@/styles/constants';

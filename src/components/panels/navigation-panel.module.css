@@ -45,7 +45,7 @@
     border-radius: var(--border-radius);
 
     width: var(--button-size);
-    min-height: var(--button-size);
+    min-height: fit-content;
     height: fit-content;
 
     overflow: hidden;
@@ -60,6 +60,10 @@
     &.ext {
         width: fit-content;
         opacity: 1.0 !important;
+    }
+
+    &.shrinkable {
+        min-height: calc(4 * var(--button-size) * var(--interface-scale));
     }
 }
 

@@ -31,6 +31,22 @@
 }
 
 .loading_overlay {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    z-index: 1;
+    /* background-color: var(--overlay); */
+    /* background-image: linear-gradient(to bottom, var(--overlay), var(--accent-light-opaque)); */
+    background-image: url('/media/curves/ribbon_anim.svg');
+    background-repeat: repeat-x;
+    background-size: 559px 127px;
+    background-position: center;
+    /* transform: rotate(-25deg); */
+    /* transform: rotate(-25deg) scale(1.5); */
+    mask-image: linear-gradient(to left,transparent 0%, black 20%, black 80%, transparent 100%);
+}
+
+.loading_background {
     position: absolute;
     display: flex;
     left: 0;
@@ -42,13 +58,7 @@
     opacity: 1;
     z-index: 1;
     background-color: var(--overlay);
-    /* background-image: linear-gradient(to bottom, var(--overlay), var(--accent-light-opaque)); */
-    background-image: url('/media/curves/ribbon_anim.svg');
-    /* background-repeat: repeat-x; */
-    background-size: 559px 47px;
-    background-position: center;
-    mask-image: linear-gradient(to left, rgba(255, 0, 0, 0.2) 0%, black 20%, black 80%, rgba(0, 0, 0, 0.2) 100%);
-    /* backdrop-filter: blur(calc(40px * var(--interface-scale))) saturate(0.0); */
+    overflow: hidden;
 }
 
 .loading_box {

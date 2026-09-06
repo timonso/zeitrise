@@ -194,7 +194,7 @@ const DecadeNavigationGroup = () => {
     }
 
     return (
-        <div className={styles.navigation_panel_group}>
+        <div className={`${styles.navigation_panel_group} ${styles.shrinkable}`}>
             <div className={navPanelButtonStyle} onClick={setNextDecade}>
                 <NextDecade width={scaled(22)} />
             </div>

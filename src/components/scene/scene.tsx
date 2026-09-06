@@ -21,17 +21,16 @@ export const BACKGROUND_COLOR = new THREE.Color(0.9, 0.9, 0.9);
 function LoadingOverlay() {
     return (
         <Html>
-            <div className={styles.loading_overlay} />
+            <LoadingBox />
         </Html>
     );
 }
 
 function LoadingBox() {
     return (
-        <div className={styles.loading_overlay}>
-            {/* <div className={styles.loading_box}>
-                <p>Loading...</p>
-            </div> */}
+        <div className={styles.loading_background}>
+            <div className={styles.loading_overlay}>
+            </div>
         </div>
     )
 }
@@ -52,7 +51,7 @@ function CameraDriver({ controlsRef, cameraSpotlight }: { controlsRef: RefObject
     const selectedIsFocused = useDateStore((state) => state.selectedIsFocused)
     const setSelectedIsFocused = useDateStore((state) => state.setSelectedIsFocused)
 
-    
+
     // init and listen for manual recentering
     useEffect(() => {
         centerSelectedMonth(controlsRef, selectedDate ?? new Date());

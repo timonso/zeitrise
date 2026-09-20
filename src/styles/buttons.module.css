@@ -77,7 +77,7 @@
 }
 
 .close_button {
-    opacity: 0.5;
+    opacity: 0.6;
     position: absolute;
     top: calc(9px * var(--interface-scale));
     right: calc(9px * var(--interface-scale));
@@ -89,14 +89,14 @@
     background: var(--panel-fill);
     border-radius: calc(10px * var(--interface-scale));
     border: none;
-    font-size: calc(26px * var(--interface-scale));
-    text-align: center;
-    padding-bottom: calc(2px * var(--interface-scale));
-    color: var(--text-color);
+    /* font-size: calc(26px * var(--interface-scale)); */
+    /* text-align: center; */
+    /* padding-bottom: calc(2px * var(--interface-scale)); */
+    /* color: var(--text-color); */
 
     & :hover {
         opacity: 1.0;
-        background: var(--fill-light);
-        border: var(--border);
+        /* background: var(--fill-light); */
+        /* border: var(--border); */
     }
 }

@@ -5,6 +5,7 @@ import buttons from '@/styles/buttons.module.css';
 import { useUIStore } from '@/context/scene-store';
 import InfoIcon from '@/media/curves/symbols/info.svg';
 import IssueIcon from '@/media/curves/symbols/issue.svg';
+import Cross from '@/media/curves/symbols/cross.svg';
 import { scaled } from '@/styles/constants';
 
 export type ToastMessage = {
@@ -45,7 +46,7 @@ export const ToastPanel = () => {
             </div>
             {message}
             <button className={`${buttons.close_button} ${buttons.clickable}`} onClick={handleClose}>
-                &times;
+                <Cross width={scaled(12)} />
             </button>
         </div>
     )

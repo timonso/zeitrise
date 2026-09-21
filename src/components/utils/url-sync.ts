@@ -1,8 +1,6 @@
-"use client";
+'use client';
 
-import {
-    useDateStore,
-} from '@/context/scene-store';
+import { useDateStore } from '@/context/scene-store';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -10,12 +8,16 @@ const QUERY_KEY = 'd';
 
 const parseDateParam = (dateParam: string | null): Date | null => {
     if (!dateParam) return null;
-    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateParam);
-    if (!match) return null;
+    const dateArray = dateParam.split('-');
 
-    const year = Number(match[1]);
-    const month = Number(match[2]);
-    const day = Number(match[3]);
+    if (dateArray.length == 1 && dateArray[0].toUpperCase().endsWith('X')) {
+        dateArray[0] = dateArray[0].replace(/X|x/g, '0');
+    }
+
+    const year = Number(dateArray[0]);
+    const month = Number(dateArray[1] ? dateArray[1] : 1);
+    const day = Number(dateArray[2] ? dateArray[2] : 1);
+
     const parsedDate = new Date(year, month - 1, day);
 
     if (
@@ -27,7 +29,7 @@ const parseDateParam = (dateParam: string | null): Date | null => {
     }
 
     return parsedDate;
-}
+};
 
 const formatDateParam = (date: Date): string => {
     const year = String(date.getFullYear()).padStart(4, '0');
@@ -37,37 +39,53 @@ const formatDateParam = (date: Date): string => {
 };
 
 export function setURLDate(date: Date) {
-    const params = new URLSearchParams(window.location.search);
-    params.set(QUERY_KEY, formatDateParam(date));
-    const newURL = `${window.location.pathname}?${params.toString()}`;
-    window.history.pushState({}, '', newURL);
+    // const params = new URLSearchParams(window.location.search);
+    // params.set(QUERY_KEY, formatDateParam(date));
+    // const newURL = `${window.location.pathname}?${params.toString()}`;
+    // window.history.pushState({}, '', newURL);
+    if (window) window.location.hash = formatDateParam(date);
 }
 
 export function URLDateSync() {
-    const searchParams = useSearchParams();
+    // const searchParams = useSearchParams();
     const selectedDate = useDateStore((state) => state.selectedDate);
-    const setSelectedDateFromURL = useDateStore((state) => state.setSelectedDateFromURL);
-    const dateParam = searchParams.get(QUERY_KEY);
+    const setSelectedDateFromURL = useDateStore(
+        (state) => state.setSelectedDateFromURL,
+    );
+    // const dateParam = searchParams.get(QUERY_KEY);
 
     useEffect(() => {
+        if (!window) return;
+        const dateParam = window?.location.hash
+            ? window.location.hash.substring(1)
+            : null;
         const queryDate = parseDateParam(dateParam);
         if (queryDate) return;
         setURLDate(selectedDate!);
     }, []);
 
     useEffect(() => {
-        const urlDate = parseDateParam(dateParam);
-        if (urlDate) {
-            if (
-                selectedDate &&
-                selectedDate.getFullYear() === urlDate.getFullYear() &&
-                selectedDate.getMonth() === urlDate.getMonth() &&
-                selectedDate.getDate() === urlDate.getDate()
-            ) {
-                return;
+        const onHashChange = () => {
+            if (!window) return;
+            const dateParam = window?.location.hash
+                ? window.location.hash.substring(1)
+                : null;
+            const urlDate = parseDateParam(dateParam);
+            if (urlDate) {
+                if (
+                    selectedDate &&
+                    selectedDate.getFullYear() === urlDate.getFullYear() &&
+                    selectedDate.getMonth() === urlDate.getMonth() &&
+                    selectedDate.getDate() === urlDate.getDate()
+                ) {
+                    return;
+                }
+                setSelectedDateFromURL(urlDate);
             }
-            setSelectedDateFromURL(urlDate);
-        }
-    }, [dateParam, selectedDate, setSelectedDateFromURL]);
+        };
+
+        window.addEventListener('hashchange', onHashChange);
+        return () => window.removeEventListener('hashchange', onHashChange);
+    }, [selectedDate, setSelectedDateFromURL]);
     return null;
 }

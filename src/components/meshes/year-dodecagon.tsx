@@ -9,8 +9,8 @@ import { useDateStore } from '@/context/scene-store';
 import { BACKGROUND_COLOR } from '../scene/scene';
 // import monthGridSvg from './curves/month_grid.svg';
 
-useGLTF.preload('./media/meshes/year_dodecagon.glb');
-useGLTF.preload('./media/meshes/year_separator.glb');
+useGLTF.preload('/media/meshes/year_dodecagon.glb');
+useGLTF.preload('/media/meshes/year_separator.glb');
 
 const gridColors = {
     regular: '#494949',
@@ -113,7 +113,7 @@ type YearDodecagonMeshProps = JSX.IntrinsicElements['group'] & {
 
 function YearDodecagonMesh(props: YearDodecagonMeshProps) {
     const { nodes, materials } = useGLTF(
-        './media/meshes/year_dodecagon.glb'
+        '/media/meshes/year_dodecagon.glb'
     ) as unknown as DodecagonMesh;
 
     const dodecagonMaterial = new THREE.MeshStandardMaterial({
@@ -154,7 +154,7 @@ function YearDodecagonMesh(props: YearDodecagonMeshProps) {
 
 export function YearSeparatorMesh(props: JSX.IntrinsicElements['group'] & { active?: boolean }) {
     const { nodes, materials } = useGLTF(
-        './media/meshes/year_separator.glb'
+        '/media/meshes/year_separator.glb'
     ) as unknown as SeparatorMesh;
 
     const separatorMaterial = new THREE.MeshStandardMaterial({
@@ -181,7 +181,7 @@ export function YearSeparatorMesh(props: JSX.IntrinsicElements['group'] & { acti
 
 function DecadePlinthMesh(props: YearDodecagonMeshProps) {
     const { nodes } = useGLTF(
-        './media/meshes/decade_plinth.glb'
+        '/media/meshes/decade_plinth.glb'
     ) as unknown as PlinthMesh;
 
     const plinthMaterial = new THREE.MeshStandardMaterial({
@@ -251,7 +251,7 @@ export function LowerDecadePlinth({buildSteps = true}: {buildSteps?: boolean}) {
             color="white"
             anchorX="center"
             anchorY="middle"
-            font="./media/fonts/mono/geist_mono.ttf"
+            font="/media/fonts/mono/geist_mono.ttf"
             // font="./media/fonts/mono/DMMono-Medium.ttf"
             fontSize={0.4}
             position={[3.25, 1.4, 0]}
@@ -283,7 +283,7 @@ export function UpperDecadePlinth({buildSteps = true}: {buildSteps?: boolean}) {
             color="white"
             anchorX="center"
             anchorY="middle"
-            font="./media/fonts/mono/geist_mono.ttf"
+            font="/media/fonts/mono/geist_mono.ttf"
             // font="./media/fonts/mono/DMMono-Medium.ttf"
             fontSize={0.4}
             position={[3.25, 1.4, 0]}
@@ -388,7 +388,7 @@ function MonthGroup({ year, month, buildDays = true }: { year: number, month: nu
     return (
         <group position={[0, 0, 0.51]}>
             <SVGCurve
-                url={'./media/curves/month_grid.svg'}
+                url={'/media/curves/month_grid.svg'}
                 rotation={[0, Math.PI / 2, 0]}
                 position={[0, 0, 0]}
                 scale={1.8}

@@ -53,9 +53,10 @@ export default function RootLayout({
                 </Suspense>
                 <div className={styles.page}>
                     <Scene />
-                    <SidePanel />
+                    <SidePanel>
+                        {children}
+                    </SidePanel>
                     <NavigationPanel />
-                    {children}
                 </div>
             </body>
         </html>

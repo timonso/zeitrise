@@ -5,6 +5,7 @@ import { Camera } from 'three';
 import type { OrbitControls } from 'three-stdlib';
 import { ToastMessage } from '@/components/panels/toast-panel';
 
+export type NavigationMode = 'DAY' | 'DIVE' | 'MAP' | 'ABOUT';
 
 export const yearToTargetY = (year: number) => {
     year = year % 10;
@@ -50,6 +51,11 @@ export const incOrDecTarget = (direction: 'up' | 'down') => {
 export const resetCameraTarget = () => {
     const setCameraTarget = useCameraStore.getState().setCameraTarget;
     setCameraTarget([0, INITIAL_TARGET_HEIGHT, 0]);
+}
+
+type NavigationState = {
+    currentMode: NavigationMode;
+    setCurrentMode: (mode: NavigationMode) => void;
 }
 
 type CameraState = {
@@ -158,5 +164,12 @@ export const useUIStore = create<UIState>()(
         setIsInterfaceVisible: (visible) => set({ isInterfaceVisible: visible }),
         toast: {message: 'WORK IN PROGRESS', category: 'issue'},
         setToast: (toast) => set({ toast }),
+    })),
+);
+
+export const useNavigationStore = create<NavigationState>()(
+    subscribeWithSelector((set) => ({
+        currentMode: 'DAY',
+        setCurrentMode: (mode) => set({ currentMode: mode }),
     })),
 );

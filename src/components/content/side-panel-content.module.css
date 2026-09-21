@@ -1,0 +1,11 @@
+.side_panel_full {
+    padding: calc(24px * var(--interface-scale));
+}
+
+.about_logo {
+    width: 100%;
+    display: flex;
+    place-items: center;
+    justify-content: left;
+    margin-bottom: calc(24px * var(--interface-scale));
+}

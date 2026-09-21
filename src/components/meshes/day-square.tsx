@@ -42,7 +42,7 @@ export const DAY_COLORS = {
 
 export function DaySquareMesh(props: DaySquareMeshProps) {
     const { nodes } = useGLTF(
-        './media/meshes/day_square.glb',
+        '/media/meshes/day_square.glb',
     ) as unknown as SquareMesh;
 
     const outerColor = useMemo(() => {
@@ -95,7 +95,7 @@ export function DaySquareMesh(props: DaySquareMeshProps) {
     );
 }
 
-useGLTF.preload('./media/meshes/day_square.glb');
+useGLTF.preload('/media/meshes/day_square.glb');
 
 export function DaySquare({ date }: { date: Date }) {
     // const [isSelected, setIsSelected] = useState(false);
@@ -190,7 +190,7 @@ export function DaySquare({ date }: { date: Date }) {
                         color="white"
                         anchorX="center"
                         anchorY="middle"
-                        font="./media/fonts/mono/DMMono-Regular.ttf"
+                        font="/media/fonts/mono/DMMono-Regular.ttf"
                         fontSize={0.8}
                         position={[0, 0, 1]}
                     >

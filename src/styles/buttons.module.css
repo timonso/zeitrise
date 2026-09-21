@@ -52,12 +52,22 @@
         color: var(--text-color);
     }
 
-    & .focused {
+    &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    &.focused {
         opacity: 1;
+        background-color: var(--accent-light);
+        border-color: var(--accent);
+
         & .nav_button_icon {
-            display: flex;
-            place-items: center;
-            color: var(--icon-active);
+            color: var(--accent);
+        }
+
+        & .nav_button_label {
+            color: var(--accent);
         }
     }
 }
@@ -73,6 +83,17 @@
 
     &:hover {
         background: var(--fill-light);
+    }
+
+    &.focused {
+        opacity: 1;
+        background-color: var(--accent-light);
+        border-color: var(--accent);
+    }
+
+    &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
     }
 }
 

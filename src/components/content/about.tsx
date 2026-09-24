@@ -6,12 +6,13 @@ import { scaled } from '@/styles/constants';
 export function AboutContent() {
     return (
         <div className={styles.side_panel_full}>
-            {/* <IconLogo width={scaled(64)} /> */}
+            <IconLogo width={scaled(128)} />
             <div className={styles.about_logo}>
-                <WordmarkLogo width={scaled(96)} />
+                <WordmarkLogo width={scaled(128)} />
             </div>
             {/* <WordmarkLogo width={scaled(128)} /> */}
-            <h2>ZeitRise</h2>
+            <h3>ZeitRise - Time is Built</h3>
+            {/* <h3>Time is Built</h3> */}
             <p>Copyright &copy; {new Date().getFullYear()} Timon Sommer</p>
         </div>
     );

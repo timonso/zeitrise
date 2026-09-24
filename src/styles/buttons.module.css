@@ -47,7 +47,7 @@
     & .nav_button_label {
         margin-left: calc(16px * var(--interface-scale));
         font-size: calc(18px * var(--interface-scale));
-        font-weight: 500;
+        font-weight: 550;
         text-transform: uppercase;
         color: var(--text-color);
     }

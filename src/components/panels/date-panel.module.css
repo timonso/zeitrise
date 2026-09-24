@@ -157,9 +157,19 @@
 .dial_dot {
     width: calc(12px * var(--interface-scale));
     height: calc(12px * var(--interface-scale));
-    background-color: var(--accent);
+    /* background-color: var(--accent); */
     border-radius: 50%;
     border: calc(3px * var(--interface-scale)) solid var(--outline-light);
+}
+
+.dial_dot_container {
+    display: flex;
+    gap: calc(8px * var(--interface-scale));
+}
+
+.dial_eyes {
+    color: var(--accent);
+    opacity: 0.8;
 }
 
 .dial_container {

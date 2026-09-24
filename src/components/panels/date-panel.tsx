@@ -13,6 +13,7 @@ import DialRim from '../../media/curves/dial_rim.svg';
 import TodayIcon from '../../media/curves/symbols/today.svg';
 import RandomIcon from '../../media/curves/symbols/random.svg';
 import FaceLoop from '../../media/curves/animated/face_loop.svg';
+import Eyes from '../../media/curves/symbols/eyes.svg';
 import { useEffect, useState } from 'react';
 import { setCameraTargetToYear } from '@/context/scene-store';
 import { scaled } from '@/styles/constants';
@@ -116,7 +117,11 @@ const YearDial = () => {
                         className={`${styles.dial_icon}`}
                     />
                 </button>
-                <div className={styles.dial_dot} />
+                <div className={styles.dial_dot_container}>
+                    <Eyes width={scaled(24)} height={scaled(24)} fill="currentColor" className={`${styles.dial_eyes}`} />
+                    {/* <div className={styles.dial_dot} /> */}
+                    {/* <div className={styles.dial_dot} /> */}
+                </div>
                 <button className={`${styles.dial_button} ${buttons.clickable}`}>
                     <RandomIcon
                         width={scaled(24)}

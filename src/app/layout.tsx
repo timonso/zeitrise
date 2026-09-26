@@ -16,13 +16,15 @@ import { INTERFACE_SCALE } from '@/styles/constants';
 
 const geistMono = localFont({
     src: '../../public/media/fonts/mono/geist_mono.ttf',
+    weight: '100 900',
     // src: '../../public/media/fonts/mono/DMMono-Medium.ttf',
     variable: '--font-geist-mono',
 });
 
 const geistSans = localFont({
     src: '../../public/media/fonts/sans/geist_sans.ttf',
-    variable: '--font-geist-sans'
+    weight: '100 900',
+    variable: '--font-geist-sans',
 })
 
 const InterfaceScale = ({ scale }: { scale: number }) => (

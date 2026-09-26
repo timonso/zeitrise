@@ -13,7 +13,8 @@ import DialRim from '../../media/curves/dial_rim.svg';
 import TodayIcon from '../../media/curves/symbols/today.svg';
 import RandomIcon from '../../media/curves/symbols/random.svg';
 import FaceLoop from '../../media/curves/animated/face_loop.svg';
-import Eyes from '../../media/curves/symbols/eyes.svg';
+import Spectacles from '../../media/curves/symbols/eyes.svg';
+import Monocle from '../../media/curves/symbols/monocle.svg';
 import { useEffect, useState } from 'react';
 import { setCameraTargetToYear } from '@/context/scene-store';
 import { scaled } from '@/styles/constants';
@@ -45,6 +46,12 @@ const YearDial = () => {
     const todayDate = new Date();
     const isToday = sameDayLocal(selectedDate, todayDate);
     const { sceneLoading } = useUIStore();
+    const year = selectedDate?.getFullYear() ?? new Date().getFullYear();
+
+    const isLeapYear = (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0);
+
+    const isGregorianYear = year >= 1582;
+
 
     const indicatorClassName = (index: number) => `${styles.tick_indicator} ${hoveredDate?.getMonth() === index ? styles.focused : ''}`;
 
@@ -53,9 +60,18 @@ const YearDial = () => {
             <div className={styles.dial_wrapper}>
                 <div className={styles.year_dial_center}>
                     {sceneLoading
-                        ? <FaceLoop width={scaled(42)} fill="currentColor" className={styles.dial_loading_icon} />
-                        : <div className={styles.year_dial_display}>
-                            {selectedDate?.getFullYear()}
+                        ?
+                        <FaceLoop width={scaled(42)} fill="currentColor" className={styles.dial_loading_icon} />
+                        :
+                        <div className={styles.year_dial_display_wrapper}>
+                            <div className={styles.year_dial_display}>
+                                {year}
+                            </div>
+                            <div>
+                                <span title="Gregorian Calendar" className={`${styles.year_state} ${isGregorianYear ? styles.active : ''}`}>G</span>
+                                <span className={styles.separator}>•</span>
+                                <span title="Leap Year" className={`${styles.year_state} ${isLeapYear ? styles.active : ''}`}>L</span>
+                            </div>
                         </div>
                     }
                 </div>
@@ -118,7 +134,7 @@ const YearDial = () => {
                     />
                 </button>
                 <div className={styles.dial_dot_container}>
-                    <Eyes width={scaled(24)} height={scaled(24)} fill="currentColor" className={`${styles.dial_eyes}`} />
+                    <Monocle width={scaled(12)} height={scaled(12)} fill="currentColor" className={`${styles.dial_eyes}`} />
                     {/* <div className={styles.dial_dot} /> */}
                     {/* <div className={styles.dial_dot} /> */}
                 </div>

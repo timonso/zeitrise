@@ -101,8 +101,10 @@
     &:focus,
     &:hover {
         font-weight: 600;
-        opacity: 0.8;
+        color: var(--accent);
+        opacity: 1.0;
         background-color: #3838381f;
+        text-shadow: 0 calc(2px * var(--interface-scale)) 0 var(--outline-light);
     }
 }
 
@@ -219,11 +221,40 @@
     z-index: 1000;
 }
 
+.year_dial_display_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: default;
+    user-select: none;
+
+    & .separator {
+        color: var(--accent);
+        opacity: 0.4;
+        margin-left: calc(6px * var(--interface-scale));
+        margin-right: calc(6px * var(--interface-scale));
+    }
+
+    & .year_state {
+        color: var(--accent);
+        opacity: 0.4;
+        font-size: calc(14px * var(--interface-scale));
+        font-weight: 600;
+
+        &.active {
+            opacity: 1.0;
+            text-shadow: 0 calc(1px * var(--interface-scale)) 0 var(--outline-light);
+        }
+    }
+}
+
 .year_dial_display {
     font-family: var(--font-geist-mono);
     font-size: calc(24px * var(--interface-scale));
     font-weight: 600;
     color: var(--accent);
+    margin-bottom: calc(-6px * var(--interface-scale));
     text-shadow: 0 calc(1px * var(--interface-scale)) 0 var(--outline-light);
 }
 

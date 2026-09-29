@@ -3,7 +3,14 @@
     width: 100%;
     height: 100%;
     z-index: 0;
+    cursor: url('/media/cursors/default.svg') 0 0, auto;
     /* cursor: crosshair; */
+
+    &:active {
+        /* cursor: url('/media/curves/day_square.svg') 0 0, auto; */
+        cursor: url('/media/cursors/active.svg') 0 0, auto;
+        /* cursor: crosshair; */
+    }
 }
 
 .canvas_container {

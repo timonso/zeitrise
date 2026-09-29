@@ -27,6 +27,13 @@ const geistSans = localFont({
     variable: '--font-geist-sans',
 })
 
+const DMSerif = localFont({
+    src: '../../public/media/fonts/serif/dm_serif.ttf',
+    weight: '100 900',
+    // src: '../../public/media/fonts/mono/DMMono-Medium.ttf',
+    variable: '--font-dm-serif',
+});
+
 const InterfaceScale = ({ scale }: { scale: number }) => (
     <style>{`
             :root {
@@ -48,7 +55,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`${geistMono.variable} ${geistSans.variable}`}>
+            <body className={`${geistMono.variable} ${geistSans.variable} ${DMSerif.variable}`}>
                 <InterfaceScale scale={INTERFACE_SCALE} />
                 <Suspense fallback={null}>
                     <URLDateSync />

@@ -1,0 +1,129 @@
+.day_panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    min-height: 0;
+}
+
+.event_filter_wrapper {
+    height: calc(96px * var(--interface-scale));
+    background-color: var(--fill-lighter);
+    border-bottom: var(--border);
+    flex: 0 0 auto;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.decade_accordion {
+    --content-gap: calc(8px * var(--interface-scale));
+    padding: var(--content-gap);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: var(--content-gap);
+    height: fit-content;
+    min-height: 0;
+
+    overflow-y: scroll;
+    scrollbar-width: none;
+    scrollbar-color: var(--outline-light) transparent;
+    scrollbar-gutter: none;
+}
+
+.year_drawer_wrapper {
+    flex: 0 0 auto;
+    border-radius: calc(var(--border-radius) - var(--content-gap));
+    height: fit-content;
+    width: 100%;
+    border: var(--border);
+    overflow: hidden;
+
+    &.focused {
+        border-color: var(--accent);
+    }
+}
+
+.year_drawer_header {
+    flex: 0 0 auto;
+    opacity: 0.7;
+    height: calc(72px * var(--interface-scale));
+    background-color: var(--fill-lighter);
+    --adapted-border-radius: calc(var(--border-radius) - var(--content-gap));
+    border-radius: var(--adapted-border-radius);
+    display: flex;
+    place-content: space-between;
+    align-items: center;
+    padding-left: calc(24px * var(--interface-scale));
+    padding-right: calc(24px * var(--interface-scale));
+    cursor: pointer;
+    font-family: var(--font-dm-serif);
+    font-size: calc(28px * var(--interface-scale));
+
+    & .header_left {
+        display: flex;
+        flex-direction: row;
+        gap: calc(12px * var(--interface-scale));
+        justify-content: left;
+    }
+
+    & .arrow_icon {
+        opacity: 0.6;
+        display: flex;
+        align-items: center;
+        rotate: 0deg;
+        transition: rotate 200ms ease-in-out;
+    }
+
+    & .event_counter {
+        opacity: 0.6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: calc(14px * var(--interface-scale));
+        font-family: var(--font-geist-mono);
+        font-weight: 500;
+        /* color: var(--foreground); */
+        background-color: var(--fill-dark);
+        border-radius: 100px;
+        padding: calc(4px * var(--interface-scale)) calc(8px * var(--interface-scale));
+        /* height: calc(24px * var(--interface-scale)); */
+        min-width: calc(32px * var(--interface-scale));
+        /* color: var(--fill-lighter) */
+    }
+
+    &.focused {
+        opacity: 1.0;
+        color: var(--accent);
+
+        background-color: var(--accent-light);
+        border-radius: var(--adapted-border-radius) var(--adapted-border-radius) 0 0;
+
+        & .arrow_icon {
+            /* opacity: 1.0; */
+            rotate: 90deg;
+        }
+
+        & .event_counter {
+            opacity: 0.9;
+            background-color: var(--accent);
+            color: var(--fill-lighter);
+        }
+    }
+
+    &:hover {
+        filter: var(--hover-darkening);
+        outline: var(--border);
+        /* border-radius: var(--border-radius); */
+        outline-offset: calc(-5px * var(--interface-scale));
+    }
+
+    &:active {
+        filter: var(--active-darkening);
+    }
+}
+
+.year_drawer_content {
+    border-top: var(--border);
+    border-color: var(--accent);
+    min-height: calc(160px * var(--interface-scale));
+}

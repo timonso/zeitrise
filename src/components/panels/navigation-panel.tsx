@@ -171,9 +171,11 @@ const DecadeScroller = () => {
         const year = i;
         yearPlates.push(<YearPlate key={year} year={year} />);
     }
-    return (<div className={styles.navigation_panel_decade_scroller}>
-        {yearPlates}
-    </div>)
+    return (
+        <div className={styles.navigation_panel_decade_scroller}>
+            {yearPlates}
+        </div>
+    )
 }
 
 const DecadeNavigationGroup = () => {
@@ -215,14 +217,14 @@ export const NavigationPanel = () => {
 
     return (
         <>
-        <div className={className}>
-            <CenterSelectionButton />
-            <DecadeNavigationGroup />
-            <ZoomControls />
-            <KeyboardShortcuts />
-            <ToastPanel />
-        </div>
-        {sceneLoading && <SceneLoadingIndicator />}
+            <div className={className}>
+                <CenterSelectionButton />
+                <DecadeNavigationGroup />
+                <ZoomControls />
+                <KeyboardShortcuts />
+                <ToastPanel />
+            </div>
+            {sceneLoading && <SceneLoadingIndicator />}
         </>
     )
 }

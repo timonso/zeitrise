@@ -34,11 +34,16 @@
 }
 
 .content_panel {
-    min-width: calc(400px * var(--interface-scale));
+    min-width: calc(460px * var(--interface-scale));
     width: fit-content;
+    height: 100%;
+    /* display: flex;
+    flex-direction: column; */
     background: white;
     border: var(--border);
     border-radius: var(--border-radius);
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 .main_menu {

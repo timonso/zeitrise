@@ -57,7 +57,7 @@ const DecadeAccordion = ({ decade }: { decade: number }) => {
     }
 
     return (
-        <div className={styles.decade_accordion}>
+        <div className={`${styles.decade_accordion} scroll_y`}>
             {...drawers.reverse()}
         </div>
     )

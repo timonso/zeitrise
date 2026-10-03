@@ -143,10 +143,10 @@ a.secondary {
 }
 
 @media (max-width: 600px) {
-    .page {
+    /* .page {
         padding: calc(32px * var(--interface-scale));
         padding-bottom: calc(80px * var(--interface-scale));
-    }
+    } */
 
     .main {
         align-items: center;

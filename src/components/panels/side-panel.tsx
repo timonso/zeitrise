@@ -8,6 +8,7 @@ import Link from 'next/link'
 
 import IconLogo from '@/media/curves/logos/zr-icon-color.svg';
 import WordmarkLogo from '@/media/curves/logos/zr-wordmark-color.svg';
+import Explore from '@/media/curves/symbols/explore.svg';
 import ThisDay from '@/media/curves/symbols/this_day.svg';
 import Dive from '@/media/curves/symbols/dive.svg';
 import Heatmap from '@/media/curves/symbols/heatmap.svg';
@@ -76,7 +77,8 @@ const MainMenu = () => {
                     {isSidePanelExpanded ? <Collapse width={scaled(32)} /> : <Expand width={scaled(32)} />}
                 </div>
             </div>
-            <div className={`${styles.main_nav_group}`}>
+            <div className={`${styles.main_nav_group} scroll_y fade_y`}>
+                <NavButton mode='EXPLORE' label='Explore' Icon={Explore} disabled/>
                 <NavButton mode='DAY' label='On this Day' Icon={ThisDay} />
                 <NavButton mode='DIVE' label='Decade Dive' Icon={Dive} disabled />
                 <NavButton mode='MAP' label='Heatmap' Icon={Heatmap} disabled />
@@ -93,7 +95,7 @@ const MainMenu = () => {
 export const SidePanel = ({ children }: { children: React.ReactNode }) => {
     const { isSidePanelExpanded, isInterfaceVisible } = useUIStore();
 
-    const className = `${styles.side_panel} ${isInterfaceVisible ? '' : styles.hidden}`;
+    const className = `${styles.side_panel} ${isInterfaceVisible ? '' : styles.hidden} scroll_y`;
 
     if (!isInterfaceVisible) {
         return (

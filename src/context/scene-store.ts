@@ -5,7 +5,7 @@ import { Camera } from 'three';
 import type { OrbitControls } from 'three-stdlib';
 import { ToastMessage } from '@/components/panels/toast-panel';
 
-export type NavigationMode = 'DAY' | 'DIVE' | 'MAP' | 'ABOUT';
+export type NavigationMode = 'EXPLORE' | 'DAY' | 'DIVE' | 'MAP' | 'ABOUT';
 
 export const yearToTargetY = (year: number) => {
     year = year % 10;

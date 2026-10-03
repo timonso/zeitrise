@@ -72,8 +72,12 @@
     opacity: 0.8;
     place-items: center;
     justify-content: center;
+    
+    min-width: var(--button-size);
     width: var(--button-size);
+    min-height: var(--button-size);
     height: var(--button-size);
+    aspect-ratio: 1 / 1;
     padding: calc(14px * var(--interface-scale));
     background-color: var(--panel-background);
 

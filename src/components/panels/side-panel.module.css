@@ -3,6 +3,7 @@
     top: 0;
     left: 0;
     width: fit-content;
+    z-index: 9999;
     /* height: 100%; */
     margin: calc(12px * var(--interface-scale)) 0 calc(12px * var(--interface-scale)) 0;
     border-right: var(--border);
@@ -27,9 +28,11 @@
 
 .menu_panel {
     width: fit-content;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    /* overflow-y: scroll; */
     /* align-items: center; */
 }
 
@@ -51,6 +54,9 @@
     flex-direction: column;
     gap: calc(24px * var(--interface-scale));
     width: 100%;
+    height: fit-content;
+    /* flex: 1; */
+    overflow-y: hidden;
 }
 
 .logo_group {
@@ -110,7 +116,7 @@
     width: auto;
     visibility: visible;
 
-    &  svg {
+    & svg {
         width: 100%;
         height: 100%;
     }
@@ -122,6 +128,17 @@
     flex-direction: column;
     gap: calc(16px * var(--interface-scale));
     width: 100%;
+    min-height: calc(100px * var(--interface-scale));
+}
+
+
+
+@keyframes detect-overflow {
+
+    from,
+    to {
+        --overflow: 1;
+    }
 }
 
 .secondary_nav_group {
@@ -131,6 +148,7 @@
     flex-direction: row;
     gap: calc(16px * var(--interface-scale));
     width: 100%;
+    margin-bottom: calc(20px * var(--interface-scale));
 }
 
 .left_chip {
@@ -139,7 +157,7 @@
     aspect-ratio: unset;
     border-radius: calc(60px * var(--interface-scale)) calc(16px * var(--interface-scale)) calc(16px * var(--interface-scale)) calc(60px * var(--interface-scale));
 
-    &  svg {
+    & svg {
         width: auto;
         height: 100%;
     }

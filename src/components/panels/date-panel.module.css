@@ -329,7 +329,7 @@
 }
 
 .date_panel {
-    display: absolute;
+    /* display: absolute; */
     top: calc(32px * var(--interface-scale));
     left: calc(32px * var(--interface-scale));
     /* width: fit-content; */
@@ -340,12 +340,23 @@
     border: var(--border);
     width: fit-content;
     height: fit-content;
-    overflow: hidden;
+    min-height: calc(240px * var(--interface-scale));
+    /* overflow-y: scroll; */
+    overflow-x: hidden;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex: 0 0 auto;
 
     /* outline: var(--border);
     outline-offset: calc(2px * var(--interface-scale));
     margin: calc(2px * var(--interface-scale)); */
     /* padding: calc(40px * var(--interface-scale)) calc(40px * var(--interface-scale)); */
+
+    /* @media (max-height: 800px) {
+        border-radius: var(--border-radius);
+    } */
 }
 
 .date_chip {

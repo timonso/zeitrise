@@ -38,6 +38,7 @@
 
 .content_panel {
     min-width: calc(460px * var(--interface-scale));
+    max-width: calc(460px * var(--interface-scale));
     width: fit-content;
     height: 100%;
     /* display: flex;

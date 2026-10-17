@@ -12,6 +12,81 @@
     border-bottom: var(--border);
     flex: 0 0 auto;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
+
+    padding: calc(20px * var(--interface-scale))
+}
+
+.event_filter_header {
+    opacity: 0.6;
+    font-family: var(--font-geist-sans);
+    font-size: calc(16px * var(--interface-scale));
+    font-weight: 500;
+}
+
+.chip_wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: calc(8px * var(--interface-scale));
+    margin-top: calc(8px * var(--interface-scale));
+    overflow-x: none;
+    align-items: center;
+}
+
+.chip_separator {
+    height: calc(16px * var(--interface-scale));
+    width: 1px;
+    background-color: var(--accent);
+    opacity: 0.6;
+}
+
+.event_filter_categories {
+    display: flex;
+    flex-direction: row;
+    gap: calc(6px * var(--interface-scale));
+    overflow-x: scroll;
+    overflow-y: hidden;
+    margin-right: 0 !important;
+    border-radius: calc(128px * var(--interface-scale));
+}
+
+.category_chip {
+    opacity: 0.8;
+    height: calc(32px * var(--interface-scale));
+    padding: calc(6px * var(--interface-scale)) calc(12px * var(--interface-scale));
+    border-radius: calc(128px * var(--interface-scale));
+    border: var(--border);
+    background-color: var(--panel-fill);
+    color: var(--fill-darker);
+    font-family: var(--font-geist-sans);
+    font-size: calc(14px * var(--interface-scale));
+    font-weight: 500;
+
+    display: flex;
+    gap: calc(6px * var(--interface-scale));
+    place-items: center;
+    justify-content: center;
+
+    &.toggle_all {
+        opacity: 1.0;
+        min-width: calc(32px * var(--interface-scale));
+        min-height: calc(32px * var(--interface-scale));
+        padding: calc(6px * var(--interface-scale));
+    }
+
+    &.selected {
+        opacity: 1.0;
+        border-color: var(--accent);
+        background-color: var(--accent-light);
+        /* color: var(--fill-lighter); */
+    }
+}
+
+.category_dot {
+    --dim: calc(10px * var(--interface-scale));
+    width: var(--dim);
+    height: var(--dim);
+    border-radius: var(--dim);
+    background-color: var(--cat-color);
 }
 
 .decade_accordion {
@@ -23,6 +98,7 @@
     gap: var(--content-gap);
     height: fit-content;
     min-height: 0;
+    overflow-x: hidden;
 
     /* overflow-y: scroll;
     scrollbar-width: none;

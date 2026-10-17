@@ -28,7 +28,7 @@ const geistSans = localFont({
 })
 
 const DMSerif = localFont({
-    src: '../../public/media/fonts/serif/dm_serif.ttf',
+    src: '../../public/media/fonts/serif/dm_serif_text.ttf',
     weight: '100 900',
     // src: '../../public/media/fonts/mono/DMMono-Medium.ttf',
     variable: '--font-dm-serif',

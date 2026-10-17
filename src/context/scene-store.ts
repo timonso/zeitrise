@@ -7,6 +7,8 @@ import { ToastMessage } from '@/components/panels/toast-panel';
 
 export type NavigationMode = 'EXPLORE' | 'DAY' | 'DIVE' | 'MAP' | 'ABOUT';
 
+export type EventCategory = 'People' | 'Nature' | 'Movies' | 'Music' | 'Literature' | 'Politics' | 'Science';
+
 export const yearToTargetY = (year: number) => {
     year = year % 10;
     return year + 0.35 * year + 0.65;
@@ -99,6 +101,12 @@ type UIState = {
     setToast: (toast: ToastMessage | null) => void;
 }
 
+type EventFilterState = {
+    selectedCategories: EventCategory[];
+    setSelectedCategories: (categories: EventCategory[]) => void;
+    toggleCategory: (category: EventCategory) => void;
+}
+
 export const useCameraStore = create<CameraState>()(
     subscribeWithSelector((set) => ({
         camera: null,
@@ -171,5 +179,22 @@ export const useNavigationStore = create<NavigationState>()(
     subscribeWithSelector((set) => ({
         currentMode: 'DAY',
         setCurrentMode: (mode) => set({ currentMode: mode }),
+    })),
+);
+
+export const useEventFilterStore = create<EventFilterState>()(
+    subscribeWithSelector((set, get) => ({
+        selectedCategories: ['People', 'Nature', 'Movies', 'Music'],
+        setSelectedCategories: (categories: EventCategory[]) => {
+            set({ selectedCategories: categories});
+        },
+        toggleCategory: (category) => {
+            const currentCategories = get().selectedCategories;
+            if (currentCategories.includes(category)) {
+                set({ selectedCategories: currentCategories.filter(c => c !== category) });
+            } else {
+                set({ selectedCategories: [...currentCategories, category] });
+            }
+        },
     })),
 );

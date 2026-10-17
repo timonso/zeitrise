@@ -6,8 +6,9 @@
     &:hover {
         opacity: 1.0;
         filter: var(--hover-darkening);
-        outline: var(--border);
-        outline-offset: calc(-3px * var(--interface-scale));
+        /* outline: var(--border); */
+        /* outline-offset: calc(-3px * var(--interface-scale)); */
+        /* border-color: var(--accent); */
     }
 
     &:active {

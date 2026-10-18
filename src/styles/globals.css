@@ -28,7 +28,7 @@
   --fill-light: #ededed;
   --fill-lighter: #f5f5f5;
 
-  --cat-color: var(--accent);
+  --cat-color: rgb(85, 85, 85);
   --cat-color-lighter: var(--accent-light)
 
   /* --interface-scale: 1.0; */

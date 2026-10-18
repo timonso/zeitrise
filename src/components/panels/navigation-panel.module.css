@@ -179,16 +179,3 @@
     right: 0;
     margin: calc(56px * var(--interface-scale)) calc(44px * var(--interface-scale));
 }
-
-.stack_loading_icon {
-    display: block;
-    width: 100%;
-    mask-image: linear-gradient(to bottom,
-            transparent 0%,
-            black 30%,
-            black 70%,
-            transparent 100%);
-    /* opacity: 0.8; */
-    /* color: var(--accent); */
-
-}

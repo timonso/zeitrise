@@ -105,11 +105,13 @@
     top: 0;
     left: 0;
 
-    width: calc(96px * var(--interface-scale));
-    height: calc(96px * var(--interface-scale));
+    --dim: calc(96px * var(--interface-scale));
+
+    width: var(--dim);
+    height: var(--dim);
     margin: calc(52px * var(--interface-scale));
 
-    transition: all 0.2s;
+    border-radius: var(--dim);
 }
 
 .logo_chip {

@@ -6,6 +6,14 @@
     min-height: 0;
 }
 
+.loading_panel {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    place-items: center;
+    justify-content: center;
+}
+
 .event_filter_wrapper {
     height: calc(96px * var(--interface-scale));
     background-color: var(--fill-lighter);
@@ -46,7 +54,7 @@
     overflow-x: scroll;
     overflow-y: hidden;
     margin-right: 0 !important;
-    border-radius: calc(128px * var(--interface-scale));
+    /* border-radius: calc(128px * var(--interface-scale)); */
 }
 
 .category_chip {
@@ -134,6 +142,12 @@
     cursor: pointer;
     font-family: var(--font-dm-serif);
     font-size: calc(28px * var(--interface-scale));
+
+    &.empty {
+        pointer-events: none;
+        opacity: 0.4;
+    }
+
     & .header_left {
         display: flex;
         flex-direction: row;

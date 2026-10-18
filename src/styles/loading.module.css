@@ -1,0 +1,12 @@
+.stack_loading_icon {
+    display: block;
+    /* width: 100%; */
+    mask-image: linear-gradient(to bottom,
+            transparent 0%,
+            black 30%,
+            black 70%,
+            transparent 100%);
+    /* opacity: 0.8; */
+    /* color: var(--accent); */
+
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import styles from './navigation-panel.module.css'
+import loading from '@/styles/loading.module.css';
 import buttons from '@/styles/buttons.module.css';
 import CenterSelected from '@/media/curves/symbols/center_selected.svg';
 import ZoomIn from '@/media/curves/symbols/zoom_in.svg';
@@ -135,7 +136,7 @@ const SceneLoadingIndicator = () => {
     return (
         <div className={`${styles.navigation_panel_group} ${styles.ext} ${styles.bottom_right_floater}`}>
             <div className={styles.navigation_panel_loading_indicator}>
-                <StackLoop width={scaled(128)} fill="currentColor" className={styles.stack_loading_icon} />
+                <StackLoop width={scaled(160)} fill="currentColor" className={loading.stack_loading_icon} />
             </div>
         </div>
     )

@@ -52,6 +52,16 @@ const YearDial = () => {
 
     const isGregorianYear = year >= 1582;
 
+    const setRandomDate = () => {
+        const randomYear = Math.floor(Math.random() * year) + 1;
+        const randomMonth = Math.floor(Math.random() * 12);
+        const maxDay = new Date(randomYear, randomMonth + 1, 0).getDate();
+        const randomDay = Math.floor(Math.random() * maxDay) + 1;
+        const randomDate = new Date(randomYear, randomMonth, randomDay);
+        setSelectedDate(randomDate);
+        // setCameraTargetToYear(randomYear);
+    }
+
 
     const indicatorClassName = (index: number) => `${styles.tick_indicator} ${hoveredDate?.getMonth() === index ? styles.focused : ''}`;
 
@@ -138,7 +148,7 @@ const YearDial = () => {
                     {/* <div className={styles.dial_dot} /> */}
                     {/* <div className={styles.dial_dot} /> */}
                 </div>
-                <button className={`${styles.dial_button} ${buttons.clickable}`}>
+                <button className={`${styles.dial_button} ${buttons.clickable}`} onClick={setRandomDate}>
                     <RandomIcon
                         width={scaled(24)}
                         height={scaled(24)}

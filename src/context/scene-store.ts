@@ -4,10 +4,11 @@ import { setURLDate } from '@/components/utils/url-sync';
 import { Camera } from 'three';
 import type { OrbitControls } from 'three-stdlib';
 import { ToastMessage } from '@/components/panels/toast-panel';
+import { EventProps } from '@/components/content/event';
 
 export type NavigationMode = 'EXPLORE' | 'DAY' | 'DIVE' | 'MAP' | 'ABOUT';
 
-export type EventCategory = 'People' | 'Nature' | 'Movies' | 'Music' | 'Literature' | 'Politics' | 'Science';
+export type EventCategory = 'People' | 'Nature' | 'Movies' | 'Music' | 'Literature' | 'Politics' | 'Science' | 'Other';
 
 export const yearToTargetY = (year: number) => {
     year = year % 10;
@@ -101,6 +102,11 @@ type UIState = {
     setToast: (toast: ToastMessage | null) => void;
 }
 
+type EventState = {
+    events: EventProps[];
+    setEvents: (events: EventProps[]) => void;
+}
+
 type EventFilterState = {
     selectedCategories: EventCategory[];
     setSelectedCategories: (categories: EventCategory[]) => void;
@@ -182,9 +188,16 @@ export const useNavigationStore = create<NavigationState>()(
     })),
 );
 
+export const useEventStore = create<EventState>()(
+    subscribeWithSelector((set) => ({
+        events: [],
+        setEvents: (events) => set({ events }),
+    })),
+);
+
 export const useEventFilterStore = create<EventFilterState>()(
     subscribeWithSelector((set, get) => ({
-        selectedCategories: ['People', 'Nature', 'Movies', 'Music'],
+        selectedCategories: ['People', 'Nature', 'Movies', 'Music', 'Literature', 'Politics', 'Science', 'Other'],
         setSelectedCategories: (categories: EventCategory[]) => {
             set({ selectedCategories: categories});
         },

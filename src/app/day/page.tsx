@@ -167,7 +167,7 @@ export default function Day() {
             return [];
         }
 
-        const data = await response.json();
+        const data: { events: WikiEvent[] } = await response.json();
         console.log("Fetched events:", data);
 
         const decadeEvents =
